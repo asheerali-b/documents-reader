@@ -10,6 +10,10 @@ def render_simple_chat_tab(chat_service: ChatService) -> None:
     if "simple_chat_history" not in st.session_state:
         st.session_state.simple_chat_history = []
 
+    if st.button("Clear Chat"):
+        st.session_state.simple_chat_history = []
+        st.rerun()
+
     for message in st.session_state.simple_chat_history:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
@@ -25,7 +29,7 @@ def render_simple_chat_tab(chat_service: ChatService) -> None:
     with st.chat_message("assistant"):
         with st.spinner("Thinking..."):
             try:
-                answer = chat_service.simple_chat(prompt)
+                answer = chat_service.simple_chat(st.session_state.simple_chat_history)
             except Exception as ex:
                 answer = f"Error: {ex}"
         st.markdown(answer)

@@ -6,9 +6,11 @@ class ChatService:
     def __init__(self, client: ModelFarmClient) -> None:
         self._client = client
 
-    def simple_chat(self, user_prompt: str) -> str:
-        messages = [{"role": "user", "content": user_prompt}]
-        return self._client.chat_completion(messages=messages, reasoning_effort=DEFAULT_REASONING_EFFORT)
+    def simple_chat(self, conversation: list[dict[str, str]]) -> str:
+        return self._client.chat_completion(
+            messages=conversation,
+            reasoning_effort=DEFAULT_REASONING_EFFORT,
+        )
 
     def chat_with_knowledge(self, user_prompt: str, knowledge_text: str) -> str:
         system_prompt = (
