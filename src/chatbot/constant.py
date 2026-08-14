@@ -1,0 +1,2 @@
+DEFAULT_MODEL_NAME = "gemini-2.5-flash"
+DEFAULT_REASONING_EFFORT = "low"
