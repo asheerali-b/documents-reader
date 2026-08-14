@@ -47,3 +47,6 @@ coverage/
 *.tar
 *.gz
 *.7z
+
+
+test

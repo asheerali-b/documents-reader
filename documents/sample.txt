@@ -1,0 +1,10 @@
+Artificial Intelligence (AI) is transforming the world. Machine learning, a subset of AI, enables computers to learn from data without being explicitly programmed.
+
+Deep learning uses neural networks with multiple layers to process complex patterns in data. Natural Language Processing (NLP) allows computers to understand and generate human language.
+
+Computer Vision enables machines to interpret and analyze visual information from images and videos. These technologies are being applied in healthcare, finance, autonomous vehicles, and many other industries.
+
+The future of AI looks promising with advances in large language models, multimodal AI, and more efficient training methods. However, ethical considerations, data privacy, and responsible AI deployment remain important challenges.
+
+this is an article from 13.08.2026
+document created at 17.07.2026
