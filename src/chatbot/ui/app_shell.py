@@ -1,7 +1,14 @@
 import streamlit as st
 
+from src.chatbot.clients.ollama_client import OllamaClient
 from src.chatbot.clients.model_farm_client import ModelFarmClient
-from src.chatbot.config import load_config
+from src.chatbot.config import load_config, load_ollama_config
+from src.chatbot.constant import (
+    MODEL_FARM_MODEL_OPTIONS,
+    MODEL_FARM_PROVIDER,
+    OLLAMA_MODEL_OPTIONS,
+    OLLAMA_PROVIDER,
+)
 from src.chatbot.knowledge.knowledge_service import KnowledgeService
 from src.chatbot.services.chat_service import ChatService
 from src.chatbot.ui.documents_status_tab import render_documents_status_tab
@@ -18,20 +25,54 @@ def run_app() -> None:
     st.set_page_config(page_title="Streamlit Chatbot", page_icon=":speech_balloon:", layout="wide")
     st.title("Chatbot Application")
 
-    config = load_config()
-    client = ModelFarmClient(config=config)
-    chat_service = ChatService(client=client)
+    model_farm_config = load_config()
+    ollama_config = load_ollama_config()
+
+    model_farm_client = ModelFarmClient(config=model_farm_config)
+    ollama_client = OllamaClient(config=ollama_config)
+    chat_service = ChatService(model_farm_client=model_farm_client, ollama_client=ollama_client)
     knowledge_service = _knowledge_service()
+
+    with st.sidebar:
+        st.subheader("Model Selection")
+        provider = st.selectbox(
+            "Provider",
+            options=[MODEL_FARM_PROVIDER, OLLAMA_PROVIDER],
+            key="selected_llm_provider",
+        )
+
+        if provider == MODEL_FARM_PROVIDER:
+            model_options = MODEL_FARM_MODEL_OPTIONS.copy()
+            if model_farm_config.model not in model_options:
+                model_options.insert(0, model_farm_config.model)
+            model = st.selectbox(
+                "Model",
+                options=model_options,
+                key="selected_model_farm_model",
+            )
+        else:
+            model = st.selectbox(
+                "Model",
+                options=OLLAMA_MODEL_OPTIONS,
+                key="selected_ollama_model",
+            )
+
+        st.caption(f"Using: {provider} / {model}")
 
     tab_simple, tab_knowledge, tab_documents = st.tabs(
         ["Simple Chat", "Chat With Knowledge", "Documents Status"]
     )
 
     with tab_simple:
-        render_simple_chat_tab(chat_service)
+        render_simple_chat_tab(chat_service, provider=provider, model=model)
 
     with tab_knowledge:
-        render_knowledge_chat_tab(chat_service, knowledge_service)
+        render_knowledge_chat_tab(
+            chat_service,
+            knowledge_service,
+            provider=provider,
+            model=model,
+        )
 
     with tab_documents:
         render_documents_status_tab(knowledge_service)

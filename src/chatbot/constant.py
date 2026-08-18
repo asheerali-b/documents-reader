@@ -1,5 +1,17 @@
 DEFAULT_MODEL_NAME = "gemini-2.5-flash"
 DEFAULT_REASONING_EFFORT = "low"
+MODEL_FARM_PROVIDER = "Model Farm"
+OLLAMA_PROVIDER = "Ollama"
+
+MODEL_FARM_MODEL_OPTIONS = [
+	"gemini-2.5-flash",
+	"gpt-5-nano-2025-08-07",
+]
+# Add any locally available Ollama model tags here. These are shown in the UI dropdown.
+OLLAMA_MODEL_OPTIONS = [
+    "llama3.1:8b",
+]
+DEFAULT_OLLAMA_MODEL = "llama3.1:8b"
 
 EMBEDDING_MODEL_NAME = "BAAI/bge-m3"
 EMBEDDING_DEVICE = "cpu"

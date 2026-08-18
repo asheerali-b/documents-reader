@@ -16,6 +16,7 @@ class ModelFarmClient:
         self,
         messages: list[dict[str, str]],
         reasoning_effort: str = DEFAULT_REASONING_EFFORT,
+        model: str | None = None,
     ) -> str:
         if not self._config.api_key:
             raise ValueError("Missing MODEL_FARM_API_KEY in .env")
@@ -28,7 +29,7 @@ class ModelFarmClient:
                 "Content-Type": "application/json",
             },
             json={
-                "model": self._config.model,
+                "model": model or self._config.model,
                 "messages": messages,
                 "reasoning_effort": reasoning_effort,
             },

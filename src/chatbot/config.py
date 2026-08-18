@@ -15,6 +15,13 @@ class ModelFarmConfig:
     timeout_seconds: int = 60
 
 
+@dataclass(frozen=True)
+class OllamaConfig:
+    endpoint: str
+    keep_alive: str
+    timeout_seconds: int = 120
+
+
 def load_config() -> ModelFarmConfig:
     load_dotenv()
 
@@ -31,4 +38,18 @@ def load_config() -> ModelFarmConfig:
         endpoint=endpoint,
         api_version=api_version,
         model=model,
+    )
+
+
+def load_ollama_config() -> OllamaConfig:
+    load_dotenv()
+
+    endpoint = os.getenv("OLLAMA_ENDPOINT", "http://localhost:11434/api/chat").strip()
+    keep_alive = os.getenv("OLLAMA_KEEP_ALIVE", "30m").strip()
+    timeout_seconds = int(os.getenv("OLLAMA_TIMEOUT_SECONDS", "120").strip())
+
+    return OllamaConfig(
+        endpoint=endpoint,
+        keep_alive=keep_alive,
+        timeout_seconds=timeout_seconds,
     )

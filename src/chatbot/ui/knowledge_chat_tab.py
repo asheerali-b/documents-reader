@@ -5,7 +5,12 @@ from src.chatbot.knowledge.knowledge_service import KnowledgeService
 from src.chatbot.services.chat_service import ChatService
 
 
-def render_knowledge_chat_tab(chat_service: ChatService, knowledge_service: KnowledgeService) -> None:
+def render_knowledge_chat_tab(
+    chat_service: ChatService,
+    knowledge_service: KnowledgeService,
+    provider: str,
+    model: str,
+) -> None:
     st.subheader("Chat With Knowledge")
     st.caption("Ingest .txt files from the documents folder, then ask grounded questions.")
 
@@ -73,7 +78,12 @@ def render_knowledge_chat_tab(chat_service: ChatService, knowledge_service: Know
                     sources = []
                 else:
                     context = knowledge_service.context_from_hits(hits)
-                    answer = chat_service.chat_with_knowledge(question, context)
+                    answer = chat_service.chat_with_knowledge(
+                        question,
+                        context,
+                        provider=provider,
+                        model=model,
+                    )
                     sources = hits
                 knowledge_service.log_query(question=question, hits=hits, answer=answer)
             except Exception as ex:
