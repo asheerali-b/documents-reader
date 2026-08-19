@@ -1,0 +1,662 @@
+Skip to sidebar
+Skip to main content
+Skip to breadcrumbs
+Skip to search
+Linked Applications
+Docupedia II
+Spaces
+Analytics
+Collections
+Create
+
+Search
+Help
+0
+
+
+
+Bosch Private Cloud
+
+Analytics
+Space shortcuts
+Teams Channel Bosch Private Cloud
+Teams Channel DevCorner - Cloud BPC General Query
+How-to articles
+Page tree
+Welcome to the Bosch Private Cloud
+Services
+PaaS Runtime Services
+Shared Container Service
+Dedicated Container Service
+BKS Bosch Kubernetes Service
+BCR Bosch Container Registry
+CF Cloud Foundry
+VMaaS Virtual Maschine as a Service
+Managed Hosting
+MH Overview
+MH Quick Starts
+MH How To Guides
+MH Java FAQ
+MH Node.js FAQ
+MH PHP FAQ
+MH Python FAQ
+MH Resources
+MH Support
+Web Application Hosting
+Infrastructure Services
+Data Management
+Logging & Monitoring
+Access Management
+Development Tools
+AI Tool Stack
+Low Code
+Big Data & Analytics
+Data Streaming Platform
+How-to articles
+ConfigureSpace tools
+Pages… PaaS Runtime Services
+
+Translate
+Analytics
+ View inline comments
+
+ Save for later Watch Share
+Managed Hosting
+Created by 
+
+ De Winter Commerina Aletta (BD/ISA-PRC2), last updated by Schuele Jonas (BD/ISA-PRC7) on 2026, Aug 05  3 minute read Current Version V 19Page Info
+min to read
+min to read
+ 1 min to read
+
+
+
+
+Enjoy benefits of the cloud, without needing to be a cloud expert. 
+
+The Managed Hosting service on the Bosch Private Cloud (BPC) offers a powerful solution for your web applications, running securely on-premises within Bosch datacenters.
+
+We handle the complexity, providing you with a dedicated OpenShift project, an intuitive deployment interface, and an informative dashboard to manage your applications with ease and confidence.
+
+
+
+Launch your web application in minutes. We support Java (Tomcat, JBoss EAP), PHP, Node.js, and Python.
+OpenShift provides easy access to logs, real-time resource consumption, and more.
+Directly restart applications and monitor real-time status (e.g., running, ready) straight from the BPC portal dashboard.
+We take care of certificate management.
+We conduct monthly maintenance to apply security patches, ensuring a secure hosting environment for your application.
+Your uptime is our priority. Benefit from 24/7 'Redline' support, providing rapid response and resolution for critical events.
+We consistently deliver over 99.99% service availability
+Start your journey with a 30-day free trial. Unlock every service and plan, absolutely free for a full month.
+
+
+Service Plans
+
+Tomcat	
+Tomcat 9 + OpenJDK 11 | Tomcat 9 + OpenJDK 17
+Tomcat 10 + OpenJDK 17 | Tomcat 10 + OpenJDK 21
+JBoss EAP	
+JBoss EAP 7 + OpenJDK 11 | JBoss EAP 7 + OpenJDK 17
+JBoss EAP 8 + OpenJDK 17 | JBoss EAP 8 + OpenJDK 21
+PHP	
+PHP 8.3 + Apache httpd 2.4
+
+PHP 8.4 + Apache httpd 2.4 (coming soon)
+
+Node.js	Node.js 24
+Python	
+Python 3.12
+
+Python 3.14 (coming soon)
+
+
+
+Who is it for?
+
+Small Teams: We handle the operational heavy lifting, allowing you to save on resources typically spent on operational topics.
+Larger Teams: Offload operational responsibility to us, allowing your experts to focus on driving business growth.
+
+
+Onboarding
+
+👉 To onboard your Java application click here
+
+👉 To onboard your PHP application click here
+
+👉 To onboard your Node.js application click here
+
+👉 To onboard your Python application click here
+
+
+
+👉 For general Cloud Consulting click here
+
+👉 For support or queries click here
+
+
+
+Highlights
+
+Seamless Internet Reachability: Applications are automatically accessible to Bosch Internet-Based Clients (IBC) right out of the box via the default URL.
+
+Integrated CDN & WAF Protection: Easily place a Content Delivery Network (CDN) and Web Application Firewall (WAF) in front of your applications for enhanced global performance, caching, and threat defense.
+High-Speed Dependency Mirroring: Package dependencies (npm, PyPI, Maven, etc.) are automatically retrieved from secure, high-speed on-premise mirrors rather than the public internet.
+
+Built-In Splunk Integration: Effortlessly stream and centralize application logs directly to Splunk.
+
+REST API Automation: Automate Java application deployments (including .war file updates) directly through a dedicated REST API.
+
+Outbound Internet Access: Easily configure the BPC Proxy to allow your application to securely connect to external HTTPS endpoints.
+
+Automated Task Scheduling: Set up Cron jobs natively to handle background processing and recurring tasks.
+
+CI/CD Webhook Triggers: Trigger automated builds (e.g., for Node.js or Python) via webhooks on code pushes or pipeline events.
+
+Enterprise-Grade Add-Ons:
+
+Storage & Domains: Mount NFS persistent shares and map custom domains with ease.
+
+Monitoring & Security: Enable APM Java agents (e.g., New Relic), enforce IP filtering for your URLs, and leverage built-in health checks.
+
+High Availability: Scale your applications seamlessly across redundant data centers.
+
+And Much More!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Like
+Addula Tharun (BD/ISA-PRC7) likes this
+No labelsEdit Labels
+© Robert Bosch GmbH
+Docupedia 10.2.14.0 Powered by Atlassian Confluence and Scroll Viewport
+Node: doc-P2-SI0VM08475
+Docupedia Community
+Support
+Legal
+
+
+
+Skip to sidebar
+Skip to main content
+Skip to breadcrumbs
+Skip to search
+Linked Applications
+Docupedia II
+Spaces
+Analytics
+Collections
+Create
+
+Search
+Help
+0
+
+
+
+Bosch Private Cloud
+
+Analytics
+Space shortcuts
+Teams Channel Bosch Private Cloud
+Teams Channel DevCorner - Cloud BPC General Query
+How-to articles
+Page tree
+Welcome to the Bosch Private Cloud
+Services
+PaaS Runtime Services
+Shared Container Service
+Dedicated Container Service
+BKS Bosch Kubernetes Service
+BCR Bosch Container Registry
+CF Cloud Foundry
+VMaaS Virtual Maschine as a Service
+Managed Hosting
+MH Overview
+MH Service Description
+MH Price Comparison
+MH Prices
+MH Service Attributes
+MH Quick Starts
+MH How To Guides
+MH Java FAQ
+MH Node.js FAQ
+MH PHP FAQ
+MH Python FAQ
+MH Resources
+MH Support
+Web Application Hosting
+Infrastructure Services
+Data Management
+Logging & Monitoring
+Access Management
+Development Tools
+AI Tool Stack
+Low Code
+Big Data & Analytics
+Data Streaming Platform
+How-to articles
+ConfigureSpace tools
+MH Service Attributes
+Pages… MH Overview
+
+Translate
+Analytics
+ View inline comments
+
+ Save for later Watch Share
+Created by 
+
+ De Winter Commerina Aletta (BD/ISA-PRC2), last updated by Schuele Jonas (BD/ISA-PRC7) on 2026, May 19  4 minute read Current Version V 6Page Info
+
+
+Service Plan Name
+
+Tomcat 9 + OpenJDK 11
+Tomcat 9 + OpenJDK 17
+
+Tomcat 10 + OpenJDK 17
+Tomcat 10 + OpenJDK 21
+
+Service Plan Description
+
+JBoss Web Server 5 based Tomcat 9 + OpenJDK 11 (or) OpenJDK 17 Managed Hosting platform
+
+JBoss Web Server 6 based Tomcat 10 + OpenJDK 17 (or) OpenJDK 21 Managed Hosting platform
+
+Product Owner
+
+PSM: Periyanayagam.R@in.bosch.com
+PO: Jonas.Schuele@de.bosch.com
+
+PSM: Periyanayagam.R@in.bosch.com
+PO: Jonas.Schuele@de.bosch.com
+
+Characteristics
+
+live installation, provision takes around 3 minutes
+
+live installation, provision takes around 3 minutes
+
+Target Customers
+
+All
+
+All
+
+Security Classes
+
+C-SC 1; I-SC 1; A-SC 1
+
+C-SC 1; I-SC 1; A-SC 1
+
+Not in scope / limits
+
+Click here for service spec sheet
+
+Click here for service spec sheet
+
+Price Model
+
+Click here for pricing
+
+Click here for pricing
+
+Offered in environments
+(Service availability)
+
+Cloud Foundry Marketplace IPZ001 (Schwieberdingen - Germany)
+Cloud Foundry Marketplace EPZ001 (Schwieberdingen - Germany)
+Cloud Foundry Marketplace IPZ002 (Renningen - Germany)
+Cloud Foundry Marketplace EPZ002 (Renningen - Germany)
+Cloud Foundry Marketplace IPZ003 (Singapore)
+
+Cloud Foundry Marketplace IPZ001 (Schwieberdingen - Germany)
+Cloud Foundry Marketplace EPZ001 (Schwieberdingen - Germany)
+Cloud Foundry Marketplace IPZ002 (Renningen - Germany)
+Cloud Foundry Marketplace EPZ002 (Renningen - Germany)
+Cloud Foundry Marketplace IPZ003 (Singapore)
+
+Hosted in environments
+
+IPZ001 (Schwieberdingen - Germany)
+EPZ001 (Schwieberdingen - Germany)
+IPZ002 (Renningen - Germany)
+EPZ002 (Renningen - Germany)
+IPZ003 (Singapore)
+
+IPZ001 (Schwieberdingen - Germany)
+EPZ001 (Schwieberdingen - Germany)
+IPZ002 (Renningen - Germany)
+EPZ002 (Renningen - Germany)
+IPZ003 (Singapore)
+
+Obligation of service recipient
+
+EISA-PIS-102
+
+EISA-PIS-102
+
+Service Plan Updated
+
+Aug 5, 2024
+
+Mar 25, 2024
+
+Service Plan State
+
+GA, Marketplace release 2021
+
+GA, Marketplace release 25th March 2024
+
+Managed Hosting (JBoss EAP)
+Service Plan Name
+
+JBoss EAP 7 + OpenJDK 11
+JBoss EAP 7 + OpenJDK 17
+
+JBoss EAP 8 + OpenJDK 17
+JBoss EAP 8 + OpenJDK 21
+
+Service Plan Description
+
+JBoss EAP 7 based Managed Hosting platform
+
+JBoss EAP 8 based Managed Hosting platform
+
+Product Owner
+
+PSM: Periyanayagam.R@in.bosch.com
+PO: Jonas.Schuele@de.bosch.com
+
+PSM: Periyanayagam.R@in.bosch.com
+PO: Jonas.Schuele@de.bosch.com
+
+Characteristics
+
+live installation, provision takes around 3 minutes
+
+live installation, provision takes around 3 minutes
+
+Target Customers
+
+All
+
+All
+
+Security Classes
+
+C-SC 1; I-SC 1; A-SC 1
+
+C-SC 1; I-SC 1; A-SC 1
+
+Not in scope / limits
+
+Click here for service spec sheet
+
+Click here for service spec sheet
+
+Price Model
+
+Click here for pricing
+
+Click here for pricing
+
+Offered in environments
+(Service availability)
+
+Cloud Foundry Marketplace IPZ001 (Schwieberdingen - Germany)
+Cloud Foundry Marketplace EPZ001 (Schwieberdingen - Germany)
+Cloud Foundry Marketplace IPZ002 (Renningen - Germany)
+Cloud Foundry Marketplace EPZ002 (Renningen - Germany)
+Cloud Foundry Marketplace IPZ003 (Singapore)
+
+Cloud Foundry Marketplace IPZ001 (Schwieberdingen - Germany)
+Cloud Foundry Marketplace EPZ001 (Schwieberdingen - Germany)
+Cloud Foundry Marketplace IPZ002 (Renningen - Germany)
+Cloud Foundry Marketplace EPZ002 (Renningen - Germany)
+Cloud Foundry Marketplace IPZ003 (Singapore)
+
+Hosted in environments
+
+IPZ001 (Schwieberdingen - Germany)
+EPZ001 (Schwieberdingen - Germany)
+IPZ002 (Renningen - Germany)
+EPZ002 (Renningen - Germany)
+IPZ003 (Singapore)
+
+IPZ001 (Schwieberdingen - Germany)
+EPZ001 (Schwieberdingen - Germany)
+IPZ002 (Renningen - Germany)
+EPZ002 (Renningen - Germany)
+IPZ003 (Singapore)
+
+Obligation of service recipient
+
+EISA-PIS-102
+
+EISA-PIS-102
+
+Service Plan Updated
+
+Mar 25, 2024
+
+Jul 31, 2025
+
+Service Plan State
+
+GA, Marketplace release 25th March 2024
+
+GA, Marketplace release 31st July 2025
+
+Managed Hosting (PHP)
+Service Plan Name
+
+PHP 8.3
+
+Service Plan Description
+
+Apache 2.4 on RHEL 9 based PHP 8 Managed Hosting platform
+
+Product Owner
+
+PSM: Periyanayagam.R@in.bosch.com
+PO: Jonas.Schuele@de.bosch.com
+
+Characteristics
+
+live installation, provision takes around 3 minutes
+
+Target Customers
+
+All
+
+Security Classes
+
+C-SC 1; I-SC 1; A-SC 1
+
+Not in scope / limits
+
+Click here for service spec sheet
+
+Price Model
+
+Click here for pricing
+
+Offered in environments
+(Service availability)
+
+Cloud Foundry Marketplace IPZ001 (Schwieberdingen - Germany)
+Cloud Foundry Marketplace EPZ001 (Schwieberdingen - Germany)
+Cloud Foundry Marketplace IPZ002 (Renningen - Germany)
+Cloud Foundry Marketplace EPZ002 (Renningen - Germany)
+Cloud Foundry Marketplace IPZ003 (Singapore)
+
+Hosted in environments
+
+IPZ001 (Schwieberdingen - Germany)
+EPZ001 (Schwieberdingen - Germany)
+IPZ002 (Renningen - Germany)
+EPZ002 (Renningen - Germany)
+IPZ003 (Singapore)
+
+Obligation of service recipient
+
+EISA-PIS-102
+
+Service Plan Updated
+
+May 19, 2026
+Service Plan State
+
+GA, Marketplace release May 19 2026
+
+Managed Hosting (Node.js)
+Service Plan Name
+
+Node.js 24
+
+Service Plan Description
+
+Node.js 24 on RHEL 9 based Managed Hosting platform
+
+Product Owner
+
+PSM: Periyanayagam.R@in.bosch.com
+PO: Jonas.Schuele@de.bosch.com
+
+Characteristics
+
+live installation, provision takes around 3 minutes
+
+Target Customers
+
+All
+
+Security Classes
+
+C-SC 1; I-SC 1; A-SC 1
+
+Not in scope / limits
+
+Click here for service spec sheet
+
+Price Model
+
+Click here for pricing
+
+Offered in environments
+(Service availability)
+
+Cloud Foundry Marketplace IPZ001 (Schwieberdingen - Germany)
+Cloud Foundry Marketplace EPZ001 (Schwieberdingen - Germany)
+Cloud Foundry Marketplace IPZ002 (Renningen - Germany)
+Cloud Foundry Marketplace EPZ002 (Renningen - Germany)
+Cloud Foundry Marketplace IPZ003 (Singapore)
+
+Hosted in environments
+
+IPZ001 (Schwieberdingen - Germany)
+EPZ001 (Schwieberdingen - Germany)
+IPZ002 (Renningen - Germany)
+EPZ002 (Renningen - Germany)
+IPZ003 (Singapore)
+
+Obligation of service recipient
+
+EISA-PIS-102
+
+Service Plan Updated
+
+May 19, 2026
+
+Service Plan State
+
+GA, Marketplace release 18th September 2025
+
+Managed Hosting (Python)
+Service Plan Name
+
+Python 3.12
+
+Service Plan Description
+
+Python 3.12 on RHEL 9 based Managed Hosting platform
+
+Product Owner
+
+PSM: Periyanayagam.R@in.bosch.com
+PO: Jonas.Schuele@de.bosch.com
+
+Characteristics
+
+live installation, provision takes around 3 minutes
+
+Target Customers
+
+All
+
+Security Classes
+
+C-SC 1; I-SC 1; A-SC 1
+
+Not in scope / limits
+
+Click here for service spec sheet
+
+Price Model
+
+Click here for pricing
+
+Offered in environments
+(Service availability)
+
+Cloud Foundry Marketplace IPZ001 (Schwieberdingen - Germany)
+Cloud Foundry Marketplace EPZ001 (Schwieberdingen - Germany)
+Cloud Foundry Marketplace IPZ002 (Renningen - Germany)
+Cloud Foundry Marketplace EPZ002 (Renningen - Germany)
+Cloud Foundry Marketplace IPZ003 (Singapore)
+
+Hosted in environments
+
+IPZ001 (Schwieberdingen - Germany)
+EPZ001 (Schwieberdingen - Germany)
+IPZ002 (Renningen - Germany)
+EPZ002 (Renningen - Germany)
+IPZ003 (Singapore)
+
+Obligation of service recipient
+
+EISA-PIS-102
+
+Service Plan Updated
+
+Nov 21, 2025
+
+Service Plan State
+
+GA, Marketplace release 21st November 2025
+
+
+Like
+Be the first to like this
+No labelsEdit Labels
+© Robert Bosch GmbH
+Docupedia 10.2.14.0 Powered by Atlassian Confluence and Scroll Viewport
+Node: doc-P2-SI0VM08475
+Docupedia Community
+Support
+Legal
+
+

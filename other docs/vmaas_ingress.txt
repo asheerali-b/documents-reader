@@ -1,0 +1,212 @@
+Skip to sidebar
+Skip to main content
+Skip to breadcrumbs
+Skip to search
+Linked Applications
+Docupedia II
+Spaces
+Analytics
+Collections
+Create
+
+Search
+Help
+0
+
+
+
+Bosch Private Cloud
+
+Analytics
+Space shortcuts
+Teams Channel Bosch Private Cloud
+Teams Channel DevCorner - Cloud BPC General Query
+How-to articles
+Page tree
+Welcome to the Bosch Private Cloud
+Services
+PaaS Runtime Services
+Shared Container Service
+Dedicated Container Service
+BKS Bosch Kubernetes Service
+BCR Bosch Container Registry
+CF Cloud Foundry
+VMaaS Virtual Maschine as a Service
+VMaaS Overview
+Virtual Machine Lifecycle
+Virtual Machine REST API
+Managing a Virtual Machine
+VMaaS Connectivity
+VMaaS Domains
+VMaaS Egress
+VMaaS Firewall
+VMaaS Ingress
+VMaaS Proxy
+VMaaS Security Decisions
+VMaaS Troubleshooting
+VMaaS Vulnerability Scanning
+VMaaS Monitoring
+VMaaS Patch Management
+VMaaS Malware Protection
+VMaaS How To Guides
+VMaaS Roadmap
+VMaaS Known Issues
+News
+VMaaS FAQ
+VMaaS Support
+Managed Hosting
+Web Application Hosting
+Infrastructure Services
+Data Management
+Logging & Monitoring
+Access Management
+Development Tools
+AI Tool Stack
+Low Code
+Big Data & Analytics
+Data Streaming Platform
+How-to articles
+ConfigureSpace tools
+Pages… VMaaS Connectivity
+
+Translate
+Analytics
+ View inline comments
+
+ Save for later Watch Share
+VMaaS Ingress
+Created by 
+
+ De Winter Commerina Aletta (BD/ISA-PRC2), last updated by Dietzsch Alexander (BD/ISA-PRC3) on 2026, Apr 17  3 minute read Current Version V 2Page Info
+General Ingress Rule
+Like in public clouds we manage all the ingress traffic to virtual machines within Bosch Private Cloud. That means that ingress to virtual machines is only enabled where necessary.
+
+Overall we need to distinguish between ingress from external and ingress between virtual machines.
+
+This requires a so-called floating IP for the virtual machine. Such a floating IP is assigned to Jump Host virtual machines by default, but for workload virtual machines get a floating IP only when bound to an application in Cloud Foundry or if configured to allow ingress.
+
+Ingress Security Rules
+Virtual Machine Jump Host (Linux)
+Ingress
+TCP
+22 (SSH)
+0.0.0.0/0
+Allow ingress on port 22 from everywhere
+Virtual Machine Jump Host (Windows)
+Virtual Machine Jump Host (Windows) IPZ
+Ingress
+TCP
+3389 (RDP)
+0.0.0.0/0
+Allow ingress on port 3389 from everywhere
+Ingress
+TCP
+135
+10.139.78.122/31
+Ingress access to Windows Jump Hosts from PSM
+Ingress
+TCP
+139
+10.139.78.122/31
+Ingress access to Windows Jump Hosts from PSM
+Ingress
+TCP
+445
+10.139.78.122/31
+Ingress access to Windows Jump Hosts from PSM
+Ingress
+TCP
+49152-65535
+10.139.78.122/31
+Ingress access to Windows Jump Hosts from PSM
+Ingress
+UDP
+135
+10.139.78.122/31
+Ingress access to Windows Jump Hosts from PSM
+Ingress
+UDP
+139
+10.139.78.122/31
+Ingress access to Windows Jump Hosts from PSM
+Virtual Machine Jump Host (Windows) EPZ
+Ingress
+TCP
+3389 (RDP)
+0.0.0.0/0
+Allow ingress on port 3389 from everywhere
+Ingress
+TCP
+135
+10.58.45.6/32
+Ingress access to Windows Jump Hosts from PSM
+Ingress
+TCP
+139
+10.58.45.6/32
+Ingress access to Windows Jump Hosts from PSM
+Ingress
+TCP
+445
+10.58.45.6/32
+Ingress access to Windows Jump Hosts from PSM
+Ingress
+TCP
+49152-65535
+10.58.45.6/32
+Ingress access to Windows Jump Hosts from PSM
+Ingress
+UDP
+135
+10.58.45.6/32
+Ingress access to Windows Jump Hosts from PSM
+Ingress
+UDP
+139
+10.58.45.6/32
+Ingress access to Windows Jump Hosts from PSM
+Cloud Foundry
+Cloud Foundry IPZ
+Ingress
+TCP
+Any
+10.140.183.0/24
+Allow TCP ingress from Cloud Foundry on all ports
+Ingress
+UDP
+Any
+10.140.183.0/24
+Allow UDP ingress from Cloud Foundry on all ports
+Cloud Foundry EPZ
+Ingress
+TCP
+Any
+10.143.3.0/24
+Allow TCP ingress from Cloud Foundry on all ports
+Ingress
+UDP
+Any
+10.143.3.0/24
+Allow UDP ingress from Cloud Foundry on all ports
+Communication from other Virtual Machines
+The communication from all other virtual machines within the same organization is possible via ICMP, TCP and UDP on all ports. Communication from virtual machines in other organizations is not allowed by default, but you can enable the ingress to allow this communication.
+
+Communication from the Internet
+Virtual machines are not directly reachable from the Internet, as no public IP addresses are used. To expose a service running on a virtual machine to the Internet you need a Load Balancer as a Service in addition, that is the interface to the Internet.
+
+Communication from other services in Bosch Private Cloud
+Communication from other services in the Bosch Private Cloud is by default not enabled, but you can configure the ingress for your virtual machine to enable this.
+
+Communication from Enterprise IT
+Communication from Enterprise IT in general is possible, but on VMaaS virtual machines only enabled for Jump Hosts - Linux Jump Hosts: SSH (22) and Windows Jump Hosts: RDP (3389). In addition, ingress can be managed in self-service via Management REST API.
+
+
+Like
+Be the first to like this
+No labelsEdit Labels
+© Robert Bosch GmbH
+Docupedia 10.2.14.0 Powered by Atlassian Confluence and Scroll Viewport
+Node: doc-P2-SI0VM08475
+Docupedia Community
+Support
+Legal

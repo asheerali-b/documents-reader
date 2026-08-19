@@ -1,0 +1,648 @@
+Skip to sidebar
+Skip to main content
+Skip to breadcrumbs
+Skip to search
+Linked Applications
+Docupedia II
+Spaces
+Analytics
+Collections
+Create
+
+Search
+Help
+0
+
+
+
+Bosch Private Cloud
+
+Analytics
+Space shortcuts
+Teams Channel Bosch Private Cloud
+Teams Channel DevCorner - Cloud BPC General Query
+How-to articles
+Page tree
+Welcome to the Bosch Private Cloud
+Services
+PaaS Runtime Services
+Shared Container Service
+Dedicated Container Service
+BKS Bosch Kubernetes Service
+BCR Bosch Container Registry
+CF Cloud Foundry
+VMaaS Virtual Maschine as a Service
+VMaaS Overview
+Virtual Machine Lifecycle
+Virtual Machine REST API
+Managing a Virtual Machine
+VMaaS Connectivity
+VMaaS Domains
+VMaaS Egress
+VMaaS Firewall
+VMaaS Ingress
+VMaaS Proxy
+VMaaS Proxy - EMEA Change
+VMaaS Proxy Configuration on a Linux VM
+VMaaS Proxy Configuration on a Windows VM
+VMaaS Security Decisions
+VMaaS Troubleshooting
+VMaaS Vulnerability Scanning
+VMaaS Monitoring
+VMaaS Patch Management
+VMaaS Malware Protection
+VMaaS How To Guides
+VMaaS Roadmap
+VMaaS Known Issues
+News
+VMaaS FAQ
+VMaaS Support
+Managed Hosting
+Web Application Hosting
+Infrastructure Services
+Data Management
+Logging & Monitoring
+Access Management
+Development Tools
+AI Tool Stack
+Low Code
+Big Data & Analytics
+Data Streaming Platform
+How-to articles
+ConfigureSpace tools
+Pages… VMaaS Connectivity
+
+Translate
+Analytics
+ View inline comments
+
+ Save for later Watch Share
+VMaaS Proxy
+Created by 
+
+ De Winter Commerina Aletta (BD/ISA-PRC2), last updated by Dietzsch Alexander (BD/ISA-PRC3) on 2026, Aug 14  3 minute read Current Version V 10Page Info
+All access to the Internet from a VMaaS virtual machine within the Bosch Private Cloud environment requires a proxy connection, while for all the resources on the Bosch Corporate Network the proxy should not be used.
+
+There are many ways a proxy can be configured depending on the underlying operating system.
+
+All resources from the internet need to be whitelisted if they are not currently available.
+
+The tables below show the recommended settings for proxy configurations within the BHC environment.
+
+IMPORTANT
+
+Automated Proxy Configuration
+
+The proxy settings are configured automatically during provisioning. The settings are not immediately available as they cannot be configured until the VM is started for the 1st time.
+
+Please wait about 10 minutes after the VM is provisioned to start any software installation.
+
+See the links at the bottom of the page to know what settings are configured by default in the VMaaS environment.
+
+If you would like to follow the log files to see if the process has finished you can use the following commands:
+
+Linux:
+
+
+
+suddo tail -f /var/log/cloud-init-output.log 
+
+
+
+
+Windows:
+
+
+
+Get-Content 'C:\Program Files\Cloudbase Solutions\Cloudbase-Init\log\cloudbase-init.log' -Wait 
+
+
+
+
+Proxy Settings for IPZ QA (DE4)
+HTTP_PROXY
+
+rb-proxy-emea.internal.bosch.cloud:8080
+
+HTTPS_PROXY
+
+rb-proxy-emea.internal.bosch.cloud:8080
+
+NO_PROXY
+
+127.0.0.1,localhost,10.140.180.119,rb-sat6-bpc.lnx01.ipz001.internal.bosch.cloud,10.140.170.19,rb-cap-ipz001.lnx01.ipz001.internal.bosch.cloud,10.140.249.17,osp.ipz001.internal.bosch.cloud,10.140.250.30,objs.ipz001.internal.bosch.cloud,10.73.90.182,10.73.144.102,si0vm07260.de.bosch.com,10.82.213.54,si0vm06112.de.bosch.com,10.82.213.57,si0vm06135.de.bosch.com,bcr2.inside.bosch.cloud,*.internal.bosch.cloud,rb-antivirus.bosch.com,defenderproxy.geodns.bosch.com,shared01.artifacts.app.bosch.com
+
+
+Proxy Settings for IPZ Prod (DE5) - Schwieberdingen
+HTTP_PROXY
+
+rb-proxy-emea.internal.bosch.cloud:8080
+
+HTTPS_PROXY
+
+rb-proxy-emea.internal.bosch.cloud:8080
+
+NO_PROXY
+
+127.0.0.1,localhost,10.140.180.119,rb-sat6-bpc.lnx01.ipz001.internal.bosch.cloud,10.140.170.19,rb-cap-ipz001.lnx01.ipz001.internal.bosch.cloud,10.140.249.17,osp.ipz001.internal.bosch.cloud,10.140.250.30,objs.ipz001.internal.bosch.cloud,10.73.90.182,10.73.144.102,si0vm07260.de.bosch.com,10.82.213.54,si0vm06112.de.bosch.com,10.82.213.57,si0vm06135.de.bosch.com,bcr2.inside.bosch.cloud,*.internal.bosch.cloud,rb-antivirus.bosch.com,defenderproxy.geodns.bosch.com,shared01.artifacts.app.bosch.com
+
+
+HTTP_PROXY
+
+rb-proxy-emea.internal.bosch.cloud:8080
+
+HTTPS_PROXY
+
+rb-proxy-emea.internal.bosch.cloud:8080
+
+NO_PROXY
+
+127.0.0.1,localhost,10.143.0.20,rb-cap-epz001.lnx01.epz001.internal.bosch.cloud,10.143.56.17,osp.epz001.internal.bosch.cloud,10.143.57.30,objs.epz001.internal.bosch.cloud,10.58.44.11,10.58.44.11,10.73.144.102,si0vm07260.de.bosch.com,10.58.42.52,fe0vm669.rbdmz01.com,10.58.42.53,fe0vm700.rbdmz01.com,10.143.192.36,si0vm07277.rbdmz01.com,bcr2.inside.bosch.cloud,*.internal.bosch.cloud,rb-antivirus.bosch.com,defenderproxy.geodns.bosch.com,shared01.artifacts.app.bosch.com
+
+
+Proxy Settings for IPZ Prod (DE9) - Renningen
+HTTP_PROXY
+
+rb-proxy-emea.internal.bosch.cloud:8080
+
+HTTPS_PROXY
+
+rb-proxy-emea.internal.bosch.cloud:8080
+
+NO_PROXY
+
+127.0.0.1,localhost,10.140.180.119,rb-sat6-bpc.lnx01.ipz001.internal.bosch.cloud,10.140.21.144,rb-cap-ipz002.lnx01.ipz002.internal.bosch.cloud,10.140.122.17,osp.ipz002.internal.bosch.cloud,10.140.123.12,objs.ipz002.internal.bosch.cloud,10.73.90.182,10.73.144.102,si0vm07260.de.bosch.com,10.82.213.54,si0vm06112.de.bosch.com,10.82.213.57,si0vm06135.de.bosch.com,bcr2.inside.bosch.cloud,*.internal.bosch.cloud,rb-antivirus.bosch.com,defenderproxy.geodns.bosch.com,shared01.artifacts.app.bosch.com
+
+Proxy Settings for EPZ Prod (DE10) - Renningen
+HTTP_PROXY
+
+rb-proxy-emea.internal.bosch.cloud:8080
+
+HTTPS_PROXY
+
+rb-proxy-emea.internal.bosch.cloud:8080
+
+NO_PROXY
+
+127.0.0.1,localhost,10.140.180.119,rb-sat6-bpc.lnx01.ipz001.internal.bosch.cloud,10.143.0.20,rb-cap-epz001.lnx01.epz001.internal.bosch.cloud,10.143.16.188,rb-cap-epz002.lnx01.epz002.internal.bosch.cloud,osp.epz002.internal.bosch.cloud,10.58.194.16,10.143.51.12,objs.epz002.internal.bosch.cloud,osp.epz001.internal.bosch.cloud,10.143.56.17,10.143.57.30,10.73.90.182,10.73.144.102,si0vm07260.de.bosch.com,10.82.213.54,si0vm06112.de.bosch.com,10.82.213.57,si0vm06135.de.bosch.com,bcr2.inside.bosch.cloud,*.internal.bosch.cloud,rb-antivirus.bosch.com,defenderproxy.geodns.bosch.com,shared01.artifacts.app.bosch.com
+
+Proxy Settings for IPZ Prod (SG1) - Singapore
+HTTP_PROXY
+
+rb-proxy-apac.internal.bosch.cloud:8080
+
+HTTPS_PROXY
+
+rb-proxy-apac.internal.bosch.cloud:8080
+
+NO_PROXY
+
+127.0.0.1,localhost,10.140.180.119,rb-sat6-bpc.lnx01.ipz001.internal.bosch.cloud,10.196.129.220,rb-cap-ipz003.lnx01.ipz003.internal.bosch.cloud,10.188.154.17,osp.ipz003.internal.bosch.cloud,10.188.155.30,objs.ipz003.internal.bosch.cloud,10.73.90.182,10.73.144.102,si0vm07260.de.bosch.com,10.82.213.54,si0vm06112.de.bosch.com,10.82.213.57,si0vm06135.de.bosch.com,10.188.154.17,osp.ipz003.internal.bosch.cloud,10.188.155.30,objs.ipz003.internal.bosch.cloud,10.73.90.182,10.73.144.102,si0vm07260.de.bosch.com,10.82.213.54,si0vm06112.de.bosch.com,10.82.213.57,si0vm06135.de.bosch.com,bcr2.inside.bosch.cloud,*.internal.bosch.cloud,rb-antivirus.bosch.com,defenderproxy.geodns.bosch.com,shared01.artifacts.app.bosch.com
+
+Proxy Endpoints
+Openstack API
+
+10.140.249.17
+
+osp.ipz001.internal.bosch.cloud
+
+10.143.56.17
+
+osp.epz001.internal.bosch.cloud
+
+10.140.122.17
+
+osp.ipz002.internal.bosch.cloud
+
+10.143.50.17
+
+osp.epz002.internal.bosch.cloud
+
+10.188.154.17
+
+osp.ipz003.internal.bosch.cloud
+
+Object Storage
+
+10.140.250.30
+
+objs.ipz001.internal.bosch.cloud
+
+10.143.57.30
+
+objs.epz001.internal.bosch.cloud
+
+10.140.123.12
+
+objs.ipz002.internal.bosch.cloud
+
+10.143.51.12
+
+objs.epz002.internal.bosch.cloud
+
+10.188.155.30
+
+objs.ipz003.internal.bosch.cloud
+
+Satellite/Capsule
+
+10.140.180.119
+
+rb-sat6-bpc.lnx01.ipz001.internal.bosch.cloud
+
+10.140.170.19
+
+rb-cap-ipz001.lnx01.ipz001.internal.bosch.cloud
+
+10.140.180.119
+
+rb-sat6-bpc.lnx01.ipz001.internal.bosch.cloud
+
+10.143.0.20
+
+rb-cap-epz001.lnx01.epz001.internal.bosch.cloud
+
+10.140.180.119
+
+rb-sat6-bpc.lnx01.ipz001.internal.bosch.cloud
+
+10.140.21.144
+
+rb-cap-ipz002.lnx01.ipz002.internal.bosch.cloud
+
+10.140.180.119
+
+rb-sat6-bpc.lnx01.ipz001.internal.bosch.cloud
+
+10.143.16.188
+
+rb-cap-epz002.lnx01.epz002.internal.bosch.cloud
+
+10.140.180.119
+
+rb-sat6-bpc.lnx01.ipz001.internal.bosch.cloud
+
+10.196.129.220
+
+rb-cap-ipz003.lnx01.ipz003.internal.bosch.cloud
+
+Key Management Services (KMS)
+
+10.73.90.182
+
+10.58.44.11
+
+10.73.90.182
+
+10.58.44.11
+
+10.73.90.182
+
+Windows Server Update Services (WSUS)
+
+10.73.144.102
+si0vm07260.de.bosch.com
+10.73.144.102
+si0vm07260.de.bosch.com
+10.73.144.102
+si0vm07260.de.bosch.com
+10.73.144.102
+si0vm07260.de.bosch.com
+10.73.144.102
+si0vm07260.de.bosch.com
+Proxy Whitelisting
+All connections into direction of the Internet are through a proxy server. This proxy server is using a whitelisting for all the endpoints on the Internet that you can access. What is not explicitly whitelisted is forbidden and will be blocked. In case you encounter a missing whitelisting, refer to this guide for instructions on how to request it. VMaaS is currently integrated with the proxy service and provides three REST APIs that can help you to enable your custom domain.
+
+Default Proxy Settings During Provisioning
+Linux Preconfigured Proxy Settings
+
+Windows Preconfigured Proxy Settings
+
+Like
+Be the first to like this
+No labelsEdit Labels
+© Robert Bosch GmbH
+Docupedia 10.2.14.0 Powered by Atlassian Confluence and Scroll Viewport
+Node: doc-P2-SI0VM08475
+Docupedia Community
+Support
+Legal
+
+Skip to sidebar
+Skip to main content
+Skip to breadcrumbs
+Skip to search
+Linked Applications
+Docupedia II
+Spaces
+Analytics
+Collections
+Create
+
+Search
+Help
+0
+
+
+
+Bosch Private Cloud
+
+Analytics
+Space shortcuts
+Teams Channel Bosch Private Cloud
+Teams Channel DevCorner - Cloud BPC General Query
+How-to articles
+Page tree
+Welcome to the Bosch Private Cloud
+Services
+PaaS Runtime Services
+Shared Container Service
+Dedicated Container Service
+BKS Bosch Kubernetes Service
+BCR Bosch Container Registry
+CF Cloud Foundry
+VMaaS Virtual Maschine as a Service
+VMaaS Overview
+Virtual Machine Lifecycle
+Virtual Machine REST API
+Managing a Virtual Machine
+VMaaS Connectivity
+VMaaS Domains
+VMaaS Egress
+VMaaS Firewall
+VMaaS Ingress
+VMaaS Proxy
+VMaaS Proxy - EMEA Change
+VMaaS Proxy Configuration on a Linux VM
+VMaaS Proxy Configuration on a Windows VM
+VMaaS Security Decisions
+VMaaS Troubleshooting
+VMaaS Vulnerability Scanning
+VMaaS Monitoring
+VMaaS Patch Management
+VMaaS Malware Protection
+VMaaS How To Guides
+VMaaS Roadmap
+VMaaS Known Issues
+News
+VMaaS FAQ
+VMaaS Support
+Managed Hosting
+Web Application Hosting
+Infrastructure Services
+Data Management
+Logging & Monitoring
+Access Management
+Development Tools
+AI Tool Stack
+Low Code
+Big Data & Analytics
+Data Streaming Platform
+How-to articles
+ConfigureSpace tools
+Pages… VMaaS Proxy
+
+Translate
+Analytics
+ View inline comments
+
+ Save for later Watch Share
+VMaaS Proxy - EMEA Change
+Created by 
+
+ De Winter Commerina Aletta (BD/ISA-PRC2), last updated by Dietzsch Alexander (BD/ISA-PRC3) on 2026, Apr 17  3 minute read Current Version V 3Page Info
+What is going on?
+The existing Internet Web Proxies for the EMEA placement zones (IPZ001, IPZ002, EPZ001 and EPZ002) are subject to replacement. The new proxy endpoint, to be used from now on, is http://rb-proxy-emea.internal.bosch.cloud:8080.
+
+What are the benefits ?
+Improve your user experience in streamlining functionality of the BPC proxies and aligning it to that of the Bosch enterprise proxies (e.g. alignment of behavior concerning EntraID MFA)
+
+Where is my attention required ?
+In places where you as an application owner are able to select a proxy endpoint, you will have to switch from the current proxy endpoint (10.143.x.y) to the new one: http://rb-proxy-emea.internal.bosch.cloud:8080
+
+If your applications rely on access to resources on the Internet which require a special allowlist, then you need to reach out to the people responsible for those resources in order to have them authorize access from the public IP range of the new proxies (194.39.218.0/23).
+
+Current proxy can reach some endpoints within Bosch Private Cloud whereas new proxy(rb-proxy-emea.internal.bosch.cloud) can not. Using new proxy may require to add endpoints like *.bosch.com, *.bosch.cloud, to NO_PROXY environment variable, in order to bypass proxy access to those domains.
+
+What will not change ?
+Apart from the adaptations and improvements described above, many aspects will in fact remain the same as with they are today with the current proxy setup.
+
+These are:
+
+The proxy policy management
+
+The usage of the no_proxy variable in your applications to define that no proxy should be used to access resources in IPZ/EPZ or on the Bosch internal networks
+
+The reachability of the proxies per se (both current and new ones) with respect to Enterprise IT firewall rules which have been put in place for the entire BPC platform
+
+Whitelisted URL currently in use will be automatically replicated to the new proxy, so no changes to whitelist is required.
+
+Migration scripts
+Below you can find a script that can be used to update the proxy settings in your Linux, Windows and Prometheus/Grafana VMs. Download it into your VM and run
+
+Linux
+Download script for Linux VM
+
+proxy_migration_linux_v1.sh
+
+Run it as root. See picture below:
+
+
+It´s recommended to logout and login again to reload new proxy settings
+
+Windows
+Download script for Windows Server VM
+
+proxy_migration_windows_v1.ps1
+
+Run proxy_migration_windows_v1.ps1 on Powershell as Administrator. See picture below:
+
+
+
+
+Run with current logged user [not Administrator] C:\BoschBuild\vmaas-proxy-config.cmd script on Powershell
+
+
+
+
+It´s recommended to logout and login again to reload new proxy settings
+
+Prometheus/Grafana
+Download script for Prometheus/Grafana VM
+
+proxy_migration_prometheus_v1.sh
+
+Run it as root. See picture below:
+
+
+
+
+It´s recommended to logout and login again to reload new proxy settings
+
+References
+For additional reference, consult the [Bosch Cloud Proxy documentation](Proxy)
+
+
+
+Like
+Be the first to like this
+No labelsEdit Labels
+© Robert Bosch GmbH
+Docupedia 10.2.14.0 Powered by Atlassian Confluence and Scroll Viewport
+Node: doc-P2-SI0VM08475
+Docupedia Community
+Support
+Legal
+
+
+Skip to sidebar
+Skip to main content
+Skip to breadcrumbs
+Skip to search
+Linked Applications
+Docupedia II
+Spaces
+Analytics
+Collections
+Create
+
+Search
+Help
+0
+
+
+
+Bosch Private Cloud
+
+Analytics
+Space shortcuts
+Teams Channel Bosch Private Cloud
+Teams Channel DevCorner - Cloud BPC General Query
+How-to articles
+Page tree
+Welcome to the Bosch Private Cloud
+Services
+PaaS Runtime Services
+Shared Container Service
+Dedicated Container Service
+BKS Bosch Kubernetes Service
+BCR Bosch Container Registry
+CF Cloud Foundry
+VMaaS Virtual Maschine as a Service
+VMaaS Overview
+Virtual Machine Lifecycle
+Virtual Machine REST API
+Managing a Virtual Machine
+VMaaS Connectivity
+VMaaS Domains
+VMaaS Egress
+VMaaS Firewall
+VMaaS Ingress
+VMaaS Proxy
+VMaaS Proxy - EMEA Change
+VMaaS Proxy Configuration on a Linux VM
+VMaaS Proxy Configuration on a Windows VM
+VMaaS Security Decisions
+VMaaS Troubleshooting
+VMaaS Vulnerability Scanning
+VMaaS Monitoring
+VMaaS Patch Management
+VMaaS Malware Protection
+VMaaS How To Guides
+VMaaS Roadmap
+VMaaS Known Issues
+News
+VMaaS FAQ
+VMaaS Support
+Managed Hosting
+Web Application Hosting
+Infrastructure Services
+Data Management
+Logging & Monitoring
+Access Management
+Development Tools
+AI Tool Stack
+Low Code
+Big Data & Analytics
+Data Streaming Platform
+How-to articles
+ConfigureSpace tools
+Pages… VMaaS Proxy
+
+Translate
+Analytics
+ View inline comments
+
+ Save for later Watch Share
+VMaaS Proxy Configuration on a Linux VM
+Created by 
+
+ De Winter Commerina Aletta (BD/ISA-PRC2) on 2026, Feb 06  1 minute read Current Version V 1Page Info
+There are two primary location where proxy settings can be configured in Linux.
+
+The file /etc/profile.d directory. Here we create a new file called proxy.sh with the proxy settings for each environment (Internal Placement or External Placement)
+
+The users profile in their home directory. Depending on the shell that the customer uses, the file to be modified would be /home/vmaas/.bash_profile. If the customer changes the shell they will use, then it could be something like /home/vmaas/.csh_profile
+
+NOTE
+
+Please be careful when changing the proxy settings for the "root" user or the system in /etc/profile.d/…​ as changing these settings might affect the connections to the patch management systems.
+
+Location
+
+Setting
+
+Affects
+
+/etc/profile.d/proxy.sh
+
+export HTTP_PROXY=http://<PROXY_HOST>:8080
+
+Systemwide
+
+/etc/profile.d/proxy.sh
+
+export HTTPS_PROXY=http://<PROXY_HOST>:8080
+
+Systemwide
+
+/etc/profile.d/proxy.sh
+
+export NO_PROXY=<NO_PROXY>
+
+Systemwide
+
+HINT: If you have proxy settings or any other setting you need only occasionally, you can create a shell script and use the source command to load these settings into your current session.
+
+Create a New Shell script
+
+
+vi /home/vmaas/mysettings.sh
+...
+#!/bin/bash
+export mysettings1="New variable setting" 
+
+Load the Settings Into Current Shell
+
+
+source /home/vmaas/mysettings.sh 
+
+Verify Settings Are Available
+
+
+printenv | grep "mysettings1"
+mysettings1=New variable setting
+
+ 
+
+
+Like
+Be the first to like this
+No labelsEdit Labels
+© Robert Bosch GmbH
+Docupedia 10.2.14.0 Powered by Atlassian Confluence and Scroll Viewport
+Node: doc-P2-SI0VM08475
+Docupedia Community
+Support
+Legal
+

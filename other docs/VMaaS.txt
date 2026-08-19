@@ -1,0 +1,6659 @@
+Skip to sidebar
+Skip to main content
+Skip to breadcrumbs
+Skip to search
+Linked Applications
+Docupedia II
+Spaces
+Analytics
+Collections
+Create
+
+Search
+Help
+0
+
+
+
+Bosch Private Cloud
+
+Analytics
+Space shortcuts
+Teams Channel Bosch Private Cloud
+Teams Channel DevCorner - Cloud BPC General Query
+How-to articles
+Page tree
+Welcome to the Bosch Private Cloud
+Services
+PaaS Runtime Services
+Shared Container Service
+Dedicated Container Service
+BKS Bosch Kubernetes Service
+BCR Bosch Container Registry
+CF Cloud Foundry
+VMaaS Virtual Maschine as a Service
+VMaaS Overview
+Virtual Machine Lifecycle
+Virtual Machine REST API
+Managing a Virtual Machine
+VMaaS Connectivity
+VMaaS Monitoring
+VMaaS Patch Management
+VMaaS Malware Protection
+VMaaS How To Guides
+VMaaS Roadmap
+VMaaS Known Issues
+News
+VMaaS FAQ
+VMaaS Support
+Managed Hosting
+Web Application Hosting
+Infrastructure Services
+Data Management
+Logging & Monitoring
+Access Management
+Development Tools
+AI Tool Stack
+Low Code
+Big Data & Analytics
+Data Streaming Platform
+How-to articles
+ConfigureSpace tools
+VMaaS Virtual Maschine as a Service
+Pages… PaaS Runtime Services
+
+Translate
+Analytics
+ View inline comments
+
+ Save for later Watch Share
+Created by 
+
+ De Winter Commerina Aletta (BD/ISA-PRC2), last updated on 2026, Apr 10  3 minute read Current Version V 5Page Info
+Virtual Machine as a Service (VMaaS) offers you the ability to provision, update and unprovision virtual machines in minutes in a fully automated manner. The service is integrated into Cloud Foundry marketplace and will run the virtual machines in Openstack.
+
+Services
+Virtual Machine as a Service provides three different services
+
+Virtual Machine Jump host
+
+Virtual Machine (Linux)
+
+Virtual Machine (Windows)
+
+Operating Systems
+Virtual machines are available with the following operating systems
+
+Red Hat Linux 8 (RHEL)
+
+Red Hat Linux 9 (RHEL)
+
+Ubuntu 22
+
+Ubuntu 24
+
+Windows Server 2019 (W2K19) (deprecated)
+
+Windows Server 2022 (W2K22)
+
+Windows Server 2025 (W2K25)
+
+
+With great power comes great responsibility.
+
+— Spider-Man
+
+Unmanaged Service
+Virtual Machine as a Service is an unmanaged service.
+
+What does this mean?
+Unmanaged means that VMaaS provides virtual machines that are based on the hardening guidelines from EISA. When the provisioning is done, the customer gets root/administrator access to the virtual machine. The customer is the only one that has access to the virtual machine and therefore needs to take care of the EISA regulations to be compliant. We provide infrastructure (e.g. patch management systems) to support the customer, but the customer is responsible for doing so.
+
+What is included?
+The virtual machine is created on a current hardened operating system image.
+
+The virtual machine is configured to be connected to the network, so that it has the promised connectivity.
+
+The virtual machine is activated and has a valid license.
+
+The virtual machine is connected to the patch management system, so that it can receive patches.
+
+From service provider perspective we ensure that the virtual machine can run on the underlying infrastructure (Openstack).
+
+What is not included?
+The virtual machine will not be actively patched.
+
+The audit logs of the virtual machine will not be automatically forwarded.
+
+The virtual machine does not have any malware solution or endpoint protection installed.
+
+The virtual machine has no automatic backups created, not any automation to restore backups.
+
+There is no central monitoring of the virtual machines. As customer, you need to monitor the relevant data (e.g. CPU, RAM, disk storage, …​) of your VMs to make sure they operate properly.
+
+Network Topology
+All virtual machines provisioned by VMaaS are placed in the Openstack tenant of VMaaS. Within the VMaaS Openstack tenant the virtual machines will be micro segmented in dedicated networks for each customer (Cloud Project). All the virtual machines that will be provisioned within one Cloud Project will be placed in the same network. Each network has a /26 subnet, which means that it has 64 IP addresses. As there are a few required for default gateway, broadcast and DHCP at the end 58 IP addresses are available for customers. That means that a customer can provision up to 58 VMaaS virtual machines in one Cloud Project. Communication between virtual machines within one customer network is possible on all ports for TCP, UDP and ICMP, while communication between different networks, meaning different customers, is not enabled by default.
+
+Difference between a Jump Host and standard Virtual Machine
+VMaaS provides virtual machines as a platform service on the Bosch Private Cloud, which means that the virtual machines are provisioned in Openstack. Within the Openstack tenant these virtual machines get an internal IP address (192.168.0.0/16), which is accessible only from within the Openstack tenant. To be able to connect to a virtual machine from the outside, e.g. from the Bosch Corporate Network, it is required to have an external IP address (also known as floating IP address).
+
+Now, the difference between a Jump Host and a standard Virtual Machine are two things:
+
+The Jump Host has assigned an external IP address by default
+
+The Jump Host has a specific security group on Openstack level assigned, that allows to access the Jump Host from anywhere. For a Linux Jump Host this is for port TCP/22 (SSH) and for Windows Jump Hosts this is port TCP/3389 (RDP).
+
+By default, a standard Virtual Machine has no such external IP address assigned, which means you can not access it from the outside and also this virtual machine can not connect to other services in the Bosch Private Cloud.
+
+Also, so-called ingress on the virtual machine is only enabled for virtual machine located in the same network (Cloud Project). It is possible to assign an external IP address also to a standard virtual machine and ingress you can manage in self-service via REST API.
+
+
+
+
+
+VMaaS Overview
+VMaaS Service Attributes
+VMaaS Service Plans
+VMaaS Service Level Agreement (SLA)
+VMaaS Feature Comparison CServer
+VMaaS Feature Comparison OpenStack
+VMaaS Cost Comparison 2023
+VMaaS Cost Comparison 2025
+VMaaS Cost Comparison 2026
+VMaaS Learning and Training Videos
+VMaaS Valuemation Bill of Material (BoM)
+Virtual Machine Lifecycle
+Provisioning a Virtual Machine
+Updating a Virtual Machine
+Deleting a Virtual Machine
+Binding and Unbinding a Virtual Machine with an Application
+Accessing a Virtual Machine
+Pool of Floating IPs for your Virtual Machines
+VMaaS Sharing Service Instances
+Retrieving Data From a Deleted VMaaS VM
+GPU (Graphics Processing Unit)
+Virtual Machine REST API
+Managing a Virtual Machine
+VMaaS Backup
+VMaaS Getting a URL to the Remote Console
+VMaaS Managing Custom Proxy Destinations
+VMaaS Managing Ingress and Egress
+VMaaS Managing PAM
+VMaaS Snapshots
+VMaaS Starting and Stopping a Virtual Machine
+VMaaS Connectivity
+VMaaS Domains
+VMaaS Egress
+VMaaS Firewall
+VMaaS Ingress
+VMaaS Proxy
+VMaaS Security Decisions
+VMaaS Troubleshooting
+VMaaS Vulnerability Scanning
+VMaaS Monitoring
+VMaaS Provision of a Virtual Machine
+VMaaS Monitoring Installation
+VMaaS Base Configuration Files
+VMaaS Prometheus
+VMaaS Grafana
+VMaaS VM Monitoring
+VMaaS CDTS Service Monitoring
+VMaaS Monitoring Java Applications
+VMaaS Installing Exporters for Operating Systems
+VMaaS Advanced Configuration
+VMaaS Monitoring Troubleshooting
+VMaaS Patch Management
+VMaaS Patch Management on a RHEL Linux VM
+VMaaS Patch Management on a Windows VM
+VMaaS Patch Management on an Ubuntu Linux VM
+VMaaS Malware Protection
+VMaaS How To Guides
+Add disk space on a Linux VMaaS VM
+Clean-up of Drive C in Windows
+How to configure chronyd in RHEL9
+How To Configure Vulnerability Scans
+How to Connect E-IT on a VMaaS VM
+How to connect to a Linux VM from Windows via OpenSSH Authentication Agent
+How To Create SBOMs for Linux VMs and Containers
+How to disable TLS 1.0/1.1 on a Windows VMaaS VM
+How to enable multiple RDP sessions in Windows
+How to enable the GUI on Linux VMaaS VMs
+How to execute Backup on VMaaS VM
+How to expose a Service Running on a VMaaS VM to BCN and Internet
+How to install new RB Trustcenter CAs on Linux and Windows VMaaS VMs
+How to migrate WSUS to HTTPS
+How to mount S3 Bucket into the VM
+How to reattach Linux VM to Patch Management
+How to request an Internal SSL Certificate
+How to send logs to Splunk
+How to set up a load balancer for VMaaS VMs
+How to set up Docker on a Linux VMaaS VM
+How to share files on VMaaS VMs with machine in BCN
+How to use a VM for development
+How to Use Internet Resources on a VMaaS VM
+How to use NFS on a VMaaS VM
+How to use PSM with VMaaS Virtual Machines
+How to use Remote Desktop to upload files in Windows
+How to use Terraform to Manage VMaaS
+VMaaS Roadmap
+VMaaS Known Issues
+News
+VMaaS FAQ
+VMaaS Support
+
+
+
+
+
+
+
+
+Like
+Be the first to like this
+No labelsEdit Labels
+© Robert Bosch GmbH
+Docupedia 10.2.14.0 Powered by Atlassian Confluence and Scroll Viewport
+Node: doc-P2-SI0VM08475
+Docupedia Community
+Support
+Legal
+
+Skip to sidebar
+Skip to main content
+Skip to breadcrumbs
+Skip to search
+Linked Applications
+Docupedia II
+Spaces
+Analytics
+Collections
+Create
+
+Search
+Help
+0
+
+
+
+Bosch Private Cloud
+
+Analytics
+Space shortcuts
+Teams Channel Bosch Private Cloud
+Teams Channel DevCorner - Cloud BPC General Query
+How-to articles
+Page tree
+Welcome to the Bosch Private Cloud
+Services
+PaaS Runtime Services
+Shared Container Service
+Dedicated Container Service
+BKS Bosch Kubernetes Service
+BCR Bosch Container Registry
+CF Cloud Foundry
+VMaaS Virtual Maschine as a Service
+VMaaS Overview
+VMaaS Service Attributes
+VMaaS Service Plans
+VMaaS Service Level Agreement (SLA)
+VMaaS Feature Comparison CServer
+VMaaS Feature Comparison OpenStack
+VMaaS Cost Comparison 2023
+VMaaS Cost Comparison 2025
+VMaaS Cost Comparison 2026
+VMaaS Learning and Training Videos
+VMaaS Valuemation Bill of Material (BoM)
+Virtual Machine Lifecycle
+Virtual Machine REST API
+Managing a Virtual Machine
+VMaaS Connectivity
+VMaaS Monitoring
+VMaaS Patch Management
+VMaaS Malware Protection
+VMaaS How To Guides
+VMaaS Roadmap
+VMaaS Known Issues
+News
+VMaaS FAQ
+VMaaS Support
+Managed Hosting
+Web Application Hosting
+Infrastructure Services
+Data Management
+Logging & Monitoring
+Access Management
+Development Tools
+AI Tool Stack
+Low Code
+Big Data & Analytics
+Data Streaming Platform
+How-to articles
+ConfigureSpace tools
+Pages… VMaaS Overview
+
+Translate
+Analytics
+ View inline comments
+
+ Save for later Watch Share
+VMaaS Service Attributes
+Created by 
+
+ De Winter Commerina Aletta (BD/ISA-PRC2), last updated by Dietzsch Alexander (BD/ISA-PRC3) on 2026, Apr 17  1 minute read Current Version V 4Page Info
+
+
+Attribute	
+
+Service Name
+
+Virtual Machine as a Service (VMaaS)
+
+Floating IP Pools for VMaaS
+
+Service Description
+
+Provides unmanaged Linux and Windows virtual machines in Bosch Private Cloud.
+
+Provides pools for floating IPs for your VMaaS VMs.
+
+Service Category
+
+PaaS Runtime
+
+Service Version
+
+1.6.0
+
+Service Provider
+
+BD/ISA-PRC3
+
+Service Model
+
+self developed
+
+Product and Service Owner (PSO)
+
+Jochen Damzog
+
+Product Owner (PO)
+
+Alexander Dietzsch
+
+Start of Production
+
+- 2023-03-13 (IPZ)
+- 2023-05-22 (EPZ)
+
+2024-06-13
+
+LeanIX
+
+Bosch Private Cloud / BPC - Virtual Machine Service
+
+Discontinued
+
+n/a
+
+Retired
+
+n/a
+
+Roadmap
+
+Roadmap
+
+
+Like
+Be the first to like this
+No labelsEdit Labels
+© Robert Bosch GmbH
+Docupedia 10.2.14.0 Powered by Atlassian Confluence and Scroll Viewport
+Node: doc-P2-SI0VM08475
+Docupedia Community
+Support
+Legal
+
+
+Skip to sidebar
+Skip to main content
+Skip to breadcrumbs
+Skip to search
+Linked Applications
+Docupedia II
+Spaces
+Analytics
+Collections
+Create
+
+Search
+Help
+0
+
+
+
+Bosch Private Cloud
+
+Analytics
+Space shortcuts
+Teams Channel Bosch Private Cloud
+Teams Channel DevCorner - Cloud BPC General Query
+How-to articles
+Page tree
+Welcome to the Bosch Private Cloud
+Services
+PaaS Runtime Services
+Shared Container Service
+Dedicated Container Service
+BKS Bosch Kubernetes Service
+BCR Bosch Container Registry
+CF Cloud Foundry
+VMaaS Virtual Maschine as a Service
+VMaaS Overview
+VMaaS Service Attributes
+VMaaS Service Plans
+VMaaS Service Level Agreement (SLA)
+VMaaS Feature Comparison CServer
+VMaaS Feature Comparison OpenStack
+VMaaS Cost Comparison 2023
+VMaaS Cost Comparison 2025
+VMaaS Cost Comparison 2026
+VMaaS Learning and Training Videos
+VMaaS Valuemation Bill of Material (BoM)
+Virtual Machine Lifecycle
+Virtual Machine REST API
+Managing a Virtual Machine
+VMaaS Connectivity
+VMaaS Monitoring
+VMaaS Patch Management
+VMaaS Malware Protection
+VMaaS How To Guides
+VMaaS Roadmap
+VMaaS Known Issues
+News
+VMaaS FAQ
+VMaaS Support
+Managed Hosting
+Web Application Hosting
+Infrastructure Services
+Data Management
+Logging & Monitoring
+Access Management
+Development Tools
+AI Tool Stack
+Low Code
+Big Data & Analytics
+Data Streaming Platform
+How-to articles
+ConfigureSpace tools
+Pages… VMaaS Overview
+
+Translate
+Analytics
+ View inline comments
+
+ Save for later Watch Share
+VMaaS Service Plans
+Created by 
+
+ De Winter Commerina Aletta (BD/ISA-PRC2), last updated by Godoy Ricardo (BD/ISA-PRC3) on 2026, May 15  86 minute read Current Version V 7Page Info
+Service Plans - Red Hat Enterprise Linux 8 (RHEL 8)
+Click here to expand...
+Service Plans - Red Hat Enterprise Linux 9 (RHEL 9)
+Click here to expand...
+Service Plan ID
+
+DE4: a593d410-4150-4fb7-8713-47e1faf2d49e
+
+DE5: 391eda80-1b79-43b5-a9c4-a52b3f0637a3
+
+DE8: efef0f15-c330-42d7-97c5-49005df5f385
+
+DE9: ee869d29-7d4d-4dec-ba37-f86b9f8397c3
+
+DE10: 27eaedab-e8a3-49e2-8a80-112ca73b06b5
+
+SG1: 0c3f0e7b-ec9b-4bde-b42f-1b14b4efba9a
+
+DE4: a336d4e9-1004-43fd-a889-6da696a70790
+
+DE5: eb648044-5e66-493d-9a79-9c512a8d4fb5
+
+DE8: da889263-5852-4cc5-a214-071be0a5131e
+
+DE9: 4dfedf3a-7ee3-42f5-9e26-501ba8d9a2b0
+
+DE10: 4c0020ac-f041-441c-943f-2bde97261206
+
+SG1: d10b3f3e-bf39-4249-8d9a-94c27f3819bd
+
+DE4: 5acb9425-ef22-4726-96df-1bb0bc9eaf82
+
+DE5: b9fd1109-d760-4be6-bfa7-6d94bc142055
+
+DE8: aa495571-d99f-4c53-b805-0037caa2f185
+
+DE9: dc57e6bf-7197-496c-a27b-a24ba19a5581
+
+DE10: 7b3bdb13-7cc1-4aa3-abd5-2b3c0bb35898
+
+SG1: 1ba0ffa1-b60d-4f07-b83c-ec790519cb0f
+
+DE4: 74ca0e7e-57d3-4be3-9573-2b011c691664
+
+DE5: 7494abfa-9b8c-4eec-8cbb-dcadd469b51d
+
+DE8: 86d4ccbb-42be-41c7-b7bf-d54f73ea7b75
+
+DE9: db5b8187-6fd4-43ac-bf80-08c0bcfe7be1
+
+DE10: 1a8a1dac-1f96-4ff5-bec4-e49eec1da6ab
+
+SG1: 0077e909-2cc5-4c6c-93b1-a0dd7ce852d2
+
+DE4: bc226e97-00e6-4d53-ac39-bbac8e75e196
+
+DE5: bff42dee-42be-4dcb-b479-13c29c3f61a8
+
+DE8: d0144868-02b6-4a06-ac51-bd5e91a67409
+
+DE9: e3dc4dac-8f13-4b2f-a1b1-8ceb4717fd12
+
+DE10: bddc57f8-53ce-4ad2-9223-a2fb75e17884
+
+SG1: fbd9d370-76d0-462f-9378-e4b2206e766d
+
+DE4: 2cf63d5e-ae53-43c0-8081-29a60249ed21
+
+DE5: ff2335a3-59a8-4e8c-9988-0df5b740ae3c
+
+DE8: eb2f0fe3-9eac-4564-be4a-d70c7e8fd857
+
+DE9: 32b3b5ef-7b3a-464d-a9c8-da57c6190ee8
+
+DE10: e74087fb-ebd6-4aa4-ab33-7c655bbae322
+
+SG1: 36c7a893-4519-4b0f-9bef-b74819206d9c
+
+DE4: bb2110a9-ce47-463c-b4da-040a483155c3
+
+DE5: db194fac-84e0-46a9-9a4e-30ef85f8b4c1
+
+DE8: 97c0ffbd-7268-4bdf-8ef0-2a50869ba49a
+
+DE9: 1f918cab-1d2f-41d7-b8a1-0b9f3c8b2259
+
+DE10: e448df6a-6016-443e-8f65-cd23a1fcbe33
+
+SG1: 2135a538-83a7-4152-b088-30ba872ff695
+
+DE4: 10e7de6b-6d7f-4b26-95ed-bb980ee1dd36
+
+DE5: 2d96a4b2-85e4-458d-8de8-41f8f11b0bdf
+
+DE8: e622d7e2-a93e-4746-bbb4-aeba2aace571
+
+DE9: c3ca4e5d-058a-441e-8f7e-f17c550b5a49
+
+DE10: 2f09feff-cdc9-44b1-9cd9-498249d0bc87
+
+SG1: 8a1480aa-ed35-468d-804a-2d3d3f938b22
+
+DE4: 1ea363bb-e8ed-4951-b26f-2e828129fde7
+
+DE5: 245137f1-5a58-4abd-ae65-db9df15f9368
+
+DE8: e2845608-ef71-4a81-bf06-9853e345d1fa
+
+DE9: 2746e149-ff44-4b92-bb35-8134ef457d14
+
+DE10: 2404844d-49c9-4351-bffb-4d7ffa1bd93a
+
+SG1: 41443f06-534e-4a2b-ac7a-8e1a2b53ccbb
+
+DE4: 209af4f1-7bdc-48f7-a03d-240c46170de0
+
+DE5: de513413-eeef-47b6-aaa2-758777a327cb
+
+DE8: 9a5d14ab-4951-4501-93cb-d98cd1252ade
+
+DE9: ca8133b6-1757-495a-b67c-6af0e86bf333
+
+DE10: e4e8797b-34fa-4db4-ad53-2947e5c59dd8
+
+SG1: 6868cc09-62bc-46b4-8d83-71969e1ec89b
+
+DE4: 70e7c893-3f82-4148-abd9-66af5bd9845d
+
+DE5: ba026bac-4cb4-4f58-9883-a8d13e7c8a4f
+
+DE8: 60fb62e2-e147-4289-b189-aa42c1c6ff68
+
+DE9: bacc8ce5-dfec-4c3d-a4ea-b241e1dd8185
+
+DE10: 1a821d65-439e-4f12-9b9b-e0093cf54338
+
+SG1: 6ecb357d-af9c-4dd2-a945-2556a40fb526
+
+DE4: 634f00a8-09ba-40da-b5ba-3fa9638193cf
+
+DE5: 13fef03a-a07a-4f2f-acc0-207e20dde8c4
+
+DE8: e2b89655-6be0-4222-a8b7-3f486b684c14
+
+DE9: 08ec706a-c241-4c5e-86a5-f16138cf597f
+
+DE10: f99b94ae-aaff-4879-ae1f-2a871369188d
+
+SG1: b50e656c-1636-46a0-a5e5-3d6ea0ed05be
+
+DE4: 9dab2dec-5d71-41cf-a251-fca0ea966773
+
+DE5: ba6837af-cbfb-4e9c-96a1-b585068e357a
+
+DE8: 07112c6c-8102-4707-85fb-26ae580c65da
+
+DE9: 6969732c-bd2c-4bb3-ba01-340b67485fe1
+
+DE10: 69683933-9d41-4660-937b-87d80fbab6a3
+
+SG1: 8a95d569-927a-4ff1-9b88-1759698d55da
+
+DE4: 328247dd-3dff-4b28-a2db-502beb3d736e
+
+DE5: 52a057d9-36ac-4b85-a085-4fb6bd12dbb1
+
+DE8: 532ed536-7627-4306-9132-56eb025f4cb1
+
+DE9: e9cdf2a0-9ae3-4005-a12c-744f408e9253
+
+DE10: 24473993-aa7a-4061-8297-6ce6d2dd04ab
+
+SG1: e6f8f3b6-7735-4383-bb36-591879dff857
+
+Automatic generated. Can be used for automation.
+
+Service Plan Name
+
+Linux SSH (RHEL 9)
+
+Micro (RHEL 9)
+
+Micro X4 (RHEL 9)
+
+Small (RHEL 9)
+
+Small X4 (RHEL 9)
+
+Small X8 (RHEL 9)
+
+Medium (RHEL 9)
+
+Medium X4 (RHEL 9)
+
+Medium X8 (RHEL 9)
+
+Large (RHEL 9)
+
+Large X4 (RHEL 9)
+
+X-Large (RHEL 9)
+
+X-Large X4 (RHEL 9)
+
+X-Large X8 (RHEL 9)
+
+
+Service Plan Description
+
+Linux Jump Host VM
+
+Micro Linux Workload VM
+
+Micro X4 Linux Workload VM
+
+Small Linux Workload VM
+
+Small X4 Linux Workload VM
+
+Small X8 Linux Workload VM
+
+Medium Linux Workload VM
+
+Medium X4 Linux Workload VM
+
+Medium X8 Linux Workload VM
+
+Large Linux Workload VM
+
+Large X4 Linux Workload VM
+
+X-Large Linux Workload VM
+
+X-Large X4 Linux Workload VM
+
+X-Large X8 Linux Workload VM
+
+
+Product Owner
+
+BD/ISA-PRC3
+
+BD/ISA-PRC3
+
+BD/ISA-PRC3
+
+BD/ISA-PRC3
+
+BD/ISA-PRC3
+
+BD/ISA-PRC3
+
+BD/ISA-PRC3
+
+BD/ISA-PRC3
+
+BD/ISA-PRC3
+
+BD/ISA-PRC3
+
+BD/ISA-PRC3
+
+BD/ISA-PRC3
+
+BD/ISA-PRC3
+
+BD/ISA-PRC3
+
+
+Contractually Guaranteed
+
+Red Hat Linux 9 VM Instance
+
+CPU: 1
+
+RAM: 2 GB
+
+Disk: 50 GB
+
+public IP/FQDN
+
+Support 8/5
+
+Storage Volumes are kept for 7 days after VM deletion.
+Red Hat Linux 9 VM Instance
+
+CPU: 1
+
+RAM: 2 GB
+
+Disk: 50 GB
+
+Support 8/5
+
+Free Trial - first 30 days are free of charge for this plan
+
+Storage Volumes are kept for 7 days after VM deletion.
+Red Hat Linux 9 VM Instance
+
+CPU: 1
+
+RAM: 4 GB
+
+Disk: 50 GB
+
+Support 8/5
+
+Storage Volumes are kept for 7 days after VM deletion.
+Red Hat Linux 9 VM Instance
+
+CPU: 2
+
+RAM: 4 GB
+
+Disk: 50 GB
+
+Support 8/5
+
+Storage Volumes are kept for 7 days after VM deletion.
+Red Hat Linux 9 VM Instance
+
+CPU: 2
+
+RAM: 8 GB
+
+Disk: 50 GB
+
+Support 8/5
+
+Storage Volumes are kept for 7 days after VM deletion.
+Red Hat Linux 9 VM Instance
+
+CPU: 2
+
+RAM: 16 GB
+
+Disk: 50 GB
+
+Support 8/5
+
+Storage Volumes are kept for 7 days after VM deletion.
+Red Hat Linux 9 VM Instance
+
+CPU: 4
+
+RAM: 8 GB
+
+Disk: 100 GB
+
+Support 8/5
+
+Storage Volumes are kept for 7 days after VM deletion.
+Red Hat Linux 9 VM Instance
+
+CPU: 4
+
+RAM: 16 GB
+
+Disk: 100 GB
+
+Support 8/5
+
+Storage Volumes are kept for 7 days after VM deletion.
+Red Hat Linux 9 VM Instance
+
+CPU: 4
+
+RAM: 32 GB
+
+Disk: 100 GB
+
+Support 8/5
+
+Storage Volumes are kept for 7 days after VM deletion.
+Red Hat Linux 9 VM Instance
+
+CPU: 8
+
+RAM: 16 GB
+
+Disk: 200 GB
+
+Support 8/5
+
+Storage Volumes are kept for 7 days after VM deletion.
+Red Hat Linux 9 VM Instance
+
+CPU: 8
+
+RAM: 32 GB
+
+Disk: 200 GB
+
+Support 8/5
+
+Storage Volumes are kept for 7 days after VM deletion.
+Red Hat Linux 9 VM Instance
+
+CPU: 16
+
+RAM: 32 GB
+
+Disk: 400 GB
+
+Support 8/5
+
+Storage Volumes are kept for 7 days after VM deletion.
+Red Hat Linux 9 VM Instance
+
+CPU: 16
+
+RAM: 64 GB
+
+Disk: 400 GB
+
+Support 8/5
+
+Storage Volumes are kept for 7 days after VM deletion.
+Red Hat Linux 9 VM Instance
+
+CPU: 16
+
+RAM: 128 GB
+
+Disk: 400 GB
+
+Support 8/5
+
+Storage Volumes are kept for 7 days after VM deletion.
+
+Characteristics
+
+live installation
+
+provision within minutes
+
+live installation
+
+provision within minutes
+
+live installation
+
+provision within minutes
+
+live installation
+
+provision within minutes
+
+live installation
+
+provision within minutes
+
+live installation
+
+provision within minutes
+
+live installation
+
+provision within minutes
+
+live installation
+
+provision within minutes
+
+live installation
+
+provision within minutes
+
+live installation
+
+provision within minutes
+
+live installation
+
+provision within minutes
+
+live installation
+
+provision within minutes
+
+live installation
+
+provision within minutes
+
+live installation
+
+provision within minutes
+
+Expected behavior. Median values.
+
+Target Customers
+
+All
+
+All
+
+All
+
+All
+
+All
+
+All
+
+All
+
+All
+
+All
+
+All
+
+All
+
+All
+
+All
+
+All
+
+Values: All, Solutions, PaaS Service Provider, IaaS Service Providers, CME, E-IT Customers, Custom (Tester, Beta, PoC)
+
+Not in scope / limits
+
+Administration of the Operating System within the VM. Patch & User Management are the responsibility of the "VM-Owner" (the Organization Unit which ordered the Virtual Machine)
+
+Administration of the Operating System within the VM. Patch & User Management are the responsibility of the "VM-Owner" (the Organization Unit which ordered the Virtual Machine)
+
+Administration of the Operating System within the VM. Patch & User Management are the responsibility of the "VM-Owner" (the Organization Unit which ordered the Virtual Machine)
+
+Administration of the Operating System within the VM. Patch & User Management are the responsibility of the "VM-Owner" (the Organization Unit which ordered the Virtual Machine)
+
+Administration of the Operating System within the VM. Patch & User Management are the responsibility of the "VM-Owner" (the Organization Unit which ordered the Virtual Machine)
+
+Administration of the Operating System within the VM. Patch & User Management are the responsibility of the "VM-Owner" (the Organization Unit which ordered the Virtual Machine)
+
+Administration of the Operating System within the VM. Patch & User Management are the responsibility of the "VM-Owner" (the Organization Unit which ordered the Virtual Machine)
+
+Administration of the Operating System within the VM. Patch & User Management are the responsibility of the "VM-Owner" (the Organization Unit which ordered the Virtual Machine)
+
+Administration of the Operating System within the VM. Patch & User Management are the responsibility of the "VM-Owner" (the Organization Unit which ordered the Virtual Machine)
+
+Administration of the Operating System within the VM. Patch & User Management are the responsibility of the "VM-Owner" (the Organization Unit which ordered the Virtual Machine)
+
+Administration of the Operating System within the VM. Patch & User Management are the responsibility of the "VM-Owner" (the Organization Unit which ordered the Virtual Machine)
+
+Administration of the Operating System within the VM. Patch & User Management are the responsibility of the "VM-Owner" (the Organization Unit which ordered the Virtual Machine)
+
+Administration of the Operating System within the VM. Patch & User Management are the responsibility of the "VM-Owner" (the Organization Unit which ordered the Virtual Machine)
+
+Administration of the Operating System within the VM. Patch & User Management are the responsibility of the "VM-Owner" (the Organization Unit which ordered the Virtual Machine)
+
+
+Obligations of service recipient
+
+The service recipient will be granted full administrative access to the virtual machine and operate the operating system on his own and therefore is responsible for administrative Tasks such as User management, Patch Management (including implementing RB-Cert Advisories). As service recipient you are required to comply with EISA-PIS-102 Cloud Environment.
+
+The service recipient will be granted full administrative access to the virtual machine and operate the operating system on his own and therefore is responsible for administrative Tasks such as User management, Patch Management (including implementing RB-Cert Advisories). As service recipient you are required to comply with EISA-PIS-102 Cloud Environment.
+
+The service recipient will be granted full administrative access to the virtual machine and operate the operating system on his own and therefore is responsible for administrative Tasks such as User management, Patch Management (including implementing RB-Cert Advisories). As service recipient you are required to comply with EISA-PIS-102 Cloud Environment.
+
+The service recipient will be granted full administrative access to the virtual machine and operate the operating system on his own and therefore is responsible for administrative Tasks such as User management, Patch Management (including implementing RB-Cert Advisories). As service recipient you are required to comply with EISA-PIS-102 Cloud Environment.
+
+The service recipient will be granted full administrative access to the virtual machine and operate the operating system on his own and therefore is responsible for administrative Tasks such as User management, Patch Management (including implementing RB-Cert Advisories). As service recipient you are required to comply with EISA-PIS-102 Cloud Environment.
+
+The service recipient will be granted full administrative access to the virtual machine and operate the operating system on his own and therefore is responsible for administrative Tasks such as User management, Patch Management (including implementing RB-Cert Advisories). As service recipient you are required to comply with EISA-PIS-102 Cloud Environment.
+
+The service recipient will be granted full administrative access to the virtual machine and operate the operating system on his own and therefore is responsible for administrative Tasks such as User management, Patch Management (including implementing RB-Cert Advisories). As service recipient you are required to comply with EISA-PIS-102 Cloud Environment.
+
+The service recipient will be granted full administrative access to the virtual machine and operate the operating system on his own and therefore is responsible for administrative Tasks such as User management, Patch Management (including implementing RB-Cert Advisories). As service recipient you are required to comply with EISA-PIS-102 Cloud Environment.
+
+The service recipient will be granted full administrative access to the virtual machine and operate the operating system on his own and therefore is responsible for administrative Tasks such as User management, Patch Management (including implementing RB-Cert Advisories). As service recipient you are required to comply with EISA-PIS-102 Cloud Environment.
+
+The service recipient will be granted full administrative access to the virtual machine and operate the operating system on his own and therefore is responsible for administrative Tasks such as User management, Patch Management (including implementing RB-Cert Advisories). As service recipient you are required to comply with EISA-PIS-102 Cloud Environment.
+
+The service recipient will be granted full administrative access to the virtual machine and operate the operating system on his own and therefore is responsible for administrative Tasks such as User management, Patch Management (including implementing RB-Cert Advisories). As service recipient you are required to comply with EISA-PIS-102 Cloud Environment.
+
+The service recipient will be granted full administrative access to the virtual machine and operate the operating system on his own and therefore is responsible for administrative Tasks such as User management, Patch Management (including implementing RB-Cert Advisories). As service recipient you are required to comply with EISA-PIS-102 Cloud Environment.
+
+The service recipient will be granted full administrative access to the virtual machine and operate the operating system on his own and therefore is responsible for administrative Tasks such as User management, Patch Management (including implementing RB-Cert Advisories). As service recipient you are required to comply with EISA-PIS-102 Cloud Environment.
+
+The service recipient will be granted full administrative access to the virtual machine and operate the operating system on his own and therefore is responsible for administrative Tasks such as User management, Patch Management (including implementing RB-Cert Advisories). As service recipient you are required to comply with EISA-PIS-102 Cloud Environment.
+
+
+Price Model
+
+91,71 EUR
+
+91,71 EUR
+0,1238 EUR/GB per month additional storage
+
+93,53 EUR
+0,1238 EUR/GB per month additional storage
+
+97,64 EUR
+0,1238 EUR/GB per month additional storage
+
+101,28 EUR
+0,1238 EUR/GB per month additional storage
+
+108,56 EUR
+0,1238 EUR/GB per month additional storage
+
+115,69 EUR
+0,1238 EUR/GB per month additional storage
+
+122,97 EUR
+0,1238 EUR/GB per month additional storage
+
+137,53 EUR
+0,1238 EUR/GB per month additional storage
+
+151,79 EUR
+0,1238 EUR/GB per month additional storage
+
+166,35 EUR
+0,1238 EUR/GB per month additional storage
+
+223,99 EUR
+0,1238 EUR/GB per month additional storage
+
+253,11 EUR
+0,1238 EUR/GB per month additional storage
+
+311,35 EUR
+0,1238 EUR/GB per month additional storage
+
+currently optional
+
+Minimum contract time
+
+1 hour
+
+1 hour
+
+1 hour
+
+1 hour
+
+1 hour
+
+1 hour
+
+1 hour
+
+1 hour
+
+1 hour
+
+1 hour
+
+1 hour
+
+1 hour
+
+1 hour
+
+1 hour
+
+Minimum amount of time the service plan has to be booked.
+
+Retirement/change period
+
+3 month
+
+3 month
+
+3 month
+
+3 month
+
+3 month
+
+3 month
+
+3 month
+
+3 month
+
+3 month
+
+3 month
+
+3 month
+
+3 month
+
+3 month
+
+3 month
+
+Defines the time a service consumer has in case the service plan will become unavailable or change significantly (migration to different service plan / API change / client configuration or service substitution necessary).
+
+This time also applies in case an up- or downgrade of a service plan occurs (price change, availability) that will require an approval of service consumers because of changed terms and conditions.
+
+Offered in environments
+(Service availability)
+
+Cloud Foundry Marketplace IPZ001
+(Schwieberdingen - Germany)
+
+Cloud Foundry Marketplace EPZ001
+(Schwieberdingen - Germany)
+
+Cloud Foundry Marketplace IPZ002
+(Renningen - Germany)
+
+Cloud Foundry Marketplace EPZ002
+(Renningen - Germany)
+
+Cloud Foundry Marketplace IPZ003
+(Singapore - Singapore)
+
+Cloud Foundry Marketplace IPZ001
+(Schwieberdingen - Germany)
+
+Cloud Foundry Marketplace EPZ001
+(Schwieberdingen - Germany)
+
+Cloud Foundry Marketplace IPZ002
+(Renningen - Germany)
+
+Cloud Foundry Marketplace EPZ002
+(Renningen - Germany)
+
+Cloud Foundry Marketplace IPZ003
+(Singapore - Singapore)
+
+Cloud Foundry Marketplace IPZ001
+(Schwieberdingen - Germany)
+
+Cloud Foundry Marketplace EPZ001
+(Schwieberdingen - Germany)
+
+Cloud Foundry Marketplace IPZ002
+(Renningen - Germany)
+
+Cloud Foundry Marketplace EPZ002
+(Renningen - Germany)
+
+Cloud Foundry Marketplace IPZ003
+(Singapore - Singapore)
+
+Cloud Foundry Marketplace IPZ001
+(Schwieberdingen - Germany)
+
+Cloud Foundry Marketplace EPZ001
+(Schwieberdingen - Germany)
+
+Cloud Foundry Marketplace IPZ002
+(Renningen - Germany)
+
+Cloud Foundry Marketplace EPZ002
+(Renningen - Germany)
+
+Cloud Foundry Marketplace IPZ003
+(Singapore - Singapore)
+
+Cloud Foundry Marketplace IPZ001
+(Schwieberdingen - Germany)
+
+Cloud Foundry Marketplace EPZ001
+(Schwieberdingen - Germany)
+
+Cloud Foundry Marketplace IPZ002
+(Renningen - Germany)
+
+Cloud Foundry Marketplace EPZ002
+(Renningen - Germany)
+
+Cloud Foundry Marketplace IPZ003
+(Singapore - Singapore)
+
+Cloud Foundry Marketplace IPZ001
+(Schwieberdingen - Germany)
+
+Cloud Foundry Marketplace EPZ001
+(Schwieberdingen - Germany)
+
+Cloud Foundry Marketplace IPZ002
+(Renningen - Germany)
+
+Cloud Foundry Marketplace EPZ002
+(Renningen - Germany)
+
+Cloud Foundry Marketplace IPZ003
+(Singapore - Singapore)
+
+Cloud Foundry Marketplace IPZ001
+(Schwieberdingen - Germany)
+
+Cloud Foundry Marketplace EPZ001
+(Schwieberdingen - Germany)
+
+Cloud Foundry Marketplace IPZ002
+(Renningen - Germany)
+
+Cloud Foundry Marketplace EPZ002
+(Renningen - Germany)
+
+Cloud Foundry Marketplace IPZ003
+(Singapore - Singapore)
+
+Cloud Foundry Marketplace IPZ001
+(Schwieberdingen - Germany)
+
+Cloud Foundry Marketplace EPZ001
+(Schwieberdingen - Germany)
+
+Cloud Foundry Marketplace IPZ002
+(Renningen - Germany)
+
+Cloud Foundry Marketplace EPZ002
+(Renningen - Germany)
+
+Cloud Foundry Marketplace IPZ003
+(Singapore - Singapore)
+
+Cloud Foundry Marketplace IPZ001
+(Schwieberdingen - Germany)
+
+Cloud Foundry Marketplace EPZ001
+(Schwieberdingen - Germany)
+
+Cloud Foundry Marketplace IPZ002
+(Renningen - Germany)
+
+Cloud Foundry Marketplace EPZ002
+(Renningen - Germany)
+
+Cloud Foundry Marketplace IPZ003
+(Singapore - Singapore)
+
+Cloud Foundry Marketplace IPZ001
+(Schwieberdingen - Germany)
+
+Cloud Foundry Marketplace EPZ001
+(Schwieberdingen - Germany)
+
+Cloud Foundry Marketplace IPZ002
+(Renningen - Germany)
+
+Cloud Foundry Marketplace EPZ002
+(Renningen - Germany)
+
+Cloud Foundry Marketplace IPZ003
+(Singapore - Singapore)
+
+Cloud Foundry Marketplace IPZ001
+(Schwieberdingen - Germany)
+
+Cloud Foundry Marketplace EPZ001
+(Schwieberdingen - Germany)
+
+Cloud Foundry Marketplace IPZ002
+(Renningen - Germany)
+
+Cloud Foundry Marketplace EPZ002
+(Renningen - Germany)
+
+Cloud Foundry Marketplace IPZ003
+(Singapore - Singapore)
+
+Cloud Foundry Marketplace IPZ001
+(Schwieberdingen - Germany)
+
+Cloud Foundry Marketplace EPZ001
+(Schwieberdingen - Germany)
+
+Cloud Foundry Marketplace IPZ002
+(Renningen - Germany)
+
+Cloud Foundry Marketplace EPZ002
+(Renningen - Germany)
+
+Cloud Foundry Marketplace IPZ003
+(Singapore - Singapore)
+
+Cloud Foundry Marketplace IPZ001
+(Schwieberdingen - Germany)
+
+Cloud Foundry Marketplace EPZ001
+(Schwieberdingen - Germany)
+
+Cloud Foundry Marketplace IPZ002
+(Renningen - Germany)
+
+Cloud Foundry Marketplace EPZ002
+(Renningen - Germany)
+
+Cloud Foundry Marketplace IPZ003
+(Singapore - Singapore)
+
+Cloud Foundry Marketplace IPZ001
+(Schwieberdingen - Germany)
+
+Cloud Foundry Marketplace EPZ001
+(Schwieberdingen - Germany)
+
+Cloud Foundry Marketplace IPZ002
+(Renningen - Germany)
+
+Cloud Foundry Marketplace EPZ002
+(Renningen - Germany)
+
+Cloud Foundry Marketplace IPZ003
+(Singapore - Singapore)
+
+
+Hosted in environments
+
+IPZ001 (Schwieberdingen - Germany)
+
+EPZ001 (Schwieberdingen - Germany)
+
+IPZ002 (Renningen - Germany)
+
+EPZ002 (Renningen - Germany)
+
+IPZ003 (Singapore - Singapore)
+
+IPZ001 (Schwieberdingen - Germany)
+
+EPZ001 (Schwieberdingen - Germany)
+
+IPZ002 (Renningen - Germany)
+
+EPZ002 (Renningen - Germany)
+
+IPZ003 (Singapore - Singapore)
+
+IPZ001 (Schwieberdingen - Germany)
+
+EPZ001 (Schwieberdingen - Germany)
+
+IPZ002 (Renningen - Germany)
+
+EPZ002 (Renningen - Germany)
+
+IPZ003 (Singapore - Singapore)
+
+IPZ001 (Schwieberdingen - Germany)
+
+EPZ001 (Schwieberdingen - Germany)
+
+IPZ002 (Renningen - Germany)
+
+EPZ002 (Renningen - Germany)
+
+IPZ003 (Singapore - Singapore)
+
+IPZ001 (Schwieberdingen - Germany)
+
+EPZ001 (Schwieberdingen - Germany)
+
+IPZ002 (Renningen - Germany)
+
+EPZ002 (Renningen - Germany)
+
+IPZ003 (Singapore - Singapore)
+
+IPZ001 (Schwieberdingen - Germany)
+
+EPZ001 (Schwieberdingen - Germany)
+
+IPZ002 (Renningen - Germany)
+
+EPZ002 (Renningen - Germany)
+
+IPZ003 (Singapore - Singapore)
+
+IPZ001 (Schwieberdingen - Germany)
+
+EPZ001 (Schwieberdingen - Germany)
+
+IPZ002 (Renningen - Germany)
+
+EPZ002 (Renningen - Germany)
+
+IPZ003 (Singapore - Singapore)
+
+IPZ001 (Schwieberdingen - Germany)
+
+EPZ001 (Schwieberdingen - Germany)
+
+IPZ002 (Renningen - Germany)
+
+EPZ002 (Renningen - Germany)
+
+IPZ003 (Singapore - Singapore)
+
+IPZ001 (Schwieberdingen - Germany)
+
+EPZ001 (Schwieberdingen - Germany)
+
+IPZ002 (Renningen - Germany)
+
+EPZ002 (Renningen - Germany)
+
+IPZ003 (Singapore - Singapore)
+
+IPZ001 (Schwieberdingen - Germany)
+
+EPZ001 (Schwieberdingen - Germany)
+
+IPZ002 (Renningen - Germany)
+
+EPZ002 (Renningen - Germany)
+
+IPZ003 (Singapore - Singapore)
+
+IPZ001 (Schwieberdingen - Germany)
+
+EPZ001 (Schwieberdingen - Germany)
+
+IPZ002 (Renningen - Germany)
+
+EPZ002 (Renningen - Germany)
+
+IPZ003 (Singapore - Singapore)
+
+IPZ001 (Schwieberdingen - Germany)
+
+EPZ001 (Schwieberdingen - Germany)
+
+IPZ002 (Renningen - Germany)
+
+EPZ002 (Renningen - Germany)
+
+IPZ003 (Singapore - Singapore)
+
+IPZ001 (Schwieberdingen - Germany)
+
+EPZ001 (Schwieberdingen - Germany)
+
+IPZ002 (Renningen - Germany)
+
+EPZ002 (Renningen - Germany)
+
+IPZ003 (Singapore - Singapore)
+
+IPZ001 (Schwieberdingen - Germany)
+
+EPZ001 (Schwieberdingen - Germany)
+
+IPZ002 (Renningen - Germany)
+
+EPZ002 (Renningen - Germany)
+
+IPZ003 (Singapore - Singapore)
+
+
+Service Plan Compatibility
+
+
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+ 	
+Compatibility can be e.g. SSO, Network Access, Monitoring, Support for Compatibility
+
+Security & Compliance
+
+C-SC2, I-SC2, A-SC2
+
+C-SC2, I-SC2, A-SC2
+
+C-SC2, I-SC2, A-SC2
+
+C-SC2, I-SC2, A-SC2
+
+C-SC2, I-SC2, A-SC2
+
+C-SC2, I-SC2, A-SC2
+
+C-SC2, I-SC2, A-SC2
+
+C-SC2, I-SC2, A-SC2
+
+C-SC2, I-SC2, A-SC2
+
+C-SC2, I-SC2, A-SC2
+
+C-SC2, I-SC2, A-SC2
+
+C-SC2, I-SC2, A-SC2
+
+C-SC2, I-SC2, A-SC2
+
+C-SC2, I-SC2, A-SC2
+
+
+Customer Support
+
+SMT / IT Service Desk
+
+SMT / IT Service Desk
+
+SMT / IT Service Desk
+
+SMT / IT Service Desk
+
+SMT / IT Service Desk
+
+SMT / IT Service Desk
+
+SMT / IT Service Desk
+
+SMT / IT Service Desk
+
+SMT / IT Service Desk
+
+SMT / IT Service Desk
+
+SMT / IT Service Desk
+
+SMT / IT Service Desk
+
+SMT / IT Service Desk
+
+SMT / IT Service Desk
+
+see Support for details
+
+User Guide / Docs
+
+User Guide
+
+User Guide
+
+User Guide
+
+User Guide
+
+User Guide
+
+User Guide
+
+User Guide
+
+User Guide
+
+User Guide
+
+User Guide
+
+User Guide
+
+User Guide
+
+User Guide
+
+User Guide
+
+
+Service Plan Updated
+
+2026/02/01
+
+2026/02/01
+
+2026/02/01
+
+2026/02/01
+
+2026/02/01
+
+2026/02/01
+
+2026/02/01
+
+2026/02/01
+
+2026/02/01
+
+2026/02/01
+
+2026/02/01
+
+2026/02/01
+
+2026/02/01
+
+2026/02/01
+
+
+Service Plan State
+
+PRODUCTIVE
+
+PRODUCTIVE
+
+PRODUCTIVE
+
+PRODUCTIVE
+
+PRODUCTIVE
+
+PRODUCTIVE
+
+PRODUCTIVE
+
+PRODUCTIVE
+
+PRODUCTIVE
+
+PRODUCTIVE
+
+PRODUCTIVE
+
+PRODUCTIVE
+
+PRODUCTIVE
+
+PRODUCTIVE
+
+Service / Service Plan States
+
+Service Plan Version
+
+3
+
+3
+
+3
+
+3
+
+3
+
+3
+
+3
+
+3
+
+3
+
+3
+
+3
+
+3
+
+3
+
+3
+
+
+Service Plans - Ubuntu 22
+Click here to expand...
+Service Plans - Ubuntu 24
+Click here to expand...
+Service Plans - Microsoft Windows Server 2019 (W2K19)
+Click here to expand...
+Service Plans - Microsoft Windows Server 2022 (W2K22)
+Click here to expand...
+Service Plans - Microsoft Windows Server 2025 (W2K25)
+Click here to expand...
+Service Plans - Floating IP Pools
+Click here to expand...
+
+
+
+
+
+
+Like
+Be the first to like this
+No labelsEdit Labels
+© Robert Bosch GmbH
+Docupedia 10.2.14.0 Powered by Atlassian Confluence and Scroll Viewport
+Node: doc-P2-SI0VM08475
+Docupedia Community
+Support
+Legal
+
+Skip to sidebar
+Skip to main content
+Skip to breadcrumbs
+Skip to search
+Linked Applications
+Docupedia II
+Spaces
+Analytics
+Collections
+Create
+
+Search
+Help
+0
+
+
+
+Bosch Private Cloud
+
+Analytics
+Space shortcuts
+Teams Channel Bosch Private Cloud
+Teams Channel DevCorner - Cloud BPC General Query
+How-to articles
+Page tree
+Welcome to the Bosch Private Cloud
+Services
+PaaS Runtime Services
+Shared Container Service
+Dedicated Container Service
+BKS Bosch Kubernetes Service
+BCR Bosch Container Registry
+CF Cloud Foundry
+VMaaS Virtual Maschine as a Service
+VMaaS Overview
+VMaaS Service Attributes
+VMaaS Service Plans
+VMaaS Service Level Agreement (SLA)
+VMaaS Feature Comparison CServer
+VMaaS Feature Comparison OpenStack
+VMaaS Cost Comparison 2023
+VMaaS Cost Comparison 2025
+VMaaS Cost Comparison 2026
+VMaaS Learning and Training Videos
+VMaaS Valuemation Bill of Material (BoM)
+Virtual Machine Lifecycle
+Virtual Machine REST API
+Managing a Virtual Machine
+VMaaS Connectivity
+VMaaS Monitoring
+VMaaS Patch Management
+VMaaS Malware Protection
+VMaaS How To Guides
+VMaaS Roadmap
+VMaaS Known Issues
+News
+VMaaS FAQ
+VMaaS Support
+Managed Hosting
+Web Application Hosting
+Infrastructure Services
+Data Management
+Logging & Monitoring
+Access Management
+Development Tools
+AI Tool Stack
+Low Code
+Big Data & Analytics
+Data Streaming Platform
+How-to articles
+ConfigureSpace tools
+VMaaS Service Level Agreement (SLA)
+Pages… VMaaS Overview
+
+Translate
+Analytics
+ View inline comments
+
+ Save for later Watch Share
+Created by 
+
+ De Winter Commerina Aletta (BD/ISA-PRC2), last updated by Dietzsch Alexander (BD/ISA-PRC3) on 2026, Apr 17  2 minute read Current Version V 4Page Info
+Service Level Indicator (SLI)
+Service Level Objective (SLO)
+Service Level Reporting
+Terminology
+Maintenance
+Downtime
+Incident
+Service Level Indicator (SLI)
+For the virtual machine service we use two different service level agreements that we provide.
+
+Availability of the management functionality
+
+This means the availability of the Service Broker REST APIs to
+
+provision
+
+unprovision
+
+update
+
+bind
+
+unbind
+
+start
+
+stop
+
+…​ 
+
+Availability of a virtual machine service instance
+
+With this the availability of the hypervisor and the network is expressed. We use an existing virtual machine that we connect to check that we can reach it, can log in and upload a file to the virtual machine.
+
+Service Level Objective (SLO)
+Management Functionality
+
+99.0%
+
+
+Service Instance (IaaS)
+
+99.0%
+
+Availability of a VMaaS service instance depends on the availability of the underlying infrastructure (IaaS), which is defined as 99.5% (Cloud IaaS - Reliability)
+
+The availability includes maintenance and all planned changes of the underlying management systems. The availability will be checked every 5 minutes by the Service Level Reporting.
+
+Service Level Reporting
+In the Service Level Reporting Dashboard these availabilities are shown for the three VMaaS services:
+
+Virtual Machine (Linux)
+
+Availability of the management functionality
+
+<Foundation> Virtual Machine (Linux)
+
+Virtual Machine (Windows)
+
+Availability of the management functionality
+
+<Foundation> Virtual Machine (Windows)
+
+Virtual Machine Jump Host
+
+Availability of the management functionality
+
+<Foundation> Virtual Machine Jump Host
+
+Virtual Machine (Linux)
+
+Availability of a virtual machine service instance
+
+<Foundation> Virtual Machine (Linux) - Service Instance
+
+Virtual Machine (Windows)
+
+Availability of a virtual machine service instance
+
+<Foundation> Virtual Machine (Windows) - Service Instance
+
+Virtual Machine Jump Host
+
+Availability of a virtual machine service instance
+
+<Foundation> Virtual Machine Jump Host - Service Instance
+
+Foundation:
+
+IPZ001 = Internal Placement Zone Schwieberdingen
+
+IPZ002 = Internal Placement Zone Renningen
+
+IPZ003 = Internal Placement Zone Singapore
+
+EPZ001 = External Placement Zone Schwieberdingen
+
+EPZ002 = External Placement Zone Renningen
+
+
+
+The results will be shown on the Service Level Reporting Dashboard:
+
+https://slr-manager.apps.cfy05.ipz001.internal.bosch.cloud/slr-dashboard
+
+
+
+There you will find the following entries for the virtual machine service for all foundations
+
+
+
+
+Terminology
+Maintenance
+Maintenance describes planned changes to the service to patch, update or upgrade systems that are required to provide and operate the service. Planned changes will be communicated upfront via SPoI, especially when a downtime is involved with the changes.
+
+Downtime
+Downtime depicts a situation where either the service instance or the management functionality are not available. A downtime can be caused by planned changes that cause a downtime for the customer or incidents that have impact to the availability of the service instance or management functionality.
+
+Incident
+An incident is by definition unplanned and depicts a situation where the service does not normally operate. This may have impact to the availability of the service instance or the management functionality.
+
+
+
+
+Like
+Be the first to like this
+No labelsEdit Labels
+© Robert Bosch GmbH
+Docupedia 10.2.14.0 Powered by Atlassian Confluence and Scroll Viewport
+Node: doc-P2-SI0VM08475
+Docupedia Community
+Support
+Legal
+
+Skip to sidebar
+Skip to main content
+Skip to breadcrumbs
+Skip to search
+Linked Applications
+Docupedia II
+Spaces
+Analytics
+Collections
+Create
+
+Search
+Help
+0
+
+
+
+Bosch Private Cloud
+
+Analytics
+Space shortcuts
+Teams Channel Bosch Private Cloud
+Teams Channel DevCorner - Cloud BPC General Query
+How-to articles
+Page tree
+Welcome to the Bosch Private Cloud
+Services
+PaaS Runtime Services
+Shared Container Service
+Dedicated Container Service
+BKS Bosch Kubernetes Service
+BCR Bosch Container Registry
+CF Cloud Foundry
+VMaaS Virtual Maschine as a Service
+VMaaS Overview
+VMaaS Service Attributes
+VMaaS Service Plans
+VMaaS Service Level Agreement (SLA)
+VMaaS Feature Comparison CServer
+VMaaS Feature Comparison OpenStack
+VMaaS Cost Comparison 2023
+VMaaS Cost Comparison 2025
+VMaaS Cost Comparison 2026
+VMaaS Learning and Training Videos
+VMaaS Valuemation Bill of Material (BoM)
+Virtual Machine Lifecycle
+Virtual Machine REST API
+Managing a Virtual Machine
+VMaaS Connectivity
+VMaaS Monitoring
+VMaaS Patch Management
+VMaaS Malware Protection
+VMaaS How To Guides
+VMaaS Roadmap
+VMaaS Known Issues
+News
+VMaaS FAQ
+VMaaS Support
+Managed Hosting
+Web Application Hosting
+Infrastructure Services
+Data Management
+Logging & Monitoring
+Access Management
+Development Tools
+AI Tool Stack
+Low Code
+Big Data & Analytics
+Data Streaming Platform
+How-to articles
+ConfigureSpace tools
+VMaaS Feature Comparison CServer
+Pages… VMaaS Overview
+
+Translate
+Analytics
+ View inline comments
+
+ Save for later Watch Share
+Created by 
+
+ De Winter Commerina Aletta (BD/ISA-PRC2), last updated on 2026, Mar 25  1 minute read Current Version V 2Page Info
+
+
+Operating systems
+
+- Red Hat Enterprise Linux
+- Ubuntu
+- Windows Server
+
+- Red Hat Enterprise Linux
+- Ubuntu
+- Windows Server
+
+kind of virtual machine
+
+managed
+
+unmanaged
+
+Access Management
+
+Active Directory user
+Privileged Access Management (PSM)
+
+local user
+Privileged Access Management (PSM)
+
+License Management
+
+
+
+Backup
+
+via TSM agent
+
+not yet available
+
+Hardening
+
+
+
+Scheduling
+
+IT Service Portal
+
+Bosch Private Cloud Marketplace
+
+Asset Management
+
+CMDB
+
+CMDB
+
+Patch Management
+
+automatic patching by Bosch Digital
+
+patching by customer
+
+Malware Protection
+
+installed
+
+not yet available
+
+Monitoring
+
+- Linux: Icinga
+- Windows: NetIQ
+
+Monitoring with Prometheus/Grafana
+
+Software Distribution
+
+
+not yet available
+
+Network Segmentation
+
+no segmentation in SL3
+network segmentation in SL4
+
+micro segmentation per Cloud Project
+
+Connectivity
+
+AARB/EPITOP Approval
+WARP Tooling
+
+self-service via VMaaS REST API
+
+Internet Access
+
+Proxy for Server
+
+preconfigured BPC Proxy Server
+
+
+
+
+
+
+Like
+Be the first to like this
+No labelsEdit Labels
+© Robert Bosch GmbH
+Docupedia 10.2.14.0 Powered by Atlassian Confluence and Scroll Viewport
+Node: doc-P2-SI0VM08475
+Docupedia Community
+Support
+Legal
+
+
+Skip to sidebar
+Skip to main content
+Skip to breadcrumbs
+Skip to search
+Linked Applications
+Docupedia II
+Spaces
+Analytics
+Collections
+Create
+
+Search
+Help
+0
+
+
+
+Bosch Private Cloud
+
+Analytics
+Space shortcuts
+Teams Channel Bosch Private Cloud
+Teams Channel DevCorner - Cloud BPC General Query
+How-to articles
+Page tree
+Welcome to the Bosch Private Cloud
+Services
+PaaS Runtime Services
+Shared Container Service
+Dedicated Container Service
+BKS Bosch Kubernetes Service
+BCR Bosch Container Registry
+CF Cloud Foundry
+VMaaS Virtual Maschine as a Service
+VMaaS Overview
+VMaaS Service Attributes
+VMaaS Service Plans
+VMaaS Service Level Agreement (SLA)
+VMaaS Feature Comparison CServer
+VMaaS Feature Comparison OpenStack
+VMaaS Cost Comparison 2023
+VMaaS Cost Comparison 2025
+VMaaS Cost Comparison 2026
+VMaaS Learning and Training Videos
+VMaaS Valuemation Bill of Material (BoM)
+Virtual Machine Lifecycle
+Virtual Machine REST API
+Managing a Virtual Machine
+VMaaS Connectivity
+VMaaS Monitoring
+VMaaS Patch Management
+VMaaS Malware Protection
+VMaaS How To Guides
+VMaaS Roadmap
+VMaaS Known Issues
+News
+VMaaS FAQ
+VMaaS Support
+Managed Hosting
+Web Application Hosting
+Infrastructure Services
+Data Management
+Logging & Monitoring
+Access Management
+Development Tools
+AI Tool Stack
+Low Code
+Big Data & Analytics
+Data Streaming Platform
+How-to articles
+ConfigureSpace tools
+Pages… VMaaS Overview
+
+Translate
+Analytics
+ View inline comments
+
+ Save for later Watch Share
+VMaaS Feature Comparison OpenStack
+Created by 
+
+ De Winter Commerina Aletta (BD/ISA-PRC2), last updated on 2026, Mar 25  2 minute read Current Version V 2Page Info
+You may wonder when to choose an Openstack project and when a VMaaS virtual machine. On this page we will compare the features and when to use what.
+
+Operating systems
+
+- Red Hat Enterprise Linux
+- Windows Server 2019/2022
+- any other operating system or appliance you upload to the Image Gallery
+
+- Red Hat Enterprise Linux
+- Ubuntu 22/24
+- Windows Server 2019 (W2K19) (Deprecated)
+- Windows Server 2022 (W2K22)
+- Windows Server 2025 (W2K25)
+
+Hardware Specification
+
+full flexibility regarding flavor and disk storage
+
+fixed flavor and custom disk storage
+
+kind of virtual machine
+
+unmanaged
+
+unmanaged
+
+Access Management
+
+- local user
+- Privileged Access Management (PSM)
+
+- local user
+- Privileged Access Management (PSM)
+
+License Management
+
+responsibility of customer
+(Microsoft Windows Server License)
+
+Microsoft Windows Server License managed by VMaaS team
+
+Snapshots
+
+responsibility of customer
+
+n/a
+(planned to be available in future)
+
+Backup
+
+responsibility of customer
+
+responsibility of customer
+
+Hardening
+
+responsibility of customer
+(depending on images used)
+
+Hardened Red Hat Enterprise Linux; Ubuntu 22/24 and Windows Server images
+
+Scheduling
+
+- Openstack Horizon UI
+- Automation (e.g. Terraform)
+
+- Bosch Private Cloud Marketplace
+- Automation (e.g. Terraform)
+
+Asset Management
+
+responsibility of customer
+
+CMDB
+
+Patch Management
+
+responsibility of customer
+
+responsibility of customer
+
+Malware Protection
+
+responsibility of customer
+
+responsibility of customer
+
+Monitoring
+
+responsibility of customer
+
+Monitoring with Prometheus/Grafana
+
+Software Distribution
+
+n/a
+
+n/a
+
+Network Segmentation
+
+responsibility of customer
+
+micro segmentation per Cloud Project
+
+Connectivity
+
+responsibility of customer
+
+self-service via VMaaS REST API
+
+Internet Access
+
+responsibility of customer
+
+- preconfigured BPC Proxy Server
+- self-service via VMaaS REST API
+
+cloud-init
+
+responsibility of customer
+
+fixed cloud-init
+(plan to be customizable in future)
+
+Support
+
+Support on Openstack by IaaS team
+
+Support for VMaaS VMs by VMaaS team
+
+When to use what?
+While an Openstack tenant provide you with more flexibility and features, it also comes with additional responsibilities.
+
+When to use VMaaS?
+When you just need a standard Virtual Machine or Jump Host and you have no special requirements on operating system or hardware specification VMaaS is the easier choice.
+
+Especially if you are not familiar with Openstack and managing the Infrastructure on your own, it means a lot of additional resources you need to manage in an Openstack tenant:
+
+routers
+
+networks
+
+subnets
+
+ports
+
+floating ips
+
+security groups
+
+volumes
+
+servers
+
+When to use an Openstack tenant?
+If you have special requirements on operating system or hardware specification, you use additional resources in Openstack, e.g. Load Balancers or automate the Infrastructure rollout, then an Openstack tenant is the better choice for you.
+
+NOTE
+
+In general, if you have doubts or questions on what to use, please use one of the Support channels to get help.
+
+
+
+
+
+
+Like
+Be the first to like this
+No labelsEdit Labels
+© Robert Bosch GmbH
+Docupedia 10.2.14.0 Powered by Atlassian Confluence and Scroll Viewport
+Node: doc-P2-SI0VM08475
+Docupedia Community
+Support
+Legal
+
+
+Skip to sidebar
+Skip to main content
+Skip to breadcrumbs
+Skip to search
+Linked Applications
+Docupedia II
+Spaces
+Analytics
+Collections
+Create
+
+Search
+Help
+0
+
+
+
+Bosch Private Cloud
+
+Analytics
+Space shortcuts
+Teams Channel Bosch Private Cloud
+Teams Channel DevCorner - Cloud BPC General Query
+How-to articles
+Page tree
+Welcome to the Bosch Private Cloud
+Services
+PaaS Runtime Services
+Shared Container Service
+Dedicated Container Service
+BKS Bosch Kubernetes Service
+BCR Bosch Container Registry
+CF Cloud Foundry
+VMaaS Virtual Maschine as a Service
+VMaaS Overview
+VMaaS Service Attributes
+VMaaS Service Plans
+VMaaS Service Level Agreement (SLA)
+VMaaS Feature Comparison CServer
+VMaaS Feature Comparison OpenStack
+VMaaS Cost Comparison 2023
+VMaaS Cost Comparison 2025
+VMaaS Cost Comparison 2026
+VMaaS Learning and Training Videos
+VMaaS Valuemation Bill of Material (BoM)
+Virtual Machine Lifecycle
+Virtual Machine REST API
+Managing a Virtual Machine
+VMaaS Connectivity
+VMaaS Monitoring
+VMaaS Patch Management
+VMaaS Malware Protection
+VMaaS How To Guides
+VMaaS Roadmap
+VMaaS Known Issues
+News
+VMaaS FAQ
+VMaaS Support
+Managed Hosting
+Web Application Hosting
+Infrastructure Services
+Data Management
+Logging & Monitoring
+Access Management
+Development Tools
+AI Tool Stack
+Low Code
+Big Data & Analytics
+Data Streaming Platform
+How-to articles
+ConfigureSpace tools
+Pages… VMaaS Overview
+
+Translate
+Analytics
+ View inline comments
+
+ Save for later Watch Share
+VMaaS Learning and Training Videos
+Created by 
+
+ De Winter Commerina Aletta (BD/ISA-PRC2), last updated on 2026, Apr 15  1 minute read Current Version V 2Page Info
+Our documentation pages have plenty of information that enables you to explore everything that we provide in VMaaS. However, if you would rather start learning by watching training videos, then we have prepared this page with a collection of short tutorials containing practical examples of the main operations that you can perform on your virtual machines. Refer to the table below to find the right resource for you.
+
+
+
+Provision and Unprovision a Virtual Machine
+
+Provisioning a Virtual Machine
+Deleting a Virtual Machine
+
+video
+
+Bind and unbind VMs
+
+Binding and Unbinding a VM with an application
+
+video
+
+Use Internet Resources Inside a Virtual Machine
+
+How to use Internet Resources in a Virtual Machine
+
+video
+
+How to Connect E-IT Resources with a VM
+
+How to Connect E-IT in a Virtual Machine
+
+video
+
+How to expose a service running on a VM to BCN and the Internet
+
+How to expose a Service Runnign on a Virtual Machine to BCN and to the Internet
+
+video
+
+Backup and restore with TSM (Linux)
+
+How to execute backups on VMaaS VMs
+
+video
+
+Backup and restore with TSM (Windows)
+
+How to execute backups on VMaaS VMs
+
+video
+
+Send logs to Splunk
+
+How to send logs to Splunk
+
+video
+
+Monitoring with Prometheus and Grafana
+
+Monitoring with Prometheus and Grafana
+
+video
+
+Deploying VM using Terraform
+
+Deploying VM using Terraform
+
+video
+
+Using RB-PAM to access your VMaaS VM
+
+Using RB-PAM to access your VMaaS VM
+
+video
+
+
+Like
+Be the first to like this
+No labelsEdit Labels
+© Robert Bosch GmbH
+Docupedia 10.2.14.0 Powered by Atlassian Confluence and Scroll Viewport
+Node: doc-P2-SI0VM08475
+Docupedia Community
+Support
+Legal
+
+
+Skip to sidebar
+Skip to main content
+Skip to breadcrumbs
+Skip to search
+Linked Applications
+Docupedia II
+Spaces
+Analytics
+Collections
+Create
+
+Search
+Help
+0
+
+
+
+Bosch Private Cloud
+
+Analytics
+Space shortcuts
+Teams Channel Bosch Private Cloud
+Teams Channel DevCorner - Cloud BPC General Query
+How-to articles
+Page tree
+Welcome to the Bosch Private Cloud
+Services
+PaaS Runtime Services
+Shared Container Service
+Dedicated Container Service
+BKS Bosch Kubernetes Service
+BCR Bosch Container Registry
+CF Cloud Foundry
+VMaaS Virtual Maschine as a Service
+VMaaS Overview
+Virtual Machine Lifecycle
+Provisioning a Virtual Machine
+Updating a Virtual Machine
+Deleting a Virtual Machine
+Binding and Unbinding a Virtual Machine with an Application
+Accessing a Virtual Machine
+Pool of Floating IPs for your Virtual Machines
+VMaaS Sharing Service Instances
+Retrieving Data From a Deleted VMaaS VM
+GPU (Graphics Processing Unit)
+Virtual Machine REST API
+Managing a Virtual Machine
+VMaaS Connectivity
+VMaaS Monitoring
+VMaaS Patch Management
+VMaaS Malware Protection
+VMaaS How To Guides
+VMaaS Roadmap
+VMaaS Known Issues
+News
+VMaaS FAQ
+VMaaS Support
+Managed Hosting
+Web Application Hosting
+Infrastructure Services
+Data Management
+Logging & Monitoring
+Access Management
+Development Tools
+AI Tool Stack
+Low Code
+Big Data & Analytics
+Data Streaming Platform
+How-to articles
+ConfigureSpace tools
+Pages… VMaaS Virtual Maschine as a Service
+
+Translate
+Analytics
+ View inline comments
+
+ Save for later Watch Share
+Virtual Machine Lifecycle
+Created by 
+
+ De Winter Commerina Aletta (BD/ISA-PRC2), last updated by Dietzsch Alexander (BD/ISA-PRC3) on 2026, May 28  1 minute read Current Version V 7Page Info
+Virtual Machine as a Service is integrated into the Cloud Foundry marketplace so that all the lifecycle operations from Cloud Foundry (create, update, delete, bind and unbind) are available for Virtual Machine as a Service. All the operations can be executed either via UI or CLI.
+
+Cloud Foundry UI (Stratos)
+IPZ001 QA (DE4)
+
+https://login.sys.cfy04.ipz001.internal.bosch.cloud/
+
+IPZ001 Prod (DE5) - Schwieberdingen
+
+https://login.sys.cfy05.ipz001.internal.bosch.cloud/
+
+EPZ001 Prod (DE8) - Schwieberdingen
+
+https://login.sys.cfy08.epz001.internal.bosch.cloud/
+
+IPZ002 Prod (DE9) - Renningen
+
+https://login.sys.cfy09.ipz002.internal.bosch.cloud/
+
+EPZ002 Prod (DE10) - Renningen
+
+https://login.sys.cfy10.epz002.internal.bosch.cloud/
+
+IPZ003 Prod (SG1) - Singapore
+
+https://login.sys.cfy01.epz003.internal.bosch.cloud/
+
+Cloud Foundry CLI
+Download: https://github.com/cloudfoundry/cli/releases
+
+
+
+cf login -a api.sys.cfy05.ipz001.internal.bosch.cloud --sso
+
+
+
+
+
+Like
+Be the first to like this
+No labelsEdit Labels
+© Robert Bosch GmbH
+Docupedia 10.2.14.0 Powered by Atlassian Confluence and Scroll Viewport
+Node: doc-P2-SI0VM08475
+Docupedia Community
+Support
+Legal
+
+
+Skip to sidebar
+Skip to main content
+Skip to breadcrumbs
+Skip to search
+Linked Applications
+Docupedia II
+Spaces
+Analytics
+Collections
+Create
+
+Search
+Help
+0
+
+
+
+Bosch Private Cloud
+
+Analytics
+Space shortcuts
+Teams Channel Bosch Private Cloud
+Teams Channel DevCorner - Cloud BPC General Query
+How-to articles
+Page tree
+Welcome to the Bosch Private Cloud
+Services
+PaaS Runtime Services
+Shared Container Service
+Dedicated Container Service
+BKS Bosch Kubernetes Service
+BCR Bosch Container Registry
+CF Cloud Foundry
+VMaaS Virtual Maschine as a Service
+VMaaS Overview
+Virtual Machine Lifecycle
+Provisioning a Virtual Machine
+Updating a Virtual Machine
+Deleting a Virtual Machine
+Binding and Unbinding a Virtual Machine with an Application
+Accessing a Virtual Machine
+Pool of Floating IPs for your Virtual Machines
+VMaaS Sharing Service Instances
+Retrieving Data From a Deleted VMaaS VM
+GPU (Graphics Processing Unit)
+Virtual Machine REST API
+Managing a Virtual Machine
+VMaaS Connectivity
+VMaaS Monitoring
+VMaaS Patch Management
+VMaaS Malware Protection
+VMaaS How To Guides
+VMaaS Roadmap
+VMaaS Known Issues
+News
+VMaaS FAQ
+VMaaS Support
+Managed Hosting
+Web Application Hosting
+Infrastructure Services
+Data Management
+Logging & Monitoring
+Access Management
+Development Tools
+AI Tool Stack
+Low Code
+Big Data & Analytics
+Data Streaming Platform
+How-to articles
+ConfigureSpace tools
+Provisioning a Virtual Machine
+Pages… Virtual Machine Lifecycle
+
+Translate
+Analytics
+ View inline comments
+
+ Save for later Watch Share
+Created by 
+
+ De Winter Commerina Aletta (BD/ISA-PRC2), last updated by Dietzsch Alexander (BD/ISA-PRC3) on 2026, Jul 25  11 minute read Current Version V 5Page Info
+Provision a Virtual Machine via UI
+When you are logged into the Stratos UI navigate to the Marketplace.
+
+There you will find the three services.
+
+Virtual Machine Jump Host
+
+Virtual Machine (Linux)
+
+Virtual Machine (Windows)
+
+
+
+
+Select the Service.
+
+When you select Create service instance, a dialog with four tabs will open.
+
+On the first tab you need to select the organization and the space, where you want to place the service instance.
+
+On the second tab you select the service plan for the service you have chosen. Depending on the selected service you have a different set of service plans.
+
+Jump Host Service
+Click to see Jump Host Service plans
+
+
+Virtual Machine Jump Host
+
+Linux SSH (RHEL 8)
+
+Virtual Machine Jump Host
+
+Linux SSH (RHEL 9)
+
+Virtual Machine Jump Host
+
+Linux SSH (UBUNTU 22)
+
+Virtual Machine Jump Host
+
+Linux SSH (UBUNTU 24)
+
+Virtual Machine Jump Host
+
+Windows RDP (W2K19) (deprecated)
+
+Virtual Machine Jump Host
+
+Windows RDP (W2K22)
+
+Virtual Machine Jump Host
+
+Windows RDP (W2K25)
+
+
+
+
+Linux Service
+Click to see the Linux Service plans
+
+
+Virtual Machine (Linux)
+
+Micro (RHEL 8)
+
+Virtual Machine (Linux)
+
+Micro X4 (RHEL 8)
+
+Virtual Machine (Linux)
+
+Small (RHEL 8)
+
+Virtual Machine (Linux)
+
+Small X4 (RHEL 8)
+
+Virtual Machine (Linux)
+
+Small X8 (RHEL 8)
+
+Virtual Machine (Linux)
+
+Medium (RHEL 8)
+
+Virtual Machine (Linux)
+
+Medium X4 (RHEL 8)
+
+Virtual Machine (Linux)
+
+Medium X8 (RHEL 8)
+
+Virtual Machine (Linux)
+
+Large (RHEL 8)
+
+Virtual Machine (Linux)
+
+Large X4 (RHEL 8)
+
+Virtual Machine (Linux)
+
+X-Large (RHEL 8)
+
+Virtual Machine (Linux)
+
+X-Large X4 (RHEL 8)
+
+Virtual Machine (Linux)
+
+X-Large X8 (RHEL 8)
+
+Virtual Machine (Linux)
+
+Micro (RHEL 9)
+
+Virtual Machine (Linux)
+
+Micro X4 (RHEL 9)
+
+Virtual Machine (Linux)
+
+Small (RHEL 9)
+
+Virtual Machine (Linux)
+
+Small X4 (RHEL 9)
+
+Virtual Machine (Linux)
+
+Small X8 (RHEL 9)
+
+Virtual Machine (Linux)
+
+Medium (RHEL 9)
+
+Virtual Machine (Linux)
+
+Medium X4 (RHEL 9)
+
+Virtual Machine (Linux)
+
+Medium X8 (RHEL 9)
+
+Virtual Machine (Linux)
+
+Large (RHEL 9)
+
+Virtual Machine (Linux)
+
+Large X4 (RHEL 9)
+
+Virtual Machine (Linux)
+
+X-Large (RHEL 9)
+
+Virtual Machine (Linux)
+
+X-Large X4 (RHEL 9)
+
+Virtual Machine (Linux)
+
+X-Large X8 (RHEL 9)
+
+Virtual Machine (Linux)
+
+Micro (UBUNTU 22)
+
+Virtual Machine (Linux)
+
+Micro X4 (UBUNTU 22)
+
+Virtual Machine (Linux)
+
+Small (UBUNTU 22)
+
+Virtual Machine (Linux)
+
+Small X4 (UBUNTU 22)
+
+Virtual Machine (Linux)
+
+Small X8 (UBUNTU 22)
+
+Virtual Machine (Linux)
+
+Medium (UBUNTU 22)
+
+Virtual Machine (Linux)
+
+Medium X4 (UBUNTU 22)
+
+Virtual Machine (Linux)
+
+Medium X8 (UBUNTU 22)
+
+Virtual Machine (Linux)
+
+Large (UBUNTU 22)
+
+Virtual Machine (Linux)
+
+Large X4 (UBUNTU 22)
+
+Virtual Machine (Linux)
+
+X-Large (UBUNTU 22)
+
+Virtual Machine (Linux)
+
+X-Large X4 (UBUNTU 22)
+
+Virtual Machine (Linux)
+
+X-Large X8 (UBUNTU 22)
+
+Virtual Machine (Linux)
+
+Micro (UBUNTU 24)
+
+Virtual Machine (Linux)
+
+Micro X4 (UBUNTU 24)
+
+Virtual Machine (Linux)
+
+Small (UBUNTU 24)
+
+Virtual Machine (Linux)
+
+Small X4 (UBUNTU 24)
+
+Virtual Machine (Linux)
+
+Small X8 (UBUNTU 24)
+
+Virtual Machine (Linux)
+
+Medium (UBUNTU 24)
+
+Virtual Machine (Linux)
+
+Medium X4 (UBUNTU 24)
+
+Virtual Machine (Linux)
+
+Medium X8 (UBUNTU 24)
+
+Virtual Machine (Linux)
+
+Large (UBUNTU 24)
+
+Virtual Machine (Linux)
+
+Large X4 (UBUNTU 24)
+
+Virtual Machine (Linux)
+
+X-Large (UBUNTU 24)
+
+Virtual Machine (Linux)
+
+X-Large X4 (UBUNTU 24)
+
+Virtual Machine (Linux)
+
+X-Large X8 (UBUNTU 24)
+
+
+
+
+Windows Service
+Click to see the Windows Service plans
+
+
+Virtual Machine (Windows)
+
+Micro (W2K19) (deprecated)
+
+Virtual Machine (Windows)
+
+Micro X4 (W2K19) (deprecated)
+
+Virtual Machine (Windows)
+
+Small (W2K19) (deprecated)
+
+Virtual Machine (Windows)
+
+Small X4 (W2K19) (deprecated)
+
+Virtual Machine (Windows)
+
+Small X8 (W2K19) (deprecated)
+
+Virtual Machine (Windows)
+
+Medium (W2K19) (deprecated)
+
+Virtual Machine (Windows)
+
+Medium X4 (W2K19) (deprecated)
+
+Virtual Machine (Windows)
+
+Medium X8 (W2K19) (deprecated)
+
+Virtual Machine (Windows)
+
+Large (W2K19) (deprecated)
+
+Virtual Machine (Windows)
+
+Large X4 (W2K19) (deprecated)
+
+Virtual Machine (Windows)
+
+X-Large (W2K19) (deprecated)
+
+Virtual Machine (Windows)
+
+X-Large X4 (W2K19) (deprecated)
+
+Virtual Machine (Windows)
+
+X-Large X8 (W2K19) (deprecated)
+
+Virtual Machine (Windows)
+
+Micro (W2K22)
+
+Virtual Machine (Windows)
+
+Micro X4 (W2K22)
+
+Virtual Machine (Windows)
+
+Small (W2K22)
+
+Virtual Machine (Windows)
+
+Small X4 (W2K22)
+
+Virtual Machine (Windows)
+
+Small X8 (W2K22)
+
+Virtual Machine (Windows)
+
+Medium (W2K22)
+
+Virtual Machine (Windows)
+
+Medium X4 (W2K22)
+
+Virtual Machine (Windows)
+
+Medium X8 (W2K22)
+
+Virtual Machine (Windows)
+
+Large (W2K22)
+
+Virtual Machine (Windows)
+
+Large X4 (W2K22)
+
+Virtual Machine (Windows)
+
+X-Large (W2K22)
+
+Virtual Machine (Windows)
+
+X-Large X4 (W2K22)
+
+Virtual Machine (Windows)
+
+X-Large X8 (W2K22)
+
+Virtual Machine (Windows)
+
+Micro (W2K25)
+
+Virtual Machine (Windows)
+
+Micro X4 (W2K25)
+
+Virtual Machine (Windows)
+
+Small (W2K25)
+
+Virtual Machine (Windows)
+
+Small X4 (W2K25)
+
+Virtual Machine (Windows)
+
+Small X8 (W2K25)
+
+Virtual Machine (Windows)
+
+Medium (W2K25)
+
+Virtual Machine (Windows)
+
+Medium X4 (W2K25)
+
+Virtual Machine (Windows)
+
+Medium X8 (W2K25)
+
+Virtual Machine (Windows)
+
+Large (W2K25)
+
+Virtual Machine (Windows)
+
+Large X4 (W2K25)
+
+Virtual Machine (Windows)
+
+X-Large (W2K25)
+
+Virtual Machine (Windows)
+
+X-Large X4 (W2K25)
+
+Virtual Machine (Windows)
+
+X-Large X8 (W2K25)
+
+
+
+
+
+
+Once you have selected a service plan, you can optionally bind the service instance to an application.
+
+NOTE
+
+Binding an application at provisioning does not work, as the provisioning is executed asynchronously.
+
+
+
+
+On the last tab you need to provide a name for the service instance.
+
+There you also find the service parameters. At the moment we have the following optional service parameters:
+
+external-ip - boolean
+
+floating-ip-pool - name of the Floating IP Pool service instance to be used to get an external IP
+
+additional-storage - number between 0 and 8192 GB
+
+availability-zone - enum with values none, nova, nova-az2 and nova-az3
+
+initial-password - password for initial credential created for virtual machine
+
+Password Rules
+
+no whitespaces
+
+minimum password length: 15
+
+maximum password length: 20
+
+minimum number lower case characters: 3
+
+minimum number upper case characters: 3
+
+minimum number of digits: 3
+
+minimum number of special characters: 2
+
+special characters counted: !?&%_-+:*.,=
+
+NOT allowed special characters list for Windows: #|´`~@€[]^°²³''{}
+
+NOT allowed special characters list for Linux: #"|´`~@€[]^°²³'{};$>/\
+
+NOT allowed special characters list for Custom OS: #"|´`~@€[]^°²³'{};$>/\
+
+
+
+NOTE
+
+It is possible to use other special characters as well, but these are not counted as special characters. Also, other special characters could lead to issues in combination with the Monitoring service plan, as Grafana does not support all kind of special characters.
+
+Linux only Service Parameters
+authorized-keys - list of public ssh keys
+
+automatic-patching - enable automatic patching on the VMaaS Linux VM
+
+web-console - enable the Red Hat Enterprise Linux Web Console on the VMaaS Linux VM
+
+Windows only Service Parameters
+automatic-patching - JSON object that contains the three properties enabled, scheduled-day and scheduled-hour
+
+enabled - enable automatic patching via Windows Update Server Service (WSUS)
+
+scheduled-day - 0-7: 0 for every day, 1 for Sunday, and so on
+
+scheduled-hour - 0-23: 24-hour format
+
+iis - enable Internet Information Server (IIS) on the VMaaS Windows VM
+
+boot-disk- number between 0 and 8192 GB
+External IP
+The checkbox external-ip allows you to assign an external IP also known as floating IP to your Windows or Linux virtual machine. The default for external-ip is false.
+
+Floating IP Pool
+The floating-ip-pool service option allows you to provide the name of a Floating IP Pool service instance located in the same space where the virtual machine is placed. When specified this will override the external-ip service option, meaning that in case of providing such a floating IP pool automatically a floating IP from that floating IP pool is assigned to the virtual machine.
+
+The floating-ip-pool service option will be validated to ensure that a service instance with the specified name exists and that the service instance is of the required type. Additionally, the state of the service instance is validated so that a floating IP from that floating IP pool can be taken.
+
+For more details on Floating IP Pools, please refer to Pool of floating IPs for your VMs.
+
+Additional Storage
+With additional storage you can provision additional storage on top of the storage that comes with the service plan on your workload virtual machine. All the additional storage will be charged extra. It is possible to update the additional storage when updating the service instance. Additional storage that is added at provisioning will be automatically mounted into the filesystem.
+
+Windows virtual machines
+For Windows virtual machines the storage is added to the D drive.
+
+Linux virtual machines
+For Linux virtual machines the storage will be mounted at /pkg.
+
+
+NOTE
+
+It is not possible to shrink the storage as this could lead to data loss.
+
+Availability Zone
+You may choose the availability zone (AZ) which your VM is going to be provisioned in. If you do not want to specify a value, you can still leave that field blank. In this case, we will choose the best availability zone based on the current system’s load. When you choose an availability zone it can not be changed afterward! The table below shows the availability zones that are available per environment and foundation, as well as in which of them you can set this value as input when creating VMs.
+
+TIP
+
+This feature is intended especially for customers that want to deploy multiple virtual machines in different availability zones to increase the overall availability, when load balancing between the virtual machines in the different availability zones.
+
+For more information about availability zones refer to Availability Zone Concept.
+
+
+
+IPZ001
+
+DE4
+
+Yes
+
+nova, nova-az2, nova-az3
+
+IPZ001
+
+DE5
+
+Yes
+
+nova, nova-az2, nova-az3
+
+IPZ002
+
+DE9
+
+Yes
+
+nova, nova-az2, nova-az3
+
+IPZ003
+
+SG1
+
+Yes
+
+nova, nova-az2, nova-az3
+
+EPZ001
+
+DE8
+
+Yes
+
+nova, nova-az2, nova-az3
+
+EPZ002
+
+DE10
+
+No
+
+nova
+
+Authorized Keys
+With authorized key you can provide a list of public ssh keys that are added to the list of authorized keys for the created user, so that you can access your Linux virtual machine not just with username and password, but also with your ssh key.
+
+This will improve your ability to automate your setup by using e.g. Terraform, as you are no longer required to retrieve the generated initial password for the first login on your virtual machine.
+
+Automatic Patching
+VMaaS RHEL Linux VMs
+When enabling the automatic patching checkbox the necessary package dnf-automatic is installed at provisioning, apply patches is enabled and the necessary service dnf-automatic-install.timer is enabled and started. For more details please refer to Patch Management on a RHEL Linux VMaaS VM.
+
+NOTE
+
+Enabling automatic patching will not automatically reboot the virtual machine. For patches that require a root it is required that you check and reboot manually.
+
+VMaaS Ubuntu Linux VMs
+When enabling the automatic patching checkbox the necessary service unattended-upgrades is enabled and started. For more details please refer to  Patch Management on an Ubuntu Linux VMaaS VM.
+
+NOTE
+
+Enabling automatic patching will not automatically reboot the virtual machine. For patches that require a root it is required that you check and reboot manually.
+
+VMaaS Windows VMs
+When enabling automatic patching on Windows you need to specify when Windows Update Server Service (WSUS) will be executed. There you need to specify the day (0 for every day; 1-7 for all the week days starting with Sunday) and the hour (0-23 in 24-hour format). In case Windows patches are applied that require a reboot the reboot will be automatically triggered, which will lead to a short downtime of the Windows server during the reboot.
+
+Web Console
+The RHEL web console is a Red Hat Enterprise Linux web-based interface designed for managing and monitoring your local system.
+
+When enabling the web console checkbox the necessary package cockpit is installed at the provisioning, the service cockpit.socket is enabled and a firewall rule for port 9090 is added. As result the web ui is accessible at https://<internal-dns>:9090. The web ui is using a self-signed certificate, and you can log in with the credentials also used for login on the virtual machine.
+
+For more information on the Web Console read Managing systems using the RHEL 8 web console.
+
+
+
+
+
+
+NOTE
+
+By default, no ingress security group rule will be created to access the web ui from external. This is for two reasons, the exposure would require an external IP (also known as floating IP), which is not added to all the VMaaS VMs by default and exposing the web ui would be an additional attack vector. Therefore, we recommend to use e.g. Windows Jump Host, which is located in the same network from which you can access the Web Console.
+Also, it is to mention that access on the web ui is limited when using the vmaas user instead of the root user. Therefore, you will see an information at the top Limited access and not all the functionality is available.
+
+Internet Information Server (IIS)
+When enabling the Internet Information Server (IIS) on a VMaaS Windows VM the Internet Information Server (IIS) feature on the Windows Server is enabled. In addition, on the host firewall ingress for ports 80 (HTTP) and 443 (HTTPS) will be enabled and an Openstack Security Group vmaas-iis will be attached to the VM, that also opens up ingress on ports 80 (HTTP) and 443 (HTTPS).
+
+When you check the external-ip service option in addition, the Internet Information Server (IIS) will be automatically be reachable from the Bosch Corporate Network (BCN) via HTTP.
+
+Just check out http://<external-dns>/iisstart.htm
+
+Once you have configured a server certificate and configured the binding for HTTPS this also works with HTTPS.
+
+Provision a Virtual Machine via CLI
+To get a list of available services and service plans you can query the marketplace.
+
+
+
+cf marketplace 
+There you find the necessary information to create a service instance.
+
+
+
+cf create-service <service> <service-plan> <name> 
+for example:
+
+
+
+cf create-service vmaas-linux "Medium (RHEL 8)" linux-medium-vm 
+You can also provision a virtual machine with an external IP, additional storage, availability zone, authorized keys and all the other service parameters, by providing additional parameters, such as external-ip, additional-storage, availability-zone (refer to the table above for the environments and foundations that support this feature), authorized-keys and so on.
+
+Windows:
+
+
+
+cf create-service <service> <service-plan> <name> -c "{\"external-ip\":<boolean>,\"additional-storage\":<number>,\"availability-zone\":\"<string>\",\"authorized-keys\":[\"<public-ssh-key-1>\",\"<public-ssh-key-2>\"]}" 
+Linux:
+
+
+cf create-service <service> <service-plan> <name> -c '{"external-ip":<boolean>,"additional-storage":<number>,"availability-zone":"<string>","authorized-keys":["<public-ssh-key-1>","<public-ssh-key-2>"]}' 
+for example
+
+
+cf create-service vmaas-linux "Medium (RHEL 8)" linux-medium-vm -c "{\"external-ip\":true,\"additional-storage\":400,\"availability-zone\":\"nova-az2\"}"
+NOTE
+
+The service instance will be created in the organization and space the CLI is targeted at. 
+
+To switch the organization/space use
+
+
+
+cf target -o <organization> -s <space> 
+
+Provision a Virtual Machine via Terraform
+First, be sure that you read and configure your environment following Initial Terraform preparation for use with VMaaS
+
+For this example, use below parameters as input:
+
+Deploying a Linux Instance.
+
+Organization=<Cloud Foundry Organization Name>
+
+Space=<Cloud Foundry Space Name>
+
+Service Name=vmaas-linux
+
+Service Plan=Medium (RHEL 8)
+
+Instance Display Name=Terraform Linux Instance DEMO
+
+External Ip set to true
+
+change file vmaas/demonstration.tf as below:
+
+
+
+data "cloudfoundry_org" "org" {
+    name = "bhc-vmaas"
+}
+
+data "cloudfoundry_space" "space" {
+    name = "terraform_managed"
+    org = data.cloudfoundry_org.org.id
+}
+
+data "cloudfoundry_service" "svc" {
+    name = "vmaas-linux"
+}
+
+resource "cloudfoundry_service_instance" "svc_instance" {
+    name = "Terraform Linux Instance DEMO"
+    space = data.cloudfoundry_space.space.id
+    service_plan = data.cloudfoundry_service.svc.service_plans["Medium (RHEL 8)"]
+    json_params = "{ \"external-ip\": true, \"authorized-key\": [\"ssh-rsa ...\"] }"
+} 
+run plan phase
+
+
+
+$ terraform plan -var-file environments/demonstration/variables.tfvars -out plan.out 
+
+
+
+
+
+
+run apply phase
+
+
+
+terraform apply plan.out 
+
+
+
+For this example, use below parameters as input:
+
+Deploying a Windows Instance.
+
+Organization=<Cloud Foundry Organization Name>
+
+Space=<Cloud Foundry Space Name>
+
+Service Name=vmaas-windows
+
+Service Plan=Micro (W2K19)
+
+Instance Display Name=Terraform Linux Instance DEMO
+
+External Ip set to true
+
+ADD to file vmaas/demonstration.tf as below:
+
+
+
+data "cloudfoundry_service" "svc2" {
+    name = "vmaas-windows"
+}
+
+resource "cloudfoundry_service_instance" "svc_instance2" {
+    name = "Terraform Windows Instance DEMO"
+    space = data.cloudfoundry_space.space.id
+    service_plan = data.cloudfoundry_service.svc2.service_plans["Micro (W2K19)"]
+    json_params = "{ \"external-ip\": true }"
+} 
+
+run plan phase
+
+
+
+$ terraform plan -var-file environments/demonstration/variables.tfvars -out plan.out 
+
+
+
+
+
+run apply phase
+
+
+
+$ terraform apply plan.out 
+
+
+
+
+Like
+Be the first to like this
+No labelsEdit Labels
+© Robert Bosch GmbH
+Docupedia 10.2.14.0 Powered by Atlassian Confluence and Scroll Viewport
+Node: doc-P2-SI0VM08475
+Docupedia Community
+Support
+Legal
+
+
+Skip to sidebar
+Skip to main content
+Skip to breadcrumbs
+Skip to search
+Linked Applications
+Docupedia II
+Spaces
+Analytics
+Collections
+Create
+
+Search
+Help
+0
+
+
+
+Bosch Private Cloud
+
+Analytics
+Space shortcuts
+Teams Channel Bosch Private Cloud
+Teams Channel DevCorner - Cloud BPC General Query
+How-to articles
+Page tree
+Welcome to the Bosch Private Cloud
+Services
+PaaS Runtime Services
+Shared Container Service
+Dedicated Container Service
+BKS Bosch Kubernetes Service
+BCR Bosch Container Registry
+CF Cloud Foundry
+VMaaS Virtual Maschine as a Service
+VMaaS Overview
+Virtual Machine Lifecycle
+Provisioning a Virtual Machine
+Updating a Virtual Machine
+Deleting a Virtual Machine
+Binding and Unbinding a Virtual Machine with an Application
+Accessing a Virtual Machine
+Pool of Floating IPs for your Virtual Machines
+VMaaS Sharing Service Instances
+Retrieving Data From a Deleted VMaaS VM
+GPU (Graphics Processing Unit)
+Virtual Machine REST API
+Managing a Virtual Machine
+VMaaS Connectivity
+VMaaS Monitoring
+VMaaS Patch Management
+VMaaS Malware Protection
+VMaaS How To Guides
+VMaaS Roadmap
+VMaaS Known Issues
+News
+VMaaS FAQ
+VMaaS Support
+Managed Hosting
+Web Application Hosting
+Infrastructure Services
+Data Management
+Logging & Monitoring
+Access Management
+Development Tools
+AI Tool Stack
+Low Code
+Big Data & Analytics
+Data Streaming Platform
+How-to articles
+ConfigureSpace tools
+Updating a Virtual Machine
+Pages… Virtual Machine Lifecycle
+
+Translate
+Analytics
+ View inline comments
+
+ Save for later Watch Share
+Created by 
+
+ De Winter Commerina Aletta (BD/ISA-PRC2), last updated on 2026, Apr 15  4 minute read Current Version V 2Page Info
+When the hardware specification that you have selected for your virtual machine does not fit anymore, and you want to change it, you can do so in self-service. In addition to updating the hardware specification of your Linux or Windows virtual machine, you can also assign or remove an external IP to your virtual machine using update. This is also possible without changing the hardware specification.
+
+IMPORTANT
+
+Updating the service plan of your virtual machine has two constraints. You are not able to change the operating system and the VM needs to be in state ACTIVE or SHUTOFF.
+
+CAUTION
+
+When you update an existing service, and you have specified the additional parameter external-ip, previously, make sure that this additional parameter is specified properly as the default value is used, which means for external-ip the default value is false.
+This could lead to a situation where the external-ip will be removed and when reassigning the external-ip could change the IP address and could impact existing firewall rules.
+
+Updating a Virtual Machine via UI
+When you are logged into the Stratos UI navigate to the service instance.
+
+
+Select Edit on the context menu. This will open a dialog with two tabs. On the first tab you can select a new service plan.
+
+
+
+
+On the next tab you can change the name of the service instance, but also update the service parameters such as external-ip and additional-storage, where you can assign or remove an external IP on your Linux or Windows virtual machine and/or provision additional storage on top of the chosen service plan.
+
+When you add additional storage during update of a service instance the additional storage will be handled like stored added due to a service plan update, which means:
+
+Windows virtual machines
+For Windows virtual machines additional storage will be added to the D drive automatically, but you need to reboot the virtual machine, so that this change takes effect.
+
+Linux virtual machines
+For Linux virtual machines additional storage is not automatically mounted int the filesystem, but you can find documentation Add disk space on a Linux VMaaS VM.
+
+When you click on finish the update will be triggered.
+
+Updating a Virtual Machine via CLI
+When your Cloud Foundry CLI is targeted at the organization/space where the service instance is located, you can get a list of all service instances in the space
+
+
+
+cf services 
+which will return a result like this
+
+
+
+name     service           plan            bound apps   last operation     broker   upgrade available
+jh       vmaas-jump-host   Linux SSH                    create succeeded   vmaas
+vm-win   vmaas-windows     Large (W2K22)                update succeeded   vmaas 
+To change the service plan of a service instance use
+
+
+
+cf update-service <service-instance-name> -p <service-plan> 
+for example
+
+
+
+cf update-service vm-win -p "X-Large (W2K22)" 
+to change the external IP in addition to the service plan use
+
+Windows:
+
+
+
+cf update-service <service-instance-name> -p <service-plan> -c "{\"external-ip\":<boolean>,\"additional-storage\":<number>}" 
+Linux:
+
+
+
+cf update-service <service-instance-name> -p <service-plan> -c '{"external-ip":<boolean>,"additional-storage":<number>}' 
+for example
+
+
+
+cf update-service vm-win -p "X-Large (W2K22)" -c "{\"external-ip\":true}" 
+to just change the external IP without the service plan use
+
+Windows:
+
+
+
+cf update-service <service-instance-name> -c "{\"external-ip\":<boolean>}" 
+Linux:
+
+
+
+cf update-service <service-instance-name> -c '{"external-ip":<boolean>}' 
+for example
+
+
+
+cf update-service vm-win -c "{\"external-ip\":false}"
+Updating a Virtual Machine via Terraform
+Below, a demonstration how we can update a Linux Instance from Small Service Plan to a Medium Service Plan.
+
+For this example, use below parameters as input for desired state
+
+Linux from Small to Medium
+
+Organization=<Cloud Foundry Organization Name>
+
+Space=<Cloud Foundry Space Name>
+
+Service Name=vmaas-linux
+
+Service Plan=Medium (RHEL 8)
+
+Instance Display Name=Terraform Linux Instance DEMO
+
+External Ip set to true
+
+Change file vmaas/demonstration.tf as below:
+
+
+
+data "cloudfoundry_org" "org" {
+    name = "bhc-vmaas"
+}
+
+data "cloudfoundry_space" "space" {
+    name = "terraform_managed"
+    org = data.cloudfoundry_org.org.id
+}
+
+data "cloudfoundry_service" "svc" {
+    name = "vmaas-linux"
+}
+
+resource "cloudfoundry_service_instance" "svc_instance" {
+    name = "Terraform Linux Instance DEMO"
+    space = data.cloudfoundry_space.space.id
+    service_plan = data.cloudfoundry_service.svc.service_plans["Medium (RHEL 8)"]
+    json_params = "{ \"external-ip\": true }"
+} 
+Visualize instance details, using REST API, before update
+
+
+run plan phase
+
+
+
+$ terraform plan -var-file environments/demonstration/variables.tfvars -out plan.out 
+
+
+
+run apply phase
+
+
+
+terraform apply plan.out 
+
+
+
+Visualize instance details, using REST API, after update.
+
+
+Note:
+- entity.flavor and metadata.plan_id was updated
+- entity.data_disk_size was increased because large VM provides large disk
+
+
+
+
+
+Like
+Be the first to like this
+No labelsEdit Labels
+© Robert Bosch GmbH
+Docupedia 10.2.14.0 Powered by Atlassian Confluence and Scroll Viewport
+Node: doc-P2-SI0VM08475
+Docupedia Community
+Support
+Legal
+
+
+Skip to sidebar
+Skip to main content
+Skip to breadcrumbs
+Skip to search
+Linked Applications
+Docupedia II
+Spaces
+Analytics
+Collections
+Create
+
+Search
+Help
+0
+
+
+
+Bosch Private Cloud
+
+Analytics
+Space shortcuts
+Teams Channel Bosch Private Cloud
+Teams Channel DevCorner - Cloud BPC General Query
+How-to articles
+Page tree
+Welcome to the Bosch Private Cloud
+Services
+PaaS Runtime Services
+Shared Container Service
+Dedicated Container Service
+BKS Bosch Kubernetes Service
+BCR Bosch Container Registry
+CF Cloud Foundry
+VMaaS Virtual Maschine as a Service
+VMaaS Overview
+Virtual Machine Lifecycle
+Provisioning a Virtual Machine
+Updating a Virtual Machine
+Deleting a Virtual Machine
+Binding and Unbinding a Virtual Machine with an Application
+Accessing a Virtual Machine
+Pool of Floating IPs for your Virtual Machines
+VMaaS Sharing Service Instances
+Retrieving Data From a Deleted VMaaS VM
+GPU (Graphics Processing Unit)
+Virtual Machine REST API
+Managing a Virtual Machine
+VMaaS Connectivity
+VMaaS Monitoring
+VMaaS Patch Management
+VMaaS Malware Protection
+VMaaS How To Guides
+VMaaS Roadmap
+VMaaS Known Issues
+News
+VMaaS FAQ
+VMaaS Support
+Managed Hosting
+Web Application Hosting
+Infrastructure Services
+Data Management
+Logging & Monitoring
+Access Management
+Development Tools
+AI Tool Stack
+Low Code
+Big Data & Analytics
+Data Streaming Platform
+How-to articles
+ConfigureSpace tools
+Pages… Virtual Machine Lifecycle
+
+Translate
+Analytics
+ View inline comments
+
+ Save for later Watch Share
+Binding and Unbinding a Virtual Machine with an Application
+Created by 
+
+ De Winter Commerina Aletta (BD/ISA-PRC2) on 2026, Feb 05  5 minute read Current Version V 1Page Info
+When you run an application in Cloud Foundry that wants to connect to a service running on a virtual machine, you need to bind the application to the virtual machine that hosts that service.
+
+When you bind an application to a virtual machine three things will be done:
+
+The virtual machine will get a so-called floating IP, which is required to access the virtual machine from the outside.
+
+The virtual machine gets a security group assigned that enables ingress from Cloud Foundry.
+
+In Cloud Foundry an Application Security Group (ASG) will be created and assigned to the space where the application and the virtual machine are located. This application security group enables egress traffic for TCP and UDP on all ports to the floating IP of the virtual machine.
+
+When you unbind the application from the virtual machine all these changes are reverted.
+
+TIP
+
+A tutorial video with practical examples for this content can also be available at this link.
+
+Binding and unbinding a Virtual Machine with an application via UI
+At the moment there is a limitation in the Stratos UI that does not support asynchronous bindings. For this reason it is not possible to bind/unbind an application to a virtual machine via UI.
+
+Binding and unbinding a Virtual Machine with an application via CLI
+When your Cloud Foundry CLI is targeted at the organization/space where the service instance is located, you can get a list of all service instances in the space 
+
+
+
+cf services
+
+which will return a result like this
+
+
+
+name     service           plan            bound apps   last operation     broker   upgrade available
+jh       vmaas-jump-host   Linux SSH                    create succeeded   vmaas
+vm-win   vmaas-windows     Large (W2K22)                update succeeded   vmaas 
+
+Similar you can get a list of all applications running in the space 
+
+
+
+cf apps
+
+which will return a result like this
+ 
+
+
+
+name                  requested state   processes           routes
+headerviewer-gradle   started           web:1/1, task:0/0   headerviewer-gradle.apps.cfy04.ipz001.internal.bosch.cloud
+headerviewer-maven    started           web:1/1, task:0/0   headerviewer-maven.apps.cfy04.ipz001.internal.bosch.cloud
+
+To bind an application to a virtual machine use
+
+
+
+cf bind-service <application-name> <service-instance-name> 
+
+for example
+
+
+
+cf bind-service headerviewer-gradle vm-win 
+
+Binding and unbinding a Virtual Machine with an application via Terraform
+NOTE
+
+Only an application deployed previously with terraform can be binding to a VM, because is necessary to have the app information in terraform tfstate file
+
+Below terraform code to deploy a Linux VM and a python web application and binding them at end
+
+Will be deployed with following characteristics:
+
+VM Details
+
+Organization=bhc-vmaas
+
+Space=terraform_managed
+
+Service Name=vmaas-linux
+
+Service Plan=Micro (RHEL 8)
+
+Instance Display Name=Terraform Linux Instance DEMO
+
+External Ip set to true
+
+App Details
+
+Organization=bhc-vmaas
+
+Space=terraform_managed
+
+App Name=python-flask
+
+Domain=apps.cfy04.ipz001.internal.bosch.cloud
+
+Route=test-python-flask
+ 
+
+
+
+data "cloudfoundry_org" "org" {
+name = "bhc-vmaas"
+}
+
+data "cloudfoundry_space" "space" {
+name = "terraform_managed"
+org = data.cloudfoundry_org.org.id
+}
+
+data "cloudfoundry_service" "svc" {
+name = "vmaas-linux"
+}
+
+resource "cloudfoundry_service_instance" "svc_instance" {
+name = "Terraform Linux Instance DEMO"
+space = data.cloudfoundry_space.space.id
+service_plan = data.cloudfoundry_service.svc.service_plans["Micro (RHEL 8)"]
+json_params = "{ \"external-ip\": true}"
+}
+
+data "cloudfoundry_domain" "cf_domain" {
+name = "apps.cfy04.ipz001.internal.bosch.cloud"
+}
+
+resource "cloudfoundry_route" "test-python-flask-route" {
+domain = data.cloudfoundry_domain.cf_domain.id
+space =data.cloudfoundry_space.space.id
+hostname = "test-python-flask"
+}
+
+resource "cloudfoundry_app" "test-python-flask" {
+name       = "python-flask"
+path       = "./app.zip"
+space      = data.cloudfoundry_space.space.id
+service_binding {
+service_instance = cloudfoundry_service_instance.svc_instance.id
+}
+routes {
+route = cloudfoundry_route.test-python-flask-route.id
+}
+timeout = 180
+}
+
+Running the plan phase
+
+
+
+$ terraform plan -var-file environments/demonstration/variables.tfvars -out plan.out
+
+data.cloudfoundry_domain.cf_domain: Reading...
+data.cloudfoundry_service.svc: Reading...
+data.cloudfoundry_org.org: Reading...
+data.cloudfoundry_domain.cf_domain: Read complete after 0s [id=90c795c7-0e79-4840-b580-e58cf27aa096]
+data.cloudfoundry_service.svc: Read complete after 0s [id=c485fe75-6a19-4a6a-97c4-ea78544d2657]
+data.cloudfoundry_org.org: Read complete after 1s [id=790b031c-932f-4f9f-8862-b8d4647d7a28]
+data.cloudfoundry_space.space: Reading...
+data.cloudfoundry_space.space: Read complete after 0s [id=6023ced5-d6c6-4c97-bdb1-09fea3b361a5]
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
++ create
+
+Terraform will perform the following actions:
+
+  # cloudfoundry_app.test-python-flask will be created
+  + resource "cloudfoundry_app" "test-python-flask" {
+      + buildpack                       = (known after apply)
+      + disk_quota                      = (known after apply)
+      + enable_ssh                      = (known after apply)
+      + environment                     = (sensitive value)
+      + health_check_http_endpoint      = (known after apply)
+      + health_check_invocation_timeout = (known after apply)
+      + health_check_timeout            = (known after apply)
+      + health_check_type               = "port"
+      + id                              = (known after apply)
+      + id_bg                           = (known after apply)
+      + instances                       = 1
+      + memory                          = (known after apply)
+      + name                            = "python-flask"
+      + path                            = "./app.zip"
+      + ports                           = (known after apply)
+      + space                           = "6023ced5-d6c6-4c97-bdb1-09fea3b361a5"
+      + stack                           = (known after apply)
+      + stopped                         = false
+      + strategy                        = "none"
+      + timeout                         = 180
+
+      + routes {
+          + port  = (known after apply)
+          + route = (known after apply)
+        }
+
+      + service_binding {
+          + service_instance = (known after apply)
+        }
+    }
+
+  # cloudfoundry_route.test-python-flask-route will be created
+  + resource "cloudfoundry_route" "test-python-flask-route" {
+      + domain   = "90c795c7-0e79-4840-b580-e58cf27aa096"
+      + endpoint = (known after apply)
+      + hostname = "test-python-flask"
+      + id       = (known after apply)
+      + port     = (known after apply)
+      + space    = "6023ced5-d6c6-4c97-bdb1-09fea3b361a5"
+    }
+
+  # cloudfoundry_service_instance.svc_instance will be created
+  + resource "cloudfoundry_service_instance" "svc_instance" {
+      + id                             = (known after apply)
+      + json_params                    = jsonencode(
+            {
+              + external-ip = true
+            }
+        )
+      + name                           = "Terraform Linux Instance DEMO"
+      + recursive_delete               = false
+      + replace_on_params_change       = false
+      + replace_on_service_plan_change = false
+      + service_plan                   = "610be9b1-c963-4276-bc84-7087052da0d2"
+      + space                          = "6023ced5-d6c6-4c97-bdb1-09fea3b361a5"
+    }
+
+Plan: 3 to add, 0 to change, 0 to destroy.
+
+Saved the plan to: plan.out
+
+To perform exactly these actions, run the following command to apply:
+    terraform apply "plan.out" 
+
+Running the apply phase
+
+
+
+$ terraform apply plan.out
+cloudfoundry_route.test-python-flask-route: Creating...
+cloudfoundry_service_instance.svc_instance: Creating...
+cloudfoundry_route.test-python-flask-route: Creation complete after 1s [id=5707414e-1f03-4948-a227-71a9edf29c3f]
+cloudfoundry_service_instance.svc_instance: Still creating... [10s elapsed]
+cloudfoundry_service_instance.svc_instance: Still creating... [20s elapsed]
+cloudfoundry_service_instance.svc_instance: Still creating... [30s elapsed]
+cloudfoundry_service_instance.svc_instance: Still creating... [40s elapsed]
+cloudfoundry_service_instance.svc_instance: Still creating... [50s elapsed]
+cloudfoundry_service_instance.svc_instance: Still creating... [1m0s elapsed]
+cloudfoundry_service_instance.svc_instance: Still creating... [1m10s elapsed]
+cloudfoundry_service_instance.svc_instance: Still creating... [1m20s elapsed]
+cloudfoundry_service_instance.svc_instance: Still creating... [1m31s elapsed]
+cloudfoundry_service_instance.svc_instance: Still creating... [1m41s elapsed]
+cloudfoundry_service_instance.svc_instance: Still creating... [1m51s elapsed]
+cloudfoundry_service_instance.svc_instance: Still creating... [2m1s elapsed]
+cloudfoundry_service_instance.svc_instance: Creation complete after 2m6s [id=c69024e4-45cb-4a7e-acae-2faf2387a1eb]
+cloudfoundry_app.test-python-flask: Creating...
+cloudfoundry_app.test-python-flask: Still creating... [10s elapsed]
+cloudfoundry_app.test-python-flask: Still creating... [20s elapsed]
+cloudfoundry_app.test-python-flask: Still creating... [30s elapsed]
+cloudfoundry_app.test-python-flask: Still creating... [40s elapsed]
+cloudfoundry_app.test-python-flask: Still creating... [50s elapsed]
+cloudfoundry_app.test-python-flask: Still creating... [1m0s elapsed]
+cloudfoundry_app.test-python-flask: Still creating... [1m10s elapsed]
+cloudfoundry_app.test-python-flask: Still creating... [1m20s elapsed]
+cloudfoundry_app.test-python-flask: Still creating... [1m30s elapsed]
+cloudfoundry_app.test-python-flask: Still creating... [1m40s elapsed]
+cloudfoundry_app.test-python-flask: Still creating... [1m50s elapsed]
+cloudfoundry_app.test-python-flask: Still creating... [2m0s elapsed]
+cloudfoundry_app.test-python-flask: Creation complete after 2m5s [id=55e1e49f-e086-47ce-9b37-7481f201f9a8]
+
+Apply complete! Resources: 3 added, 0 changed, 0 destroyed. 
+
+Using cloud foundry cli to validate binding
+
+Running the apply phase
+
+
+
+$ cf apps
+Getting apps in org bhc-vmaas / space terraform_managed as POK2CA...
+
+name           requested state   processes   routes
+python-flask   started           web:1/1     test-python-flask.apps.cfy04.ipz001.internal.bosch.cloud
+
+POK2CA@CA-C-0055L ~/IdeaProjects/sketchpad/terraform/vmaas
+$ cf services
+Getting service instances in org bhc-vmaas / space terraform_managed as POK2CA...
+
+name                            offering      plan    bound apps     last operation     broker   upgrade available
+Terraform Linux Instance DEMO   vmaas-linux   Micro (RHEL 8)   python-flask   create succeeded   vmaas    no
+
+
+
+Like
+Be the first to like this
+No labelsEdit Labels
+© Robert Bosch GmbH
+Docupedia 10.2.14.0 Powered by Atlassian Confluence and Scroll Viewport
+Node: doc-P2-SI0VM08475
+Docupedia Community
+Support
+Legal
+
+Skip to sidebar
+Skip to main content
+Skip to breadcrumbs
+Skip to search
+Linked Applications
+Docupedia II
+Spaces
+Analytics
+Collections
+Create
+
+Search
+Help
+0
+
+
+
+Bosch Private Cloud
+
+Analytics
+Space shortcuts
+Teams Channel Bosch Private Cloud
+Teams Channel DevCorner - Cloud BPC General Query
+How-to articles
+Page tree
+Welcome to the Bosch Private Cloud
+Services
+PaaS Runtime Services
+Shared Container Service
+Dedicated Container Service
+BKS Bosch Kubernetes Service
+BCR Bosch Container Registry
+CF Cloud Foundry
+VMaaS Virtual Maschine as a Service
+VMaaS Overview
+Virtual Machine Lifecycle
+Provisioning a Virtual Machine
+Updating a Virtual Machine
+Deleting a Virtual Machine
+Binding and Unbinding a Virtual Machine with an Application
+Accessing a Virtual Machine
+Pool of Floating IPs for your Virtual Machines
+VMaaS Sharing Service Instances
+Retrieving Data From a Deleted VMaaS VM
+GPU (Graphics Processing Unit)
+Virtual Machine REST API
+Managing a Virtual Machine
+VMaaS Connectivity
+VMaaS Monitoring
+VMaaS Patch Management
+VMaaS Malware Protection
+VMaaS How To Guides
+VMaaS Roadmap
+VMaaS Known Issues
+News
+VMaaS FAQ
+VMaaS Support
+Managed Hosting
+Web Application Hosting
+Infrastructure Services
+Data Management
+Logging & Monitoring
+Access Management
+Development Tools
+AI Tool Stack
+Low Code
+Big Data & Analytics
+Data Streaming Platform
+How-to articles
+ConfigureSpace tools
+Accessing a Virtual Machine
+Pages… Virtual Machine Lifecycle
+
+Translate
+Analytics
+ View inline comments
+
+ Save for later Watch Share
+Created by 
+
+ De Winter Commerina Aletta (BD/ISA-PRC2), last updated on 2026, Apr 15  5 minute read Current Version V 3Page Info
+When you have provisioned a virtual machine via UI or CLI, you need to get the Credentials you need to access the virtual machine. These credentials will be provided on two ways, either on the VMaaS Dashboard by following the link on the service instance in the Cloud Foundry Stratos UI, or on the Virtual Machine REST API. The Virtual Machine REST API provides an endpoint to get the details of a virtual machine:
+
+
+
+GET /vms/{service-instance-id}
+
+
+
+The response will contain the information about host name, fully qualified domain names (FQDN), IP addresses, username and initial password.
+
+
+
+Before discussing on how to access a VMaaS virtual machine, it is necessary to clarify on which kind of virtual machine is accessible from where. Virtual Machine as a Service provides three services:
+
+Virtual Machine Jump Host
+
+Virtual Machine (Linux)
+
+Virtual Machine (Windows)
+
+A Jump Host virtual machine is intended as access point to the customer network, where all the virtual machines of the customer are located. The difference between a Jump Host virtual machine and a Linux / Windows Workload virtual machine is that a Jump Host virtual machine has an external IP by default but the required ingress security rules aren't automatically applied, therefore you have to apply it so the virtual machine is accessible from the outside. It is also possible to get an external IP for a workload virtual machine, and you can also configure the ingress so that it behaves similar like a Jump Host virtual machine, but is not recommended.
+
+A Workload virtual machine will require an external IP to expose a service running on the virtual machine or when connecting to other services within the Bosch Private Cloud, but the ingress to a Workload virtual machine should be as restrictive as possible to minimize the exposure. You should access that virtual machines from the Jump Host virtual machine.
+
+Access to a VMaaS Virtual Machine from the outside
+Now that you have all necessary information to access the Jump Host virtual machine the next step is to decide on a way how to access.
+
+TIP
+
+It is recommended to use Privileged Session Management (PSM) for access VMaaS virtual machines. The benefits of using PSM are:
+- PSM will automatically rotate passwords based on the Bosch central directives
+- PSM maintains a 90-day audit log for access to all the virtual machines
+- Access to the virtual machine is with your NT-ID credentials
+- No additional Jump Host required for communication with the virtual machine
+
+Depending on the foundation you have different options:
+
+Internal Placement Zone (IPZ)
+direct access from your Laptop in Bosch Corporate Network (BCN)
+
+using RB-PAM to access your VMaaS VM
+
+access using PSM to your Jumphost and then from Jump host to your Workload VM.
+
+External Placement Zone (EPZ)
+using RB-PAM to access your VMaaS VM
+
+access using PSM to your Jump host
+
+
+
+CAUTION
+
+In the External Placement Zone (EPZ) no direct access from your Laptop in Bosch Corporate Network (BCN) via TCP/22 (SSH) and TCP/3389 (RDP) is allowed!
+
+Access to VMaaS Jump Host
+As mentioned earlier, a Jump Host does not come with the necessary security group rules applied by default for direct access. To enable these rules, follow these steps in your VMaaS web dashboard:
+
+Navigate to the "Security Group Rules" tab.
+
+Click the "+" icon.
+Select the "Use a predefined security group" button.
+Choose either "jumphost-ssh" for Linux Jump Hosts or "jumphost-rdp" for Windows Jump Hosts.
+
+
+
+
+Once these rules are applied, you can connect directly to your Jump Host, or proceed to use PSM as explained in the next section for enhanced security.
+
+Access to a VMaaS Virtual Machine using PSM
+To connect to your Linux VMs using the Privileged Session Management (PSM) offered by RB-PAM, you will utilize PSMP (Privileged Session Management for SSH-Sessions).
+
+The simplest way to connect is by copying the connection string directly from your VMaaS web dashboard. This string is pre-configured based on your current user ID, the server name, and RB-PAM default accounts.
+Paste this string into your terminal, and when prompted, enter your NT-ID password to connect to your VM.
+
+
+
+
+
+
+
+Alternatively, you can construct the connection string manually to connect with a user different from the default ones.
+
+The example below illustrates the components of a PSMP connection string:
+
+
+ssh	<NT-USER>	@	
+rbadmin_app1
+
+@	
+c-bpc-0000001.vmaas.ipz001.internal.bosch.cloud
+
+@	
+rb-psmp.bosch.com
+
+
+
+To connect to your Windows VMs using the PSM offered by RB-PAM, you will use **PSM4RDP**. The simplest method is to:
+
+Download the RDP file directly from your **VMaaS web dashboard**.
+Double-click the downloaded RDP file.
+When prompted, enter your NT-ID password to establish the connection to your VM.
+
+
+
+
+
+
+
+
+Alternatively, if you prefer using the RB-PAM web interface:
+
+Open the RB-PAM web page (e.g., via the corporate portal).
+Search for your VM name.
+From the displayed account list, click the *"Connect"* button next to the desired account.
+Provide a reason for your connection when prompted.
+Open the generated RDP file to connect to your VM.
+
+
+
+
+Links
+Request Access to the Shared-JumpHosts
+
+Request Access to Shared Jump Hosts for External Users
+
+How To Connect To a Shared Jump Host
+
+Transfer File from Shared Jump Host to Systems
+
+Like
+Be the first to like this
+No labelsEdit Labels
+© Robert Bosch GmbH
+Docupedia 10.2.14.0 Powered by Atlassian Confluence and Scroll Viewport
+Node: doc-P2-SI0VM08475
+Docupedia Community
+Support
+Legal
+
+
+Skip to sidebar
+Skip to main content
+Skip to breadcrumbs
+Skip to search
+Linked Applications
+Docupedia II
+Spaces
+Analytics
+Collections
+Create
+
+Search
+Help
+0
+
+
+
+Bosch Private Cloud
+
+Analytics
+Space shortcuts
+Teams Channel Bosch Private Cloud
+Teams Channel DevCorner - Cloud BPC General Query
+How-to articles
+Page tree
+Welcome to the Bosch Private Cloud
+Services
+PaaS Runtime Services
+Shared Container Service
+Dedicated Container Service
+BKS Bosch Kubernetes Service
+BCR Bosch Container Registry
+CF Cloud Foundry
+VMaaS Virtual Maschine as a Service
+VMaaS Overview
+Virtual Machine Lifecycle
+Provisioning a Virtual Machine
+Updating a Virtual Machine
+Deleting a Virtual Machine
+Binding and Unbinding a Virtual Machine with an Application
+Accessing a Virtual Machine
+Pool of Floating IPs for your Virtual Machines
+VMaaS Sharing Service Instances
+Retrieving Data From a Deleted VMaaS VM
+GPU (Graphics Processing Unit)
+Virtual Machine REST API
+Managing a Virtual Machine
+VMaaS Connectivity
+VMaaS Monitoring
+VMaaS Patch Management
+VMaaS Malware Protection
+VMaaS How To Guides
+VMaaS Roadmap
+VMaaS Known Issues
+News
+VMaaS FAQ
+VMaaS Support
+Managed Hosting
+Web Application Hosting
+Infrastructure Services
+Data Management
+Logging & Monitoring
+Access Management
+Development Tools
+AI Tool Stack
+Low Code
+Big Data & Analytics
+Data Streaming Platform
+How-to articles
+ConfigureSpace tools
+Pool of Floating IPs for your Virtual Machines
+Pages… Virtual Machine Lifecycle
+
+Translate
+Analytics
+ View inline comments
+
+ Save for later Watch Share
+Created by 
+
+ De Winter Commerina Aletta (BD/ISA-PRC2) on 2026, Feb 05  5 minute read Current Version V 1Page Info
+Depending on the network location of your dependencies, you might need to explicitly create a rule in the E-IT and/or BPC firewalls to enable the communication from/to your VMs. In VMaaS, a virtual machine’s external communication is carried out through the so-called floating IPs, which can be assigned to or removed from your VMs at any time. Although this brings a good convenience, our service did not guarantee that a VM will always be assigned to the same floating IP. In addition, other customers could also get the floating IP that you used and released previously.
+
+As a firewall rule relies on, in general, on an IP address, having a value that can change over time is not good as you might need to re-define firewall rule again in the future. With that in mind, we proposed a new marketplace service that allows to create a pool of floating IPs that can be used by your VMs only. That allows you to create the firewall rules for the corresponding floating IPs belonging to your pool a single time, avoiding extra rework.
+
+One floating IP pool should be used for a set of virtual machines that require the same set of firewall rules (e.g. build workers), so if you have different kind of virtual machines it is recommended to have separate floating IP pools for those different kind of virtual machines. When creating/updating a virtual machine, where you specify a specific floating IP pool, an available floating IP from that floating IP pool is used.
+
+The next sections explain how to create and delete such resource.
+
+Create a new floating IP pool
+The process to create a new pool is similar to that to create a VM, i.e., you can use both the Cloud Foundry’s Stratos UI or the CLI.
+
+For the first, log into the platform and go to the Marketplace page. There, search for the "Floating IP Pool for your VMaaS VMs" service and click over it. You are going to be redirected to a page which is identical to the one displayed below.
+
+
+
+
+Once you hit the '+' button, choose one organization and space, and move to the next screens. At the last one, you will be required to enter a name and the size of your new pool. The maximum is 20. In case you need more FIPs, please contact us through any one of our support channels. Within a couple of minutes, your pool must be already ready for use.
+
+If you would rather use the CLI, use the command below as your starting point.
+
+
+
+$ cf create-service vmaas-floating-ip-pool "Floating IP Pool" <my-pool-name> -c '{"pool-size": <pool-size>}'
+NOTE
+
+Bear in mind that the resulting service instance cannot be bound to any app. 
+
+
+Display addresses belonging to the pool
+To check the floating IP addresses that belong to your pool, use the CLI and execute the following command:
+
+
+
+$ cf service <my-pool-name> --params 
+
+This command returns a list of objects that represent your floating IPs, including their IP addresses, statuses, and the hostnames of the VMs that are eventually associated to them:
+
+
+
+{
+  "floating_ips": [
+    {
+      "assigned_to": "",
+      "ip_address": "10.140.191.41",
+      "status": "PROVISIONED"
+    },
+    {
+      "assigned_to": "",
+      "ip_address": "10.140.191.199",
+      "status": "PROVISIONED"
+    },
+    {
+      "assigned_to": "",
+      "ip_address": "10.140.190.161",
+      "status": "PROVISIONED"
+    },
+    {
+      "assigned_to": "",
+      "ip_address": "10.140.191.2",
+      "status": "PROVISIONED"
+    },
+    {
+      "assigned_to": "",
+      "ip_address": "10.140.191.252",
+      "status": "PROVISIONED"
+    }
+  ]
+}
+
+In the example above, all 5 floating IPs are available to be assigned to any of your VMs.
+
+Expanding or shrinking your pool
+To update your existing pool to add additional FIPs or remove some of them, you can also use both the Stratos UI and CLI. For the first, locate your service instance and then click in the Edit button as depicted by the image below. Choose your new pool size, accordingly.
+
+
+
+
+If you want to use the CLI, use the cf update-service command as shown in the following snippet: 
+
+
+
+$ cf update-service <my-pool-name> -c '{"pool-size": <new-pool-size>}'
+
+Please, be aware that, in case you want to shrink your pool, but it does not have free FIPs (i.e., floating IPs that are not assigned to any VM), we will return you an error, and no floating IP will be released.
+
+Deleting your pool
+If you do not need your pool anymore, delete it through the Stratos UI or the CLI. For the UI, click on the 'Delete' button as shown below.
+
+
+For the CLI, run cf delete-service and provide your pool’s name:
+
+
+
+$ cf delete-service my-pool 
+
+This request fails if any of your FIPs is still associated to a VM, so assure that you unassign any floating IP in use beforehand.
+
+Migration a floating IP to a floating IP pool
+Sometimes you have provisioned a VMaaS VM, but not used a floating IP pool. When you need to delete and re-build the VMaaS VM, you would lose the floating IP. To prevent this, we introduced a new service parameter, that allows you to migrate the floating IP to an existing floating IP pool.
+
+Windows:
+
+
+
+cf update-service <service instance name> -c "{\"migrate-to-floating-ip-pool\": \"<floating IP pool name>\"}" 
+
+Linux:
+
+
+
+cf update-service <service instance name> -c '{"migrate-to-floating-ip-pool": "<floating IP pool name>"}' 
+
+There are a few things that you should know before:
+
+You can not combine the new service parameter with a service plan change.
+
+Other service parameters will be ignored when using service parameter migrate-to-floating-ip-pool.
+
+A floating IP pool with the name specified need to be present in the same space.
+
+The floating IP pool must be successfully created.
+
+If a prerequisite is not fulfilled the service parameter has no effect.
+
+Like
+Be the first to like this
+No labelsEdit Labels
+© Robert Bosch GmbH
+Docupedia 10.2.14.0 Powered by Atlassian Confluence and Scroll Viewport
+Node: doc-P2-SI0VM08475
+Docupedia Community
+Support
+Legal
+
+
+Skip to sidebar
+Skip to main content
+Skip to breadcrumbs
+Skip to search
+Linked Applications
+Docupedia II
+Spaces
+Analytics
+Collections
+Create
+
+Search
+Help
+0
+
+
+
+Bosch Private Cloud
+
+Analytics
+Space shortcuts
+Teams Channel Bosch Private Cloud
+Teams Channel DevCorner - Cloud BPC General Query
+How-to articles
+Page tree
+Welcome to the Bosch Private Cloud
+Services
+PaaS Runtime Services
+Shared Container Service
+Dedicated Container Service
+BKS Bosch Kubernetes Service
+BCR Bosch Container Registry
+CF Cloud Foundry
+VMaaS Virtual Maschine as a Service
+VMaaS Overview
+Virtual Machine Lifecycle
+Provisioning a Virtual Machine
+Updating a Virtual Machine
+Deleting a Virtual Machine
+Binding and Unbinding a Virtual Machine with an Application
+Accessing a Virtual Machine
+Pool of Floating IPs for your Virtual Machines
+VMaaS Sharing Service Instances
+Retrieving Data From a Deleted VMaaS VM
+GPU (Graphics Processing Unit)
+Virtual Machine REST API
+Managing a Virtual Machine
+VMaaS Connectivity
+VMaaS Monitoring
+VMaaS Patch Management
+VMaaS Malware Protection
+VMaaS How To Guides
+VMaaS Roadmap
+VMaaS Known Issues
+News
+VMaaS FAQ
+VMaaS Support
+Managed Hosting
+Web Application Hosting
+Infrastructure Services
+Data Management
+Logging & Monitoring
+Access Management
+Development Tools
+AI Tool Stack
+Low Code
+Big Data & Analytics
+Data Streaming Platform
+How-to articles
+ConfigureSpace tools
+VMaaS Sharing Service Instances
+Pages… Virtual Machine Lifecycle
+
+Translate
+Analytics
+ View inline comments
+
+ Save for later Watch Share
+Created by 
+
+ De Winter Commerina Aletta (BD/ISA-PRC2), last updated on 2026, Apr 15  2 minute read Current Version V 2Page Info
+Cloud Foundry provides the ability to share a service instance among multiple spaces and across organizations via Cloud Foundry Command Line Interface (CF CLI).
+
+Download: https://github.com/cloudfoundry/cli/releases
+
+Service instance sharing
+You can share VMaaS service instance from one space to another if you have the Space Developer role in both spaces. To share a service instance to another space, run the following CF CLI command: 
+
+
+
+cf share-service SERVICE-INSTANCE -s OTHER-SPACE [-o OTHER-ORG]
+
+To verify that your service instance is shared, run the following CF CLI command:
+ 
+
+
+
+cf service SERVICE-INSTANCE
+
+The output should contain the following information:
+
+
+
+Showing sharing info:
+   Shared with spaces:
+   org           space           bindings
+   [your-org]    [your-space]    0 
+
+When to use Service instance sharing with VMaaS
+Use Case
+Service instance sharing with VMaaS VMs is intended for the use case that you operate a service on your VMaaS VM that you want to access from multiple applications running in Cloud Foundry in different spaces/organizations.
+
+VMaaS Binding
+Towards service instance binding in Cloud Foundry, where credentials are created and injected into the VCAP_SERVICES environment variable, the VMaaS service is using service instance binding to enable the communication between the application running in Cloud Foundry and the VMaaS VM in Openstack.
+
+VMaaS VM
+To enable the communication between an application in Cloud Foundry and the VMaaS VM in Openstack, there are two things required on the VMaaS VM:
+
+A floating IP, so that the VMaaS VM is reachable from outside the VMaaS Openstack tenant. If the VMaaS VM has no floating IP assigned, a floating IP will be assigned; otherwise no action.
+
+An Openstack security group rule that enables the ingress on the VMaaS VM. This Openstack security group (vmaas-cloudfoundry) will enable any port for protocols TCP and UDP from Cloud Foundry.
+
+Cloud Foundry
+In addition to the configuration on the VMaaS VM also in Cloud Foundry the egress to the VMaaS VM needs to be enabled. This is done via Application Security Groups (ASG):
+
+An application security group for the VMaaS VM will be created (name: vmaas-<service-instance-id>) that allows any port for protocols TCP and UDP to the floating IP of the VMaaS VM.
+
+This application security group will be bound to the space in which the application is located for which the binding is executed.
+
+
+
+NOTE
+
+In former days a restage was required so that the application security group became active, but this is no longer required and egress is enabled immediately.
+
+Service instance sharing and VMaaS binding
+Without service instance binding a VMaaS VM can only be bound to an application deployed in the same space and organization, where the VMaaS VM was provisioned. With Service instance sharing it is possible to bind an application in a different space/organization to a shared VMaaS VM service instance. This will bind the application security group to the space of the application as well.
+
+Provisioning a Virtual Machine
+
+Accessing a Virtual Machine
+
+Updating a Virtual Machine
+
+Deleting a Virtual Machine
+
+Binding and Unbinding a Virtual Machine with an application
+
+
+
+Like
+Be the first to like this
+No labelsEdit Labels
+© Robert Bosch GmbH
+Docupedia 10.2.14.0 Powered by Atlassian Confluence and Scroll Viewport
+Node: doc-P2-SI0VM08475
+Docupedia Community
+Support
+Legal
+
+Skip to sidebar
+Skip to main content
+Skip to breadcrumbs
+Skip to search
+Linked Applications
+Docupedia II
+Spaces
+Analytics
+Collections
+Create
+
+Search
+Help
+0
+
+
+
+Bosch Private Cloud
+
+Analytics
+Space shortcuts
+Teams Channel Bosch Private Cloud
+Teams Channel DevCorner - Cloud BPC General Query
+How-to articles
+Page tree
+Welcome to the Bosch Private Cloud
+Services
+PaaS Runtime Services
+Shared Container Service
+Dedicated Container Service
+BKS Bosch Kubernetes Service
+BCR Bosch Container Registry
+CF Cloud Foundry
+VMaaS Virtual Maschine as a Service
+VMaaS Overview
+Virtual Machine Lifecycle
+Virtual Machine REST API
+Managing a Virtual Machine
+VMaaS Backup
+VMaaS Getting a URL to the Remote Console
+VMaaS Managing Custom Proxy Destinations
+VMaaS Managing Ingress and Egress
+VMaaS Managing PAM
+VMaaS Snapshots
+VMaaS Starting and Stopping a Virtual Machine
+VMaaS Connectivity
+VMaaS Monitoring
+VMaaS Patch Management
+VMaaS Malware Protection
+VMaaS How To Guides
+VMaaS Roadmap
+VMaaS Known Issues
+News
+VMaaS FAQ
+VMaaS Support
+Managed Hosting
+Web Application Hosting
+Infrastructure Services
+Data Management
+Logging & Monitoring
+Access Management
+Development Tools
+AI Tool Stack
+Low Code
+Big Data & Analytics
+Data Streaming Platform
+How-to articles
+ConfigureSpace tools
+Pages… Managing a Virtual Machine
+
+Translate
+Analytics
+ View inline comments
+
+ Save for later Watch Share
+VMaaS Getting a URL to the Remote Console
+Created by 
+
+ De Winter Commerina Aletta (BD/ISA-PRC2), last updated by Dietzsch Alexander (BD/ISA-PRC3) on 2026, May 28  2 minute read Current Version V 3Page Info
+Debugging virtual machines (VMs) can be a hard task when you cannot establish a secure remote connection to the VM. This might happen for many reasons, including wrong settings, failures at initialization, or boot issues, for example. At such cases, you would need another way to connect to your machine and analyze your logs. To accomplish this goal, VMaaS team has made available two new REST APIs that can be used to obtain a URL pointing to a short-lived web remote console. With that link, you can use your favorite web browser to find the root cause of your issue and fix it without the need of requesting another virtual machine. In addition, this feature has also been integrated to our dashboard, allowing you to open a connection to your VM in seconds. The core of this feature relies on the following REST APIs:
+
+POST /vms/{service-instance-id}/remote-console/{type}/{protocol}.
+
+GET /vms/{service-instance-id}/remote-console/{request-id}.
+
+As usual, in order to use them, you need to be authenticated. More information on how to obtain a valid token can be found at this guide.
+
+Without further ado, let’s check how to use these two new APIs in the next sections.
+
+Requesting a new web console URL
+The first step to get your remote console URL is calling POST /vms/{service-instance-id}/remote-console/{type}/{protocol} with a type and a protocol. Those two parameters can assume the values as described below:
+
+The protocol of remote console. The valid values are vnc, spice, rdp, serial, and mks.
+
+The type of remote console. The valid values are novnc, rdp_html5, spice_html5, serial, and webmks.
+
+NOTE
+
+As of now, due to the current deployed Openstack version, the only valid values for the type and protocol are vnc and novnc, respectively.
+
+Since VMaaS handles the requests asynchronously, this API is going to return a UUID code, which then can be used to poll for the URL. The format of the response return by this POST API is depicted below:
+
+
+
+{
+  "requestId":"a5ee099e-d05f-4b62-9490-c3dba873a52e"
+} 
+
+Getting the web console’s URL from the UUID
+After receiving a UUID` from the POST call, you can make another request, GET /vms/{service-instance-id}/remote-console/{request-id}, to get the current status of the URL generation process. Using the same UUID of the previous section’s example, calling GET /vms/{service-instance-id}/remote-console/a5ee099e-d05f-4b62-9490-c3dba873a52 would return one of the following answers, depending on the current processing status.
+
+If VMaaS is still processing the request internally, then the CREATING status is returned, indicating that you should wait before calling the same API again.
+
+
+
+{
+    "status": "CREATING"
+} 
+
+If VMaaS was able to create a URL, then it returns that URL together with CREATED status
+
+NOTE
+
+by default, the url is valid for 10 minutes. After that period, follow the same process to request a new one.
+
+
+
+{
+    "url": "https://osp.ipz001.internal.bosch.cloud:13080/vnc_auto.html?path=%3Ftoken%3D3b275b83-05d1-4685-8224-696261fe185f",
+    "status": "CREATED"
+} 
+
+Otherwise, in case of internal failures, we return CREATE_FAILED. In that case, retry your calls or contact us through any of our support channels.
+
+
+
+{
+    "status": "CREATE_FAILED"
+}
+
+Like
+Be the first to like this
+No labelsEdit Labels
+© Robert Bosch GmbH
+Docupedia 10.2.14.0 Powered by Atlassian Confluence and Scroll Viewport
+Node: doc-P2-SI0VM08475
+Docupedia Community
+Support
+Legal
+
+
+
+Skip to sidebar
+Skip to main content
+Skip to breadcrumbs
+Skip to search
+Linked Applications
+Docupedia II
+Spaces
+Analytics
+Collections
+Create
+
+Search
+Help
+0
+
+
+
+Bosch Private Cloud
+
+Analytics
+Space shortcuts
+Teams Channel Bosch Private Cloud
+Teams Channel DevCorner - Cloud BPC General Query
+How-to articles
+Page tree
+Welcome to the Bosch Private Cloud
+Services
+PaaS Runtime Services
+Shared Container Service
+Dedicated Container Service
+BKS Bosch Kubernetes Service
+BCR Bosch Container Registry
+CF Cloud Foundry
+VMaaS Virtual Maschine as a Service
+VMaaS Overview
+Virtual Machine Lifecycle
+Virtual Machine REST API
+Managing a Virtual Machine
+VMaaS Backup
+VMaaS Getting a URL to the Remote Console
+VMaaS Managing Custom Proxy Destinations
+VMaaS Managing Ingress and Egress
+VMaaS Managing PAM
+VMaaS Snapshots
+VMaaS Starting and Stopping a Virtual Machine
+VMaaS Connectivity
+VMaaS Monitoring
+VMaaS Patch Management
+VMaaS Malware Protection
+VMaaS How To Guides
+VMaaS Roadmap
+VMaaS Known Issues
+News
+VMaaS FAQ
+VMaaS Support
+Managed Hosting
+Web Application Hosting
+Infrastructure Services
+Data Management
+Logging & Monitoring
+Access Management
+Development Tools
+AI Tool Stack
+Low Code
+Big Data & Analytics
+Data Streaming Platform
+How-to articles
+ConfigureSpace tools
+Pages… Managing a Virtual Machine
+
+Translate
+Analytics
+ View inline comments
+
+ Save for later Watch Share
+VMaaS Managing Custom Proxy Destinations
+Created by 
+
+ De Winter Commerina Aletta (BD/ISA-PRC2), last updated by Povoacao Kleber (BD/ISA-PRC3) on 2026, May 14  4 minute read Current Version V 4Page Info
+For security reasons, virtual machines (VMs) cannot directly access the Internet in Bosch. In case this is indeed a requirement, teams are requested to configure the proxy settings of such VMs.
+
+The virtual machines provisioned by VMaaS are already set up with the addresses pointing to the proxy for the Bosch Private Cloud (more on here).
+
+However, if you need access to a domain or address which is not allowed by default in the current web proxy’s settings, then you are required to request an exemption. In order to make this process faster and easier, BPC currently provides an internal platform, Proxy as a Service, which automatically handles exemptions. As VMaaS customers' time matter a lot to us, we developed an integration to this service, allowing you to enable domains (a.k.a. proxy destinations) for your VM in seconds.
+
+Proxy destinations can be specified as an FQDN, a wildcard FQDN, IP address or CIDR notation.
+
+Addition, deletion or updating a URL on proxy service, can be executed through VMaaS Dashboard or sending requests via REST API
+
+
+
+Dashboard
+
+
+
+
+
+
+
+Three REST APIs are provided:
+
+GET /vms/{vmaasInstanceId}/proxy-destinations
+
+POST /vms/{vmaasInstanceId}/proxy-destinations
+
+DELETE /vms/{vmaasInstanceId}/proxy-destinations/{proxyDestinationId}
+
+As usual, in order to use them, the user needs to be authenticated. More information can be found at this guide.
+
+NOTE
+
+A pre-requirement for this feature is that the VM has already been assigned to a floating IP.
+
+Get all enabled destinations for a virtual machine
+To get all the domains that a VM has been allowed for, just submit a request like below. service-instance-id is the GUID associated with your VM (refer to this page for information on how to retrieve this value).
+
+
+
+GET /vms/{service-instance-id}/proxy-destinations 
+
+The block below depicts an example of response that you might get. It contains a list of all domains that are active. This API also supports pagination, which consists of splitting the entries into multiple pages to avoid long answers. Use the optional parameters page and results-per-page to choose which page and how many entries each one contains, respectively. By default, they are defined as 0 and 20.
+
+
+
+{
+    "content": [
+        {
+            "destination_id": "895e83d9-0da8-4d83-aa62-02c8cef999a4",
+            "destination": "100.200.200.200",
+            "status": "CREATED"
+        },
+        {
+            "destination_id": "d46af984-463e-4282-a0a5-58c5b0510a96",
+            "destination": "100.200.202.200",
+            "status": "CREATED"
+        },
+        {
+            "destination_id": "7779d4a5-b595-4f06-9281-460a76cdd5b1",
+            "destination": "www.google.com",
+            "status": "CREATED"
+        },
+        {
+            "destination_id": "a0ede5ba-2e88-4864-ac1e-ae701bbdc72d",
+            "destination": "100.200.255.240",
+            "status": "CREATED"
+        }
+    ],
+    "page": {
+        "size": 20,
+        "number": 0,
+        "totalPages": 1,
+        "totalElements": 4
+    }
+}
+
+
+
+Each destination contains the following attributes:
+
+destination_id: an optional attribute that identifies the domain inside the Proxy as a Service platform. It may be empty in case the destination is in creation process.
+
+destination: the domain which is associated with that entity.
+
+status: the current status of the entity. It can assume the following values:
+
+CREATING: the entity is being processed by the backend. At this step, VMaaS does not know its destination_id yet.
+
+CREATED: the entity has been successfully created and is active.
+
+UPDATED: because of the way Proxy as a Service has been developed, a destination might be shared among many VMs. Therefore, in case you perform an operation (add or delete) on a shared domain and it succeeded, then its status is going to be set to UPDATED. This means that it is currently active.
+
+DELETING: the destination is being deleted by the backend. In this case, the associated domain is owned only by your VM.
+
+COLLAPSING: the destination is being disassociated from the VM. In this case, the destination is shared with other VMs. To assure atomic access, no other VMs can perform operations on this destination until your request has been fulfilled.
+
+EXPANDING: the destination is being associated to the VM. In this case, the destination is shared with other VMs.
+
+CREATE_FAILED, UPDATE_FAILED, and DELETE_FAILED correspond to the failure status associated with the use cases below.
+
+Associate a domain to a virtual machine
+To submit a new domain allow request, our POST API can be used. It expects a body object containing a single field, destination. It can be an FQDN, a wildcard FQDN, an IP address or CIDR notation (i.e., 100.200.0.0/16).
+
+
+
+POST /vms/{service-instance-id}/proxy-destinations
+{
+  "destination":"www.google.com"
+} 
+
+A pre-requirement for this operation is that the VM has already been assigned to a floating IP. A floating IP is needed for Internet connectivity. If it is not the case, VMaaS returns a 400 code.
+
+NOTE
+
+As a destination might be shared with other VM(s), you might need to wait for any in-progress operations performed on that destination to finish, even if they were not submitted by you. If this happens, wait for some seconds before your retry. You will get a 400 error containing "Proxy destination <id> is still being processed (current status is <status>)."
+
+The operation is executed asynchronously, so that the REST API will return with a status code 202 (ACCEPTED).
+
+Disassociate domain from a virtual machine
+If you no longer need your custom proxy domain, it is a good practice to remove it from your VM. Submit a DELETE request for that, as depicted below:
+
+
+
+DELETE /vms/{service-instance-id}/proxy-destinations/{proxy_destination_id} 
+
+It relies only on the destination’s proxy_destination_id, which can be fetched from the GET API. This API is also asynchronous, returning 202 (ACCEPTED) in case the parameters are valid, i.e., the VM and the destination both exist, and are associated with each other.
+
+Like
+Be the first to like this
+No labelsEdit Labels
+© Robert Bosch GmbH
+Docupedia 10.2.14.0 Powered by Atlassian Confluence and Scroll Viewport
+Node: doc-P2-SI0VM08475
+Docupedia Community
+Support
+Legal
+
+Skip to sidebar
+Skip to main content
+Skip to breadcrumbs
+Skip to search
+Linked Applications
+Docupedia II
+Spaces
+Analytics
+Collections
+Create
+
+Search
+Help
+0
+
+
+
+Bosch Private Cloud
+
+Analytics
+Space shortcuts
+Teams Channel Bosch Private Cloud
+Teams Channel DevCorner - Cloud BPC General Query
+How-to articles
+Page tree
+Welcome to the Bosch Private Cloud
+Services
+PaaS Runtime Services
+Shared Container Service
+Dedicated Container Service
+BKS Bosch Kubernetes Service
+BCR Bosch Container Registry
+CF Cloud Foundry
+VMaaS Virtual Maschine as a Service
+VMaaS Overview
+Virtual Machine Lifecycle
+Virtual Machine REST API
+Managing a Virtual Machine
+VMaaS Backup
+VMaaS Getting a URL to the Remote Console
+VMaaS Managing Custom Proxy Destinations
+VMaaS Managing Ingress and Egress
+VMaaS Managing PAM
+VMaaS Snapshots
+VMaaS Starting and Stopping a Virtual Machine
+VMaaS Connectivity
+VMaaS Monitoring
+VMaaS Patch Management
+VMaaS Malware Protection
+VMaaS How To Guides
+VMaaS Roadmap
+VMaaS Known Issues
+News
+VMaaS FAQ
+VMaaS Support
+Managed Hosting
+Web Application Hosting
+Infrastructure Services
+Data Management
+Logging & Monitoring
+Access Management
+Development Tools
+AI Tool Stack
+Low Code
+Big Data & Analytics
+Data Streaming Platform
+How-to articles
+ConfigureSpace tools
+Pages… Managing a Virtual Machine
+
+Translate
+Analytics
+ View inline comments
+
+ Save for later Watch Share
+VMaaS Managing Ingress and Egress
+Created by 
+
+ De Winter Commerina Aletta (BD/ISA-PRC2), last updated by Dietzsch Alexander (BD/ISA-PRC3) on 2026, Aug 16  6 minute read Current Version V 16Page Info
+When you have provisioned a virtual machine the virtual machine requires connectivity to other virtual machines or services.
+
+Connectivity within the subnet (Cloud Foundry Organization) is possible between all virtual machines on all ports for TCP, UDP and ICMP.
+
+While connectivity within the customer tenant is enabled by default, connectivity to the outside is restricted and needs to be managed. This connectivity is managed via so-called security groups on Openstack.
+
+There we distinguish between:
+
+Ingress
+
+Egress
+
+As known from public Clouds we enable egress, at least within Bosch Private Cloud, while we restrict ingress.
+
+NOTE
+
+Egress rules outside BPC are also supported, but, due to security constraints, we must add them on your behalf. Cut us a ticket if you need a non-default egress rule (e.g., to enable connectivity to a service in the Enterprise network). You can still delete your custom egress rules using our DELETE API by yourself.
+
+Virtual Machine as a Service provides you with self-service so that you can manage the ingress and egress of your virtual machine with predefined security groups on your own.
+
+Predefined Security Groups
+Available predefined security groups
+jumphost-rdp
+Security Group to grant access to RDP (allow TCP ingress traffic on port 3389 from any IPv4 address. Allow ingress from PSM for RDP on TCP ports: 135, 139, 445, 49152-65535. Allow ingress from PSM for RDP on UDP ports: 135, 139).
+
+jumphost-ssh
+Security Group to grant access to SSH (allow TCP ingress traffic on port 22 from any IPv4 address).
+
+vmaas-psmp-ssh
+Security Group to grant access to Linux VM from PSMP (allow SSH ingress traffic from CPM and PSMP).
+
+vmaas-psmp-rdp
+Security Group to grant access to Windows VM from PSM (allow RDP ingress traffic from CPM and PSM).
+
+vmaas-ms-defender
+Security Group to grant access to proxy servers required for Microsoft Defender.
+
+vmaas-tsm
+Security Group to grant access to TSM Backup (allow TCP egress traffic on port 1500 to the TSM Backup Servers).
+
+vmaas-social-coding
+Security Group to grant access to Social Coding Bitbucket (allow TCP egress traffic on port 443 to the Social Coding Bitbucket).
+
+vmaas-rb-artifactory (available in IPZ only)
+Security Group to grant access to RB Artifactory in SL3 (allow TCP egress traffic on port 443 to the RB Artifactory - https://rb-artifactory.bosch.com).
+
+vmaas-shared01-artifacts
+Security Group to grant access to shared01 Artifactory Platform instance in SL4 (allow TCP egress traffic on port 443 to the shared01 Artifactory - https://shared01.artifacts.app.bosch.com).
+
+There is a new Artifactory shared01.artifacts.app.bosch.com available in SL4 which will be the replacement for RB-Artifactory.
+
+vmaas-fossid (available in IPZ only)
+Security Group to grant access to FOSSID Service in SL3 (allow TCP egress traffic on port 443 to the FOSSID Service - https://rb-fossid.de.bosch.com).
+
+Meanwhile, there is also a FOSSID available in SL2 at https://foss-scanner.bosch.tech. When you want to use this instance, no Openstack Security Group is required, but you need to create Proxy Whitelisting for foss-scanner.bosch.tech, so that you can reach it via Proxy. This Proxy Whitelisting you can create via VMaaS REST API or in the VMaaS Dashboard on tab Custom Proxy Destinations.
+vmaas-oracle
+Security Group to grant access to Oracle Database Service (allow TCP egress traffic on port 38000 to the Oracle Database Servers).
+
+vmaas-mathworks (available in IPZ only)
+Security Group to grant access to Mathworks License Server - rb-lic-mlm-eu.de.bosch.com.
+
+vmaas-vulnerability-scanner
+Security Group to grant access from the Vulnerability Scanner to the VMaaS VM.
+
+vmaas-ibc-ssh
+Security Group to grant access to Linux VM from SASE Gateways for IBC Clients (allow SSH ingress traffic).
+
+vmaas-ibc-rdp
+Security Group to grant access to Windows VM from SASE Gateways for IBC Clients (allow RDP ingress traffic).
+
+vmaas-ibc-prometheus-grafana
+Security Group to grant access to Prometheus/Grafana/AlertManager from SASE Gateways for IBC Clients
+
+vmaas-icinga
+Security Group to grant access from Icinga to monitor a VMaaS VM.
+
+vmaas-bcr2
+Security Group to grant access to Bosch Container Registry - bcr2.inside.bosch.cloud.
+
+Get all the security groups of a Virtual Machine via REST API
+The Virtual Machine REST API provides an endpoint to get all the security groups of a virtual machine. It also supports pagination (i.e., entries split into multiple pages), so that you do not get huge answers. We offer you two optional parameters, page and results-per-page, that can define how many entries your request will return. The first represents the index of the page, meanwhile the seconds stands for the maximum number of entries per page. By default, they are 0 and 20, respectively.
+
+
+
+GET /vms/{service-instance-id}/security-groups 
+
+This will return you a list like this:
+
+
+
+{
+    "content": [
+        {
+            "name": "vmaas-tsm",
+            "status": "ASSIGNED"
+        }
+    ],
+    "page": {
+        "size": 20,
+        "number": 0,
+        "totalPages": 1,
+        "totalElements": 1
+    }
+} 
+
+There you have a name that you need, when you want to remove the security group from your virtual machine.
+
+Assign a security group on a Virtual Machine via REST API
+The Virtual Machine REST API provides also an endpoint to assign a security group on a virtual machine
+
+
+
+POST /vms/{service-instance-id}/security-groups/{security-group-name} 
+
+The operation is executed asynchronous, so that the REST API will return with a status code 202 (ACCEPTED).
+
+Remove a security group from a Virtual Machine via REST API
+The Virtual Machine REST API provides also an endpoint to remove a security group from a virtual machine
+
+
+
+DELETE /vms/{service-instance-id}/security-groups/{security-group-name} 
+
+The required security group name you can get from the GET REST API.
+
+The operation is executed asynchronous, so that the REST API will return with a status code 202 (ACCEPTED).
+
+Individual Security Group Rules
+Virtual Machine as a Service provides you with self-service so that you can manage the ingress of your virtual machines on your own.
+
+Get all the rules of a Virtual Machine via REST API
+The Virtual Machine REST API provides an endpoint to get all the security group rules of a virtual machine. It also supports pagination (i.e., entries split into multiple pages), so that you do not get huge answers. We offer you two optional parameters, page and results-per-page, that can define how many entries your request will return. The first represents the index of the page, meanwhile the seconds stands for the maximum number of entries per page. By default, they are 0 and 20, respectively.
+
+
+
+GET /vms/{service-instance-id}/security-group-rules 
+
+This will return you a list like this:
+
+
+
+{
+    "content": [
+        {
+            "security_rule_id": "9b50ea7a-9335-471e-8a70-243a3517b3e2",
+            "direction": "ingress",
+            "protocol": "tcp",
+            "port_range_min": 3389,
+            "port_range_max": 3389,
+            "remote_ip_prefix": "0.0.0.0/0",
+            "description": "RDP"
+        },
+        {
+            "security_rule_id": "6771fcc3-6ab8-4524-8771-825d0c922da6",
+            "direction": "ingress",
+            "protocol": "tcp",
+            "port_range_min": 22,
+            "port_range_max": 22,
+            "remote_ip_prefix": "0.0.0.0/0",
+            "description": "SSH"
+        }
+    ],
+    "page": {
+        "size": 20,
+        "number": 0,
+        "totalPages": 1,
+        "totalElements": 2
+    }
+}
+
+
+
+There you have a security_rule_id that you need, when you want to delete the security group rule. Besides that you get the direction (ingress, egress), the protocol (e.g. tcp, udp, icmp, ..), the port range, the remote IPs as CIDR (any is represented as 0.0.0.0/0) and a description.
+
+Create an ingress rule for a Virtual Machine via REST API
+The Virtual Machine REST API provides also an endpoint to create a security group rule for a virtual machine
+
+
+
+POST /vms/{service-instance-id}/security-group-rules 
+
+This REST API call requires a request body in JSON format:
+
+
+
+{
+  "direction": "ingress",
+  "protocol": "tcp",
+  "port_range_min": 443,
+  "port_range_max": 443,
+  "remote_ip_prefix": "0.0.0.0/0",
+  "description": "Allow Ingress on TCP/443 from anywhere"
+} 
+
+Attributes direction and protocol are required, while all other attributes are optional, which means any on ports and remote IPs.
+
+The operation is executed asynchronous, so that the REST API will return with a status code 202 (ACCEPTED).
+
+WARNING
+
+Define the CIDR of the Remote IP Prefix for all your ingress security group rules as small as possible and try to prevent using any to reduce the attack surface from the outside. There is also a firewall on Operating System level that will control ingress, but if that is open and the endpoint is not secured by authorization and authentication this could unwillingly expose your VM and your data.
+
+Delete an ingress/custom egress rule of a Virtual Machine via REST API
+The Virtual Machine REST API provides also an endpoint to delete a security group rule for a virtual machine
+
+
+
+DELETE /vms/{service-instance-id}/security-group-rules/{security-group-rule} 
+
+The required security group rule you can get from the GET REST API.
+
+The operation is executed asynchronous, so that the REST API will return with a status code 202 (ACCEPTED).
+
+Like
+Be the first to like this
+No labelsEdit Labels
+© Robert Bosch GmbH
+Docupedia 10.2.14.0 Powered by Atlassian Confluence and Scroll Viewport
+Node: doc-P2-SI0VM08475
+Docupedia Community
+Support
+Legal
+
+
+Skip to sidebar
+Skip to main content
+Skip to breadcrumbs
+Skip to search
+Linked Applications
+Docupedia II
+Spaces
+Analytics
+Collections
+Create
+
+Search
+Help
+0
+
+
+
+Bosch Private Cloud
+
+Analytics
+Space shortcuts
+Teams Channel Bosch Private Cloud
+Teams Channel DevCorner - Cloud BPC General Query
+How-to articles
+Page tree
+Welcome to the Bosch Private Cloud
+Services
+PaaS Runtime Services
+Shared Container Service
+Dedicated Container Service
+BKS Bosch Kubernetes Service
+BCR Bosch Container Registry
+CF Cloud Foundry
+VMaaS Virtual Maschine as a Service
+VMaaS Overview
+Virtual Machine Lifecycle
+Virtual Machine REST API
+Managing a Virtual Machine
+VMaaS Backup
+VMaaS Getting a URL to the Remote Console
+VMaaS Managing Custom Proxy Destinations
+VMaaS Managing Ingress and Egress
+VMaaS Managing PAM
+VMaaS API for PAM Management
+VMaaS Enable PAM for existing VM
+VMaaS PAM Advanced Usage
+VMaaS Snapshots
+VMaaS Starting and Stopping a Virtual Machine
+VMaaS Connectivity
+VMaaS Monitoring
+VMaaS Patch Management
+VMaaS Malware Protection
+VMaaS How To Guides
+VMaaS Roadmap
+VMaaS Known Issues
+News
+VMaaS FAQ
+VMaaS Support
+Managed Hosting
+Web Application Hosting
+Infrastructure Services
+Data Management
+Logging & Monitoring
+Access Management
+Development Tools
+AI Tool Stack
+Low Code
+Big Data & Analytics
+Data Streaming Platform
+How-to articles
+ConfigureSpace tools
+Pages… VMaaS Managing PAM
+
+Translate
+Analytics
+ View inline comments
+
+ Save for later Watch Share
+VMaaS API for PAM Management
+Created by 
+
+ De Winter Commerina Aletta (BD/ISA-PRC2) on 2026, Feb 06  4 minute read Current Version V 1Page Info
+Virtual Machine as a Service provides you with self-service so that you can manage the PAM safes for a particular VM. Also, it provides APIs to add and remove PAM accounts and PAM safe members for a particular VM.
+
+Below we see example how to use VMaaS PAM endpoints. On below examples we use Swagger UI to send the requests.
+
+Get information about PAM safe for a particular VM
+Below how to get PAM safe information for a particular VM through REST API. If the VMaaS VM is not yet associated with a PAM safe you will get an error 404 (NOT FOUND).
+
+
+
+Figure 1. Getting PAM safe info
+
+Output we got information pam_safe is PROVISIONED and pam_safe_name is: bpc_vmaas_de4_c_bpc_0400627
+
+Naming convention for PAM safe name is:
+
+bpc = Bosch Private Cloud
+
+vmaas = VMaaS VM
+
+de4 = foundation (de4, de5, de8, de9, de10, sg1)
+
+c_bpc_0400627 = VMs hostname
+
+
+
+NOTE
+
+By default, two PAM accounts rbadmin_app1 and rbadmin_app2 are created which are not shown on the REST API.
+
+PAM Safe
+Create PAM safe for a particular VM
+Below you can find how to create a PAM safe for a particular VMaaS VM through REST API.
+
+There is no body for this REST API as the name of the PAM safe will be generated based on the VM name and the foundation in which the VM is places.
+
+
+
+Figure 2. Creating pam safe
+
+On above output we got error 400 and the Bad Request message. This is expected for newly created VMs as the PAM safe will be created as part of the provisioning. Otherwise, we get response code 202 in case of accepted request.
+
+Delete PAM safe for a particular VM
+There is no REST API to delete a PAM safe associated with a VMaaS VM as the PAM safe shares the same lifecycle as the VM itself. That means, the PAM safe will be deleted once the VM will be deleted.
+
+PAM accounts
+Create PAM account for a particular VM
+Below you can find how to create PAM account for a particular VMaaS VM through REST API.
+Creating a PAM account
+
+Strict follow the rules while creating PAM accounts and setting password
+
+Password Rules
+
+no whitespaces
+
+minimum password length: 15
+
+maximum password length: 20
+
+minimum number lower case characters: 3
+
+minimum number upper case characters: 3
+
+minimum number of digits: 3
+
+minimum number of special characters: 2
+
+special characters counted: !?&%_-+:*.,=
+
+NOT allowed special characters list for Windows: #|´`~@€[]^°²³''{}
+
+NOT allowed special characters list for Linux: #"|´`~@€[]^°²³'{};$>/\
+
+NOT allowed special characters list for Custom OS: #"|´`~@€[]^°²³'{};$>/\
+
+
+
+
+
+
+Got response code 202. Now you can check if account was created successfully.
+
+
+
+Figure 3. Getting pam account info
+
+Above you can see that the status for the specific account is PROVISIONED.
+
+Delete PAM account for a particular VM
+Below you can find how to delete PAM account for a particular VMaaS VM through REST API.
+
+
+
+Figure 4. Deleting a PAM account
+
+Got response code 202. Now you can check if the account was deleted successfully.
+
+
+
+Figure 5. Getting pam account info
+
+Above you can see that the status for the specific account is UNPROVISIONED.
+
+PAM safe members
+Adds a PAM safe member to the PAM safe for a particular VM
+Below you can find how to add a PAM safe member to the PAM safe for a particular VMaaS VM through REST API.
+
+
+
+Figure 6. Adding a PAM safe member
+
+
+
+Figure 7. PAM safe member request schema reference
+
+Got response code 202. Now you can check if the PAM safe member was added successfully.
+
+
+
+Figure 8. Getting pam member info
+
+Above you can see that the status for the specific member is PROVISIONED.
+
+Removes a PAM safe member from a PAM safe for a particular VM
+Below you can find how to remove a PAM safe member from PAM safe for a particular VMaaS VM through REST API.
+
+
+
+Figure 9. Remove pam member
+
+Got response code 202. Now you can check if the PAM safe member was removed successfully.
+
+
+
+Figure 10. Getting pam member info
+
+Above you can see that the status for specific PAM safe member is UNPROVISIONED.
+
+Like
+Be the first to like this
+No labelsEdit Labels
+© Robert Bosch GmbH
+Docupedia 10.2.14.0 Powered by Atlassian Confluence and Scroll Viewport
+Node: doc-P2-SI0VM08475
+Docupedia Community
+Support
+Legal
+
+Skip to sidebar
+Skip to main content
+Skip to breadcrumbs
+Skip to search
+Linked Applications
+Docupedia II
+Spaces
+Analytics
+Collections
+Create
+
+Search
+Help
+0
+
+
+
+Bosch Private Cloud
+
+Analytics
+Space shortcuts
+Teams Channel Bosch Private Cloud
+Teams Channel DevCorner - Cloud BPC General Query
+How-to articles
+Page tree
+Welcome to the Bosch Private Cloud
+Services
+PaaS Runtime Services
+Shared Container Service
+Dedicated Container Service
+BKS Bosch Kubernetes Service
+BCR Bosch Container Registry
+CF Cloud Foundry
+VMaaS Virtual Maschine as a Service
+VMaaS Overview
+Virtual Machine Lifecycle
+Virtual Machine REST API
+Managing a Virtual Machine
+VMaaS Backup
+VMaaS Getting a URL to the Remote Console
+VMaaS Managing Custom Proxy Destinations
+VMaaS Managing Ingress and Egress
+VMaaS Managing PAM
+VMaaS API for PAM Management
+VMaaS Enable PAM for existing VM
+VMaaS PAM Advanced Usage
+VMaaS Snapshots
+VMaaS Starting and Stopping a Virtual Machine
+VMaaS Connectivity
+VMaaS Monitoring
+VMaaS Patch Management
+VMaaS Malware Protection
+VMaaS How To Guides
+VMaaS Roadmap
+VMaaS Known Issues
+News
+VMaaS FAQ
+VMaaS Support
+Managed Hosting
+Web Application Hosting
+Infrastructure Services
+Data Management
+Logging & Monitoring
+Access Management
+Development Tools
+AI Tool Stack
+Low Code
+Big Data & Analytics
+Data Streaming Platform
+How-to articles
+ConfigureSpace tools
+Pages… VMaaS Managing PAM
+
+Translate
+Analytics
+ View inline comments
+
+ Save for later Watch Share
+VMaaS Enable PAM for existing VM
+Created by 
+
+ De Winter Commerina Aletta (BD/ISA-PRC2) on 2026, Feb 06  3 minute read Current Version V 1Page Info
+Virtual Machine as a Service provides you with self-service so that you can create and delete PAM accounts and PAM safe members for a particular VMaaS VM.
+
+On below examples, we are going to use VMaaS PAM REST API endpoints in order to enable pam safe, add two default accounts in order to access the VMaaS VM via PSM. On below examples we use the Swagger UI to send the requests.
+
+NOTE
+
+Once you have created a PAM safe for a particular VMaaS VM this PAM safe shares the same lifecycle as the VMaaS VM and will be deleted once the VMaaS VM will be deleted.
+
+Get information about PAM safe for a particular VM
+
+
+Figure 1. VMaaS Dashboard
+
+
+
+NOTE
+
+If you see no PAM accounts rbadmin_app1 and rbadmin_app2 accounts in your dashboard, then the VMaaS VM has no PAM safe associated by default.
+
+Below you can find how to get the PAM safe information for a particular VMaaS VM through REST API.
+
+
+
+Figure 2. Getting PAM safe info
+
+In this case we see an error 404 (NOT FOUND) with a message PAM safe does not exist that indicates that no PAM safe is yet associated with the VMaaS VM.
+
+Creates the PAM safe for a particular VM
+Naming convention for pam safe name, by default, is:
+
+bpc_vmaas_<foundation>_<hostname>
+
+When creating a pam safe it will automatically be named as:
+
+bpc = Bosch Private Cloud
+
+vmaas = VMaaS VM
+
+de4 = foundation (de4,de5,de8,de9,de10,sg1)
+
+c-bpc-0400324 = VMs hostname
+
+
+
+Figure 3. Creating PAM safe
+
+
+
+Figure 4. Getting PAM safes
+
+Create default PAM accounts for a particular VM
+Below you can find how to create the two default PAM accounts for a particular VM through REST API. The accounts are: rbadmin_app1 and rbadmin_app2
+
+
+create pam account1
+Figure 5. Creating account rbadmin_app1
+
+
+
+Figure 6. Creating account rbadmin_app2
+
+You should get response code 202. Now checking if account was created.
+
+
+
+
+Above you see two accounts created with success and associated to pam safe
+
+Add pam accounts to Operating System
+If you have not already created the two accounts within the operating system it may be necessary to create them and grant them the required privileges.
+
+Linux
+Access server through SSH and add the accounts:
+
+
+
+sudo su -
+useradd rbadmin_app1
+useradd rbadmin_app2 
+Set the password used on previous step while adding PAM account
+
+
+sudo su -
+chpasswd rbadmin_app1
+chpasswd rbadmin_app2
+Add both accounts to the Administrators group /etc/sudoers.d/90-cloud-init-users
+
+
+rbadmin_app1 ALL=(ALL) NOPASSWD:ALL
+rbadmin_app2 ALL=(ALL) NOPASSWD:ALL
+Windows
+Access Windows server via RDP and add both user accounts
+
+Set the password used on previous step while adding PAM account
+
+Add both accounts to the Administrators group
+
+
+
+
+Dashboard UI
+On the VMaaS Dashboard you will not find those kind of users that you added via VMaaS REST APIs. Only the two build-in users created during provisioning will be shown on the VMaaS Dashboard.
+
+
+
+
+
+
+
+Figure 7. VMaaS Dashboard
+
+Like
+Be the first to like this
+No labelsEdit Labels
+© Robert Bosch GmbH
+Docupedia 10.2.14.0 Powered by Atlassian Confluence and Scroll Viewport
+Node: doc-P2-SI0VM08475
+Docupedia Community
+Support
+Legal
+
+
+Skip to sidebar
+Skip to main content
+Skip to breadcrumbs
+Skip to search
+Linked Applications
+Docupedia II
+Spaces
+Analytics
+Collections
+Create
+
+Search
+Help
+0
+
+
+
+Bosch Private Cloud
+
+Analytics
+Space shortcuts
+Teams Channel Bosch Private Cloud
+Teams Channel DevCorner - Cloud BPC General Query
+How-to articles
+Page tree
+Welcome to the Bosch Private Cloud
+Services
+PaaS Runtime Services
+Shared Container Service
+Dedicated Container Service
+BKS Bosch Kubernetes Service
+BCR Bosch Container Registry
+CF Cloud Foundry
+VMaaS Virtual Maschine as a Service
+VMaaS Overview
+Virtual Machine Lifecycle
+Virtual Machine REST API
+Managing a Virtual Machine
+VMaaS Backup
+VMaaS Getting a URL to the Remote Console
+VMaaS Managing Custom Proxy Destinations
+VMaaS Managing Ingress and Egress
+VMaaS Managing PAM
+VMaaS API for PAM Management
+VMaaS Enable PAM for existing VM
+VMaaS PAM Advanced Usage
+VMaaS Snapshots
+VMaaS Starting and Stopping a Virtual Machine
+VMaaS Connectivity
+VMaaS Monitoring
+VMaaS Patch Management
+VMaaS Malware Protection
+VMaaS How To Guides
+VMaaS Roadmap
+VMaaS Known Issues
+News
+VMaaS FAQ
+VMaaS Support
+Managed Hosting
+Web Application Hosting
+Infrastructure Services
+Data Management
+Logging & Monitoring
+Access Management
+Development Tools
+AI Tool Stack
+Low Code
+Big Data & Analytics
+Data Streaming Platform
+How-to articles
+ConfigureSpace tools
+Pages… VMaaS Managing PAM
+
+Translate
+Analytics
+ View inline comments
+
+ Save for later Watch Share
+VMaaS PAM Advanced Usage
+Created by 
+
+ De Winter Commerina Aletta (BD/ISA-PRC2) on 2026, Feb 06  3 minute read Current Version V 1Page Info
+The VMaaS REST APIs to create PAM accounts and PAM safe members allow you to customize to your use cases.
+
+You can create additional local users on the VMaaS VM to your PAM safe for the particular VMaaS VM
+
+You can manage the access to the PAM safe by adding additional PAM safe members with fine-grained permissions
+
+PAM Safe Members
+Add a member to the PAM safe for a particular VM
+Below how to add a member to the PAM safe for a particular VM through REST API. On this example we add a group whose I am member and also other people from my work team, so everyone on this group will be able to access the VM through PAM
+
+
+
+Figure 1. Adding pam member
+
+
+
+Figure 2. Pam member request schema reference
+
+Got response code 202. Now checking if member was added with success.
+
+
+
+
+Above we see status for specific member is PROVISIONED
+
+Access to your PAM safe is managed by PAM safe members. By default, your PAM safe has two PAM safe members assigned:
+
+Cloud Project Admin IdM role as PAM safe admin and
+
+Cloud Project Member IdM role as PAM safe user.
+
+You have three main options for additional PAM safe members in your PAM safe:
+
+Add groups (e.g. ITSP managed security groups) as safe members. Fully supported by VMaaS PAM REST API adding a group as member.
+
+Add user accounts as safe members
+
+NOTE
+
+Right now users are not enabled on the PAM use case on which behalf we create the PAM safes. That means, at the moment it will fail with an error 400 (Bad Request) when you try so. In case you have the need for users, please reach out to VMaaS support.
+
+Safe member add REST API schema details
+Table 1. Table Each PAM safe member in a PAM safe has the following fields
+Name
+
+group name or username, e.g. Bosch-ID such as abc1fe
+
+Any valid name for group or user
+
+
+Type
+
+Type of the Safe Member.
+
+Group or User
+
+
+Source
+
+Where the member originates, e.g. Bosch Corporate Directory (Active Directory)
+
+VaultInternal, BoschCom, DeBoschCom, BrBoschCom, ApacBoschCom, EmeaBoschCom, UsBoschCom, RbAdmin, Q9BcdBosch
+
+Vault/Vault Internal is only required for very specific purposes. Can be ignored by almost everyone.
+
+For human and service accounts in any of the *.bosch.com domains, you can select bosch.com as source.
+
+For AD groups, you need to select the correct sub-domain (IdM2BCD Access Rights are part of the de.bosch.com domain).
+
+ITSP managed Security Groups are part of bosch.com directly.
+
+The Q9 domain is forbidden in the Production PAM Automation Platform and will throw an error if you select it.
+
+Please keep in mind that any Active Directory Group or User recently created may not be available yet due to Active Directory synchronization time.
+
+List Accounts
+
+View accounts list.
+
+boolean
+
+
+Use Accounts
+
+Use accounts but cannot view passwords.
+
+boolean
+
+
+Retrieve Accounts
+
+Retrieve and view accounts in the Safe.
+
+boolean
+
+
+Add Accounts
+
+Add accounts in the Safe.
+
+boolean
+
+
+Manage Accounts
+
+Manage (existing) accounts.
+
+boolean
+
+
+Audit Safe
+
+View account and user activity in the Safe.
+
+boolean
+
+
+Access Safe without Confirmation
+
+Access the Safe without confirmation from authorized users.
+
+boolean
+
+
+Grant Workflow Approval
+
+Grant approval for Account Workflows requested by others.
+
+boolean
+
+
+Like
+Be the first to like this
+No labelsEdit Labels
+© Robert Bosch GmbH
+Docupedia 10.2.14.0 Powered by Atlassian Confluence and Scroll Viewport
+Node: doc-P2-SI0VM08475
+Docupedia Community
+Support
+Legal
+
+Skip to sidebar
+Skip to main content
+Skip to breadcrumbs
+Skip to search
+Linked Applications
+Docupedia II
+Spaces
+Analytics
+Collections
+Create
+
+Search
+Help
+0
+
+
+
+Bosch Private Cloud
+
+Analytics
+Space shortcuts
+Teams Channel Bosch Private Cloud
+Teams Channel DevCorner - Cloud BPC General Query
+How-to articles
+Page tree
+Welcome to the Bosch Private Cloud
+Services
+PaaS Runtime Services
+Shared Container Service
+Dedicated Container Service
+BKS Bosch Kubernetes Service
+BCR Bosch Container Registry
+CF Cloud Foundry
+VMaaS Virtual Maschine as a Service
+VMaaS Overview
+Virtual Machine Lifecycle
+Virtual Machine REST API
+Managing a Virtual Machine
+VMaaS Connectivity
+VMaaS Domains
+VMaaS Egress
+VMaaS Firewall
+VMaaS Ingress
+VMaaS Proxy
+VMaaS Security Decisions
+VMaaS Troubleshooting
+VMaaS Vulnerability Scanning
+VMaaS Monitoring
+VMaaS Patch Management
+VMaaS Malware Protection
+VMaaS How To Guides
+VMaaS Roadmap
+VMaaS Known Issues
+News
+VMaaS FAQ
+VMaaS Support
+Managed Hosting
+Web Application Hosting
+Infrastructure Services
+Data Management
+Logging & Monitoring
+Access Management
+Development Tools
+AI Tool Stack
+Low Code
+Big Data & Analytics
+Data Streaming Platform
+How-to articles
+ConfigureSpace tools
+Pages… VMaaS Connectivity
+
+Translate
+Analytics
+ View inline comments
+
+ Save for later Watch Share
+VMaaS Domains
+Created by 
+
+ De Winter Commerina Aletta (BD/ISA-PRC2), last updated by Dietzsch Alexander (BD/ISA-PRC3) on 2026, Apr 17  1 minute read Current Version V 3Page Info
+Domain names used by VMaaS
+Here you can find a list of the domains which are used for VMaaS VMs.
+
+We distinguish between internal IP addresses and the corresponding DNS names, which can be resolved within the VMaaS network and external IP addresses (aso known as floating IPs), which are available in the global DNS and can be resolved from the whole Bosch network.
+
+
+
+IPZ QA (DE4)
+
+vmaas-q-int.ipz001.internal.bosch.cloud
+vmaas-q.ipz001.internal.bosch.cloud
+IPZ Prod (DE5)
+
+vmaas-int.ipz001.internal.bosch.cloud
+vmaas.ipz001.internal.bosch.cloud
+EPZ Prod (DE8)
+
+vmaas-int.epz001.internal.bosch.cloud
+vmaas.epz001.internal.bosch.cloud
+IPZ Prod (DE9)
+
+vmaas-int.ipz002.internal.bosch.cloud
+vmaas.ipz002.internal.bosch.cloud
+EPZ Prod (DE10)
+
+vmaas-int.epz002.internal.bosch.cloud
+vmaas.epz002.internal.bosch.cloud
+IPZ Prod (SG1)
+
+vmaas-int.ipz003.internal.bosch.cloud
+vmaas.ipz003.internal.bosch.cloud
+Like
+Be the first to like this
+No labelsEdit Labels
+© Robert Bosch GmbH
+Docupedia 10.2.14.0 Powered by Atlassian Confluence and Scroll Viewport
+Node: doc-P2-SI0VM08475
+Docupedia Community
+Support
+Legal
+
+
+Skip to sidebar
+Skip to main content
+Skip to breadcrumbs
+Skip to search
+Linked Applications
+Docupedia II
+Spaces
+Analytics
+Collections
+Create
+
+Search
+Help
+0
+
+
+
+Bosch Private Cloud
+
+Analytics
+Space shortcuts
+Teams Channel Bosch Private Cloud
+Teams Channel DevCorner - Cloud BPC General Query
+How-to articles
+Page tree
+Welcome to the Bosch Private Cloud
+Services
+PaaS Runtime Services
+Shared Container Service
+Dedicated Container Service
+BKS Bosch Kubernetes Service
+BCR Bosch Container Registry
+CF Cloud Foundry
+VMaaS Virtual Maschine as a Service
+VMaaS Overview
+Virtual Machine Lifecycle
+Virtual Machine REST API
+Managing a Virtual Machine
+VMaaS Connectivity
+VMaaS Domains
+VMaaS Egress
+VMaaS Firewall
+VMaaS Ingress
+VMaaS Proxy
+VMaaS Security Decisions
+VMaaS Troubleshooting
+VMaaS Vulnerability Scanning
+VMaaS Monitoring
+VMaaS Patch Management
+VMaaS Malware Protection
+VMaaS How To Guides
+VMaaS Roadmap
+VMaaS Known Issues
+News
+VMaaS FAQ
+VMaaS Support
+Managed Hosting
+Web Application Hosting
+Infrastructure Services
+Data Management
+Logging & Monitoring
+Access Management
+Development Tools
+AI Tool Stack
+Low Code
+Big Data & Analytics
+Data Streaming Platform
+How-to articles
+ConfigureSpace tools
+Pages… VMaaS Connectivity
+
+Translate
+Analytics
+ View inline comments
+
+ Save for later Watch Share
+VMaaS Egress
+Created by 
+
+ De Winter Commerina Aletta (BD/ISA-PRC2), last updated by Dietzsch Alexander (BD/ISA-PRC3) on 2026, Apr 17  4 minute read Current Version V 6Page Info
+General Egress Rule
+Egress Security Rules
+Egress Security Rules IPZ
+Egress Security Rules EPZ
+Communication to other Virtual Machines
+Communication to the Internet
+Communication to other services in Bosch Private Cloud
+Communication to Enterprise IT
+General Egress Rule
+Like in public clouds we allow all the egress traffic for virtual machines within Bosch Private Cloud. That means that egress to all other virtual machines and the whole Bosch Private Cloud is enabled.
+
+Egress Security Rules
+Egress Security Rules IPZ
+Egress
+TCP
+1688
+10.73.90.182/32
+Allow Windows VMs to connect to KMS server in SL4
+Egress
+TCP
+8531
+10.73.144.102/32
+Allow Windows VMs to connect to WSUS server in SL4
+Egress
+UDP
+53
+10.58.195.145/32
+1st DNS Server for name resolution
+Egress
+UDP
+53
+10.58.195.213/32
+2nd DNS Server for name resolution
+Egress
+TCP
+8200
+10.73.86.60/32
+Allow communication to Hashicorp Vault Prod (RB-Secrets)
+Egress
+TCP
+8200
+10.124.69.70/32
+Allow communication to Hashicorp Vault QA (RB-Secrets)
+Egress
+TCP
+8200
+10.73.86.30/32
+Allow communication to OpenBao Vault Prod (RB-Secrets)
+Egress
+TCP
+8200
+10.124.69.90/32
+Allow communication to OpenBao Vault QA (RB-Secrets)
+Egress
+TCP
+Any
+10.140.0.0/16
+Allow all outgoing traffic within BPC - IPZ
+Egress
+TCP
+Any
+10.188.152.0/21
+Allow all outgoing traffic within BPC - IPZ (Undercloud)
+Egress
+TCP
+Any
+10.196.128.0/19
+Allow all outgoing traffic within BPC - IPZ (Workload)
+Egress
+TCP
+Any
+10.143.0.0/16
+Allow all outgoing traffic within BPC - EPZ
+Egress
+TCP
+25 (SMTP)
+10.139.217.214/32
+Allow communication to authenticate SMTP server in SL2
+Egress
+TCP
+25 (SMTP)
+10.124.11.214/32
+Allow communication to authenticate SMTP server in SL2
+Egress
+TCP
+443 (HTTPS)
+10.140.180.119/32
+Outbound access to RHEL Satellite/Capsule server
+Egress
+TCP
+Any
+169.254.169.254/32
+Allow all VMs to communicate with itself for cloud-init processes
+Egress
+TCP
+8080
+10.143.0.177/32
+Allow outbound connection through BPC proxy server over port 8080 - deprecated
+Egress
+TCP
+8080
+139.15.111.168/32
+Allow outbound connection through BPC proxy server over port 8080 for EMEA region
+Egress
+TCP
+8080
+149.226.194.168/32
+Allow outbound connection through BPC proxy server over port 8080 for APAC region
+Egress
+ICMP
+Any
+192.168.0.0/16
+Allow egress within VMaaS tenant for ICMP on all ports
+Egress
+TCP
+Any
+192.168.0.0/16
+Allow egress within VMaaS tenant for TPC on all ports
+Egress
+UDP
+Any
+192.168.0.0/16
+Allow egress within VMaaS tenant for UDP on all ports
+Egress
+TCP
+443 (HTTPS)
+10.73.26.6/32
+Allow communication to BPC Artifactory
+Egress Security Rules EPZ
+Egress
+TCP
+1688
+10.58.44.11/32
+Allow Windows VMs to connect to KMS server in SL4
+Egress
+TCP
+1688
+10.62.120.92/32
+Allow Windows VMs to connect to KMS server in SL4
+Egress
+TCP
+8531
+10.73.144.102/32
+Allow Windows VMs to connect to WSUS server in SL4
+Egress
+UDP
+53
+10.58.195.145/32
+1st DNS Server for name resolution
+Egress
+UDP
+53
+10.58.195.213/32
+2nd DNS Server for name resolution
+Egress
+TCP
+8200
+10.73.86.60/32
+Allow communication to Hashicorp Vault Prod (RB-Secrets)
+Egress
+TCP
+8200
+10.124.69.70/32
+Allow communication to Hashicorp Vault QA (RB-Secrets)
+Egress
+TCP
+8200
+10.73.86.30/32
+Allow communication to OpenBao Vault Prod (RB-Secrets)
+Egress
+TCP
+8200
+10.124.69.90/32
+Allow communication to OpenBao Vault QA (RB-Secrets)
+Egress
+TCP
+Any
+10.143.0.0/16
+Allow all outgoing traffic within BPC - EPZ
+Egress
+TCP
+25 (SMTP)
+10.139.217.214/32
+Allow communication to authenticate SMTP server in SL2
+Egress
+TCP
+25 (SMTP)
+10.124.11.214/32
+Allow communication to authenticate SMTP server in SL2
+Egress
+TCP
+443 (HTTPS)
+10.143.0.20/32
+Outbound access to RHEL Satellite/Capsule server
+Egress
+TCP
+Any
+169.254.169.254/32
+Allow all VMs to communicate with itself for cloud-init processes
+Egress
+TCP
+8080
+10.143.0.177/32
+Allow outbound connection through BPC proxy server over port 8080 - deprecated
+Egress
+TCP
+8080
+139.15.111.168/32
+Allow outbound connection through BPC proxy server over port 8080 for EMEA region
+Egress
+ICMP
+Any
+192.168.0.0/16
+Allow egress within VMaaS tenant for ICMP on all ports
+Egress
+TCP
+Any
+192.168.0.0/16
+Allow egress within VMaaS tenant for TPC on all ports
+Egress
+UDP
+Any
+192.168.0.0/16
+Allow egress within VMaaS tenant for UDP on all ports
+Egress
+TCP
+443 (HTTPS)
+10.73.26.6/32
+Allow communication to BPC Artifactory
+Communication to other Virtual Machines
+The communication to all other virtual machines within the same organization is possible via ICMP, TCP and UDP on all ports. Communication to virtual machines in other organizations is not allowed by default, but can be enabled, when the owner of that other virtual machine is allowing the ingress.
+
+Communication to the Internet
+Communication to the Internet from a virtual machine is enabled by default, but needs to be established via Proxy. In case the resource on the Internet is not whitelisted it could be necessary to whitelist the resource, before you can use it.
+
+When you communicate from your VMaaS virtual machine to the Internet via Proxy, then your virtual machine appears with the public IP address of the Proxy on the Internet, which is either 194.39.218.0/23 (IPZ001/EPZ001/IPZ002/EPZ002) or 45.112.36.0/22 (IPZ003).
+
+In case you are still using deprecated proxy 10.143.0.177/32 or 10.143.16.65/32, then your virtual machine appears with the public IP address of the Proxy on the Internet, which is either 139.15.8.8/29 (IPZ001/EPZ001) or 139.15.8.16/29 (IPZ002/EPZ002). These deprecated addresses are going to be phased out on Q3/2025
+
+For more information on proxy endpoint and proxy public IP range, please refer to: Proxy
+
+Communication to other services in Bosch Private Cloud
+By default, all other services within Bosch Private Cloud should be reachable from a virtual machine.
+
+Communication to Enterprise IT
+Communication to the Enterprise IT is in general allowed to SL1, SL2 and SL4, but at the moment only enabled for a set of predefined endpoints (see Egress Security Rules). At the moment managing egress is not enabled for self-service due to security restrictions.
+
+
+
+
+
+
+Like
+Be the first to like this
+No labelsEdit Labels
+© Robert Bosch GmbH
+Docupedia 10.2.14.0 Powered by Atlassian Confluence and Scroll Viewport
+Node: doc-P2-SI0VM08475
+Docupedia Community
+Support
+Legal
+
+

@@ -1,0 +1,766 @@
+Skip to sidebar
+Skip to main content
+Skip to breadcrumbs
+Skip to search
+Linked Applications
+Docupedia II
+Spaces
+Analytics
+Collections
+Create
+
+Search
+Help
+0
+
+
+
+Bosch Private Cloud
+
+Analytics
+Space shortcuts
+Teams Channel Bosch Private Cloud
+Teams Channel DevCorner - Cloud BPC General Query
+How-to articles
+Page tree
+Welcome to the Bosch Private Cloud
+Services
+PaaS Runtime Services
+Shared Container Service
+Dedicated Container Service
+BKS Bosch Kubernetes Service
+BCR Bosch Container Registry
+CF Cloud Foundry
+VMaaS Virtual Maschine as a Service
+VMaaS Overview
+Virtual Machine Lifecycle
+Virtual Machine REST API
+Managing a Virtual Machine
+VMaaS Connectivity
+VMaaS Monitoring
+VMaaS Patch Management
+VMaaS Malware Protection
+VMaaS How To Guides
+Add disk space on a Linux VMaaS VM
+Clean-up of Drive C in Windows
+How to configure chronyd in RHEL9
+How To Configure Vulnerability Scans
+How to Connect E-IT on a VMaaS VM
+How to connect to a Linux VM from Windows via OpenSSH Authentication Agent
+How To Create SBOMs for Linux VMs and Containers
+How to disable TLS 1.0/1.1 on a Windows VMaaS VM
+How to enable multiple RDP sessions in Windows
+How to enable the GUI on Linux VMaaS VMs
+How to execute Backup on VMaaS VM
+How to expose a Service Running on a VMaaS VM to BCN and Internet
+How to install new RB Trustcenter CAs on Linux and Windows VMaaS VMs
+How to migrate WSUS to HTTPS
+How to mount S3 Bucket into the VM
+How to reattach Linux VM to Patch Management
+How to request an Internal SSL Certificate
+How to send logs to Splunk
+How to set up a load balancer for VMaaS VMs
+How to set up Docker on a Linux VMaaS VM
+How to share files on VMaaS VMs with machine in BCN
+How to use a VM for development
+How to Use Internet Resources on a VMaaS VM
+How to use NFS on a VMaaS VM
+How to use PSM with VMaaS Virtual Machines
+How to use Remote Desktop to upload files in Windows
+How to use Terraform to Manage VMaaS
+VMaaS Roadmap
+VMaaS Known Issues
+News
+VMaaS FAQ
+VMaaS Support
+Managed Hosting
+Web Application Hosting
+Infrastructure Services
+Data Management
+Logging & Monitoring
+Access Management
+Development Tools
+AI Tool Stack
+Low Code
+Big Data & Analytics
+Data Streaming Platform
+How-to articles
+ConfigureSpace tools
+Pages… VMaaS How To Guides
+
+Translate
+Analytics
+ View inline comments
+
+ Save for later Watch Share
+How to expose a Service Running on a VMaaS VM to BCN and Internet
+Created by 
+
+ De Winter Commerina Aletta (BD/ISA-PRC2), last updated by Dietzsch Alexander (BD/ISA-PRC3) on 2026, May 04  3 minute read Current Version V 3Page Info
+To expose a service running inside a VMaaS VM to the BCN and to the internet we have to follow some steps:
+
+Create an Ingress rule in the dashboard of your VMaaS VM (security Group tab)
+
+Release the target address, port, protocol in the OS firewall of your VMaaS VM
+
+The firewall in the RHEL and Windows systems is enabled by default. We do not recommend disabling the firewall but suggest to add the ports needed for the applications to help prevent unwanted attacks on the BHC environment.
+
+To access externally your applications hosted inside the VMaaS vms, you have to create the ingress rules to allow the incoming traffic to it. You can use the tab Security Group Rules in the dashboard of the VM, click in the plus(+) button in the upper right corner, and then you fill the form with the due data and click on add.
+
+In case you want to expose your app to the internet, first you have to create your VM in the EPZ zone and to expose it, you have to use the LBaaS (Load Balancer as a Service) to enable load balanced endpoints for the applications running on top of Bosch Private Cloud.
+
+LBaaS Service Overview
+The LBaaS offering includes the following features (some features may depend on a particular service plan):
+
+A dedicated virtual IP in a public or private subnet (*)
+
+Exposure of CloudFoundry apps or custom endpoints
+
+Management of custom domain routes to be available via an LBaaS instance
+
+Whitelisting of clients based on source IPs, predefined source ranges exist
+
+Certificate management supporting RSA and ECDSA keys
+
+Management of ciphers to be offered to clients
+
+Management of client CA bundles and certificate revocation lists for mutual authentication
+
+More details: LBaaS Load Balancer as a Service
+
+The LBaaS service offers a dedicated, load balanced endpoint which may be managed by the requester via a self-service portal. This can be especially useful when an application has special requirements that exceed the standard service offerings, like e.g. bring your own domain with custom certificates, custom whitelisting requirements, client certificate authentication. The endpoint IP address will be allocated either from the general pool of IP addresses of the AZ (Service Plan lb-internal) or from a dedicated IP range (Service Plan lb-public).
+
+When you expose to the internet via LBaaS you have some points to consider:
+
+TLS termination with in LBaaS or VMaaS
+
+Certificates
+
+Domain name
+
+The TLS termination can be implemented in the load balancer or direct inside the vmaas vm. You must request the certificates, in case you don’t have one, in the RB-Trustcenter.
+
+When an SSL endpoint is defined (bound apps, pools with frontend SSL) then a default certificate is enabled on the endpoint. This certificate is self-signed for the domain localhost.localdomain, so it can be used for first tests, but it cannot be reasonably used in production.
+
+The server certificates view provides details on configured certificates. These details include the key type (supports RSA and EC/ECDSA), the subject CN, subject alternative names and the expiry date of the certificate.
+
+Only a single certificate per key type may be configured at a time. If multiple certificates have been uploaded then the correct certificate can be enabled by the corresponding switch.
+
+If a certificate has been renewed, then the renewed certificate (may include the chain, not including the key) can be uploaded by clicking the corresponding update button in the action buttons group (1).
+
+New certificates can be uploaded by filling in the appropriate information in the upload form (2). The upload format is PKCS#12 (also referred to by its file name extension .p12 or .pfx), which is a keystore that is capable of containing (multiple) sets of certificate + key + optional chain certificates. See here or here for examples of handling certificates and keystores.
+
+
+
+
+We distinguish between internal IP addresses and the corresponding DNS names, which can be resolved within the VMaaS network and external IP addresses (aso known as floating IPs), which are available in the global DNS and can be resolved from the whole Bosch network.
+
+
+
+
+Like
+Be the first to like this
+No labelsEdit Labels
+© Robert Bosch GmbH
+Docupedia 10.2.14.0 Powered by Atlassian Confluence and Scroll Viewport
+Node: doc-P2-SI0VM08475
+Docupedia Community
+Support
+Legal
+
+Skip to sidebar
+Skip to main content
+Skip to breadcrumbs
+Skip to search
+Linked Applications
+Docupedia II
+Spaces
+Analytics
+Collections
+Create
+
+Search
+Help
+0
+
+
+
+Bosch Private Cloud
+
+Analytics
+Space shortcuts
+Teams Channel Bosch Private Cloud
+Teams Channel DevCorner - Cloud BPC General Query
+How-to articles
+Page tree
+Welcome to the Bosch Private Cloud
+Services
+PaaS Runtime Services
+Shared Container Service
+Dedicated Container Service
+BKS Bosch Kubernetes Service
+BCR Bosch Container Registry
+CF Cloud Foundry
+VMaaS Virtual Maschine as a Service
+VMaaS Overview
+Virtual Machine Lifecycle
+Virtual Machine REST API
+Managing a Virtual Machine
+VMaaS Connectivity
+VMaaS Monitoring
+VMaaS Patch Management
+VMaaS Malware Protection
+VMaaS How To Guides
+Add disk space on a Linux VMaaS VM
+Clean-up of Drive C in Windows
+How to configure chronyd in RHEL9
+How To Configure Vulnerability Scans
+How to Connect E-IT on a VMaaS VM
+How to connect to a Linux VM from Windows via OpenSSH Authentication Agent
+How To Create SBOMs for Linux VMs and Containers
+How to disable TLS 1.0/1.1 on a Windows VMaaS VM
+How to enable multiple RDP sessions in Windows
+How to enable the GUI on Linux VMaaS VMs
+How to execute Backup on VMaaS VM
+How to expose a Service Running on a VMaaS VM to BCN and Internet
+How to install new RB Trustcenter CAs on Linux and Windows VMaaS VMs
+How to migrate WSUS to HTTPS
+How to mount S3 Bucket into the VM
+How to reattach Linux VM to Patch Management
+How to request an Internal SSL Certificate
+How to send logs to Splunk
+How to set up a load balancer for VMaaS VMs
+How to set up Docker on a Linux VMaaS VM
+How to share files on VMaaS VMs with machine in BCN
+How to use a VM for development
+How to Use Internet Resources on a VMaaS VM
+How to use NFS on a VMaaS VM
+How to use PSM with VMaaS Virtual Machines
+How to use Remote Desktop to upload files in Windows
+How to use Terraform to Manage VMaaS
+VMaaS Roadmap
+VMaaS Known Issues
+News
+VMaaS FAQ
+VMaaS Support
+Managed Hosting
+Web Application Hosting
+Infrastructure Services
+Data Management
+Logging & Monitoring
+Access Management
+Development Tools
+AI Tool Stack
+Low Code
+Big Data & Analytics
+Data Streaming Platform
+How-to articles
+ConfigureSpace tools
+Pages… VMaaS How To Guides
+
+Translate
+Analytics
+ View inline comments
+
+ Save for later Watch Share
+How to install new RB Trustcenter CAs on Linux and Windows VMaaS VMs
+Created by 
+
+ De Winter Commerina Aletta (BD/ISA-PRC2), last updated by Dietzsch Alexander (BD/ISA-PRC3) on 2026, Apr 27  1 minute read Current Version V 3Page Info
+Linux
+In order to install the new RB Trustcenter CAs on a Linux VM download the shell script rb-ca-installer.sh to a temporary location and execute the following command before running the script:
+
+
+
+chmod +x rb-ca-installer.sh
+After the script finishes, the following output will be displayed:
+
+
+
+[root@c-bpc-04002c2 bosch-scripts]# ./rb-ca-installer.sh
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  2117  100  2117    0     0  32075      0 --:--:-- --:--:-- --:--:-- 32569
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  1451  100  1451    0     0  27903      0 --:--:-- --:--:-- --:--:-- 27903
+================= RB-CAs were downloaded at /bosch-scripts =================
+================= RB-CAs were installed successfully       =================
+Windows
+In order to install the new RB Trustcenter CAs on a Windows VM download the PowerShell script rb-ca-installer.ps1 to a temporary location e.g. C:\temp and run it as Administrator.
+
+After the script finishes, the following output will be displayed:
+
+
+
+PS C:\temp> .\rb-ca-installer.ps1
+RB-CAs were downloaded at C:\temp
+   PSParentPath: Microsoft.PowerShell.Security\Certificate::LocalMachine\Root
+Thumbprint                                Subject
+----------                                -------
+AAA9959F9FCE64D4BA2B3C89DE6F060EEC5E9E6E  CN=RB IssuingCA RSA G21, O=Robert Bosch GmbH, C=DE
+8E468CB78E150CDB2473536693E14732B5075919  CN=RB RootCA RSA G01, O=Robert Bosch GmbH, C=DE
+RB-CAs were installed successfully
+
+
+
+
+
+
+
+
+
+Like
+Be the first to like this
+No labelsEdit Labels
+© Robert Bosch GmbH
+Docupedia 10.2.14.0 Powered by Atlassian Confluence and Scroll Viewport
+Node: doc-P2-SI0VM08475
+Docupedia Community
+Support
+Legal
+
+
+
+Skip to sidebar
+Skip to main content
+Skip to breadcrumbs
+Skip to search
+Linked Applications
+Docupedia II
+Spaces
+Analytics
+Collections
+Create
+
+Search
+Help
+0
+
+
+
+Bosch Private Cloud
+
+Analytics
+Space shortcuts
+Teams Channel Bosch Private Cloud
+Teams Channel DevCorner - Cloud BPC General Query
+How-to articles
+Page tree
+Welcome to the Bosch Private Cloud
+Services
+PaaS Runtime Services
+Shared Container Service
+Dedicated Container Service
+BKS Bosch Kubernetes Service
+BCR Bosch Container Registry
+CF Cloud Foundry
+VMaaS Virtual Maschine as a Service
+VMaaS Overview
+Virtual Machine Lifecycle
+Virtual Machine REST API
+Managing a Virtual Machine
+VMaaS Connectivity
+VMaaS Monitoring
+VMaaS Patch Management
+VMaaS Malware Protection
+VMaaS How To Guides
+Add disk space on a Linux VMaaS VM
+Clean-up of Drive C in Windows
+How to configure chronyd in RHEL9
+How To Configure Vulnerability Scans
+How to Connect E-IT on a VMaaS VM
+How to connect to a Linux VM from Windows via OpenSSH Authentication Agent
+How To Create SBOMs for Linux VMs and Containers
+How to disable TLS 1.0/1.1 on a Windows VMaaS VM
+How to enable multiple RDP sessions in Windows
+How to enable the GUI on Linux VMaaS VMs
+How to execute Backup on VMaaS VM
+How to expose a Service Running on a VMaaS VM to BCN and Internet
+How to install new RB Trustcenter CAs on Linux and Windows VMaaS VMs
+How to migrate WSUS to HTTPS
+How to mount S3 Bucket into the VM
+How to reattach Linux VM to Patch Management
+How to request an Internal SSL Certificate
+How to send logs to Splunk
+How to set up a load balancer for VMaaS VMs
+How to set up Docker on a Linux VMaaS VM
+How to share files on VMaaS VMs with machine in BCN
+How to use a VM for development
+How to Use Internet Resources on a VMaaS VM
+How to use NFS on a VMaaS VM
+How to use PSM with VMaaS Virtual Machines
+How to use Remote Desktop to upload files in Windows
+How to use Terraform to Manage VMaaS
+VMaaS Roadmap
+VMaaS Known Issues
+News
+VMaaS FAQ
+VMaaS Support
+Managed Hosting
+Web Application Hosting
+Infrastructure Services
+Data Management
+Logging & Monitoring
+Access Management
+Development Tools
+AI Tool Stack
+Low Code
+Big Data & Analytics
+Data Streaming Platform
+How-to articles
+ConfigureSpace tools
+Pages… VMaaS How To Guides
+
+Translate
+Analytics
+ View inline comments
+
+ Save for later Watch Share
+How to migrate WSUS to HTTPS
+Created by 
+
+ De Winter Commerina Aletta (BD/ISA-PRC2), last updated on 2026, Mar 06  3 minute read Current Version V 3Page Info
+When you are using a Windows virtual machine that was provisioned before 2023/04/05 this virtual machine is connected to Windows Server Update Services (WSUS) via HTTP port 8530. To further improve security we enabled HTTPS on port 8531 on Windows Server Update Services (WSUS). At the moment both interfaces are available, but we are planning to shut down the HTTP interface as soon as possible. To do so, you need to migrate your virtual machine to use the HTTPS interface on Windows Server Update Services (WSUS).
+
+How to migrate the Windows Server Update Services from HTTP to HTTPS?
+We prepared a set of scripts that will help you with the migration from HTTP to HTTPS.
+
+NOTE
+
+To be able to download the scripts you need to install Microsoft Edge.
+
+
+Open Internet Explorer 11
+
+
+Open Tools (Alt + X)
+
+
+Switch to the Connections tab and Click on LAN settings. Make sure that the proxy is configured as shown below.
+
+
+Proxy for EMEA region	rb-proxy-emea.internal.bosch.cloud
+Proxy for APAC region	rb-proxy-apac.internal.bosch.cloud
+Port	8080
+
+
+
+
+
+
+
+
+
+
+Switch to the Security tab and Click on Custom level as shown below.
+
+
+
+
+
+
+
+There enable Downloads and Scripting as shown below.
+
+
+
+Navigate to https://www.microsoft.com/en-us/edge/server/download?form=MA13FJ to download Microsoft Edge
+
+
+
+Once Edge is downloaded, run the installation
+
+
+
+Open Edge
+
+
+
+Navigate to https://bpc-artifactory-p1.dev.bosch.com:443/artifactory/public-generic/vmaas/Windows/WSUS/
+
+NOTE
+
+It could be that you see a warning NET::ERR_CERT_AUTHORITY_INVALID. This is due to missing Bosch G01 and G21 installed on the virtual machine. Click on Continue to https://bpc-artifactory-p1.dev.bosch.com (unsafe) to proceed.
+
+
+
+
+
+On the site you will find two files, a launch.bat and a Migrate_VMs_to_HTTPS.ps1.
+
+Download both files to your virtual machine.
+
+Make sure that you Keep the files when downloading and that the file names are as mentioned before!
+
+
+
+Execute the launch.bat
+
+This will prompt you twice, first to run the script
+
+
+
+and then you need to approve the User Account Control
+
+What does the script do?
+Actually the script will do a few things:
+
+Download the Bosch G01 and Bosch G21 and install them on your Windows virtual machine
+
+Update the registry entry for Windows Server Update Services to use HTTPS instead of HTTP
+
+Update the NO_PROXY configuration so that the communication to Windows Server Update Services is not via proxy
+
+Restart the Windows Update Service on your Windows virtual machine so that the changes take effect
+
+What next?
+Once you have run the script successful you can clean up the ded resources, and you should check for Windows Updates. When all worked fine you should be able to get patches from Windows Server Update Services, or it should state that the system is up-to-date. In both cases the virtual machine has successfully connected.
+
+In case you get an error message when updating, please use the Support section to get help with the issue.
+
+
+
+
+
+Like
+Be the first to like this
+No labelsEdit Labels
+© Robert Bosch GmbH
+Docupedia 10.2.14.0 Powered by Atlassian Confluence and Scroll Viewport
+Node: doc-P2-SI0VM08475
+Docupedia Community
+Support
+Legal
+
+Skip to sidebar
+Skip to main content
+Skip to breadcrumbs
+Skip to search
+Linked Applications
+Docupedia II
+Spaces
+Analytics
+Collections
+Create
+
+Search
+Help
+0
+
+
+
+Bosch Private Cloud
+
+Analytics
+Space shortcuts
+Teams Channel Bosch Private Cloud
+Teams Channel DevCorner - Cloud BPC General Query
+How-to articles
+Page tree
+Welcome to the Bosch Private Cloud
+Services
+PaaS Runtime Services
+Shared Container Service
+Dedicated Container Service
+BKS Bosch Kubernetes Service
+BCR Bosch Container Registry
+CF Cloud Foundry
+VMaaS Virtual Maschine as a Service
+VMaaS Overview
+Virtual Machine Lifecycle
+Virtual Machine REST API
+Managing a Virtual Machine
+VMaaS Connectivity
+VMaaS Monitoring
+VMaaS Patch Management
+VMaaS Malware Protection
+VMaaS How To Guides
+Add disk space on a Linux VMaaS VM
+Clean-up of Drive C in Windows
+How to configure chronyd in RHEL9
+How To Configure Vulnerability Scans
+How to Connect E-IT on a VMaaS VM
+How to connect to a Linux VM from Windows via OpenSSH Authentication Agent
+How To Create SBOMs for Linux VMs and Containers
+How to disable TLS 1.0/1.1 on a Windows VMaaS VM
+How to enable multiple RDP sessions in Windows
+How to enable the GUI on Linux VMaaS VMs
+How to execute Backup on VMaaS VM
+How to expose a Service Running on a VMaaS VM to BCN and Internet
+How to install new RB Trustcenter CAs on Linux and Windows VMaaS VMs
+How to migrate WSUS to HTTPS
+How to mount S3 Bucket into the VM
+How to reattach Linux VM to Patch Management
+How to request an Internal SSL Certificate
+How to send logs to Splunk
+How to set up a load balancer for VMaaS VMs
+How to set up Docker on a Linux VMaaS VM
+How to set up Docker on a Red Hat Enterprise Linux VMaaS VM
+How to set up Docker on a Ubuntu Linux VMaaS VM
+How to share files on VMaaS VMs with machine in BCN
+How to use a VM for development
+How to Use Internet Resources on a VMaaS VM
+How to use NFS on a VMaaS VM
+How to use PSM with VMaaS Virtual Machines
+How to use Remote Desktop to upload files in Windows
+How to use Terraform to Manage VMaaS
+VMaaS Roadmap
+VMaaS Known Issues
+News
+VMaaS FAQ
+VMaaS Support
+Managed Hosting
+Web Application Hosting
+Infrastructure Services
+Data Management
+Logging & Monitoring
+Access Management
+Development Tools
+AI Tool Stack
+Low Code
+Big Data & Analytics
+Data Streaming Platform
+How-to articles
+ConfigureSpace tools
+How to set up Docker on a Ubuntu Linux VMaaS VM
+Pages… How to set up Docker on a Linux VMaaS VM
+
+Translate
+Analytics
+ View inline comments
+
+ Save for later Watch Share
+Created by 
+
+ De Winter Commerina Aletta (BD/ISA-PRC2), last updated on 2026, Mar 06  3 minute read Current Version V 2Page Info
+Preface
+A VMaaS VM can be used for containerization using tools like Docker. While installing Docker is not that complicated, additional proxy configuration might be required.
+
+Docker-CE (Community Edition) configuration
+Uninstall any conflicting packages
+
+Your Linux distribution may provide unofficial Docker packages, which may conflict with the official packages provided by Docker. You must uninstall these packages before you install the official version of Docker Engine.
+
+
+
+for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt remove $pkg; done
+
+
+Setup repository for Docker-CE (Docker community edition)
+Before you install Docker Engine for the first time on a new host machine, you need to set up the Docker apt repository. Afterward, you can install and update Docker from the repository.
+
+
+
+# Add Docker's official GPG key:
+sudo -i apt update
+sudo apt install ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo -i curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+
+# Add the repository to Apt sources:
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo -i apt update
+
+
+Install required packages
+
+
+sudo -i apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+This command installs Docker, but it doesn’t start Docker. It also creates a docker group, however, it doesn’t add any users to the group by default. In order to run docker as normal user add user to the docker group: sudo usermod -aG docker $USER
+
+
+Start Docker
+Once the packages are installed successful you can enable and start the Docker Daemon.
+
+
+
+sudo systemctl enable --now docker
+
+
+Configure Proxy
+
+Finally, you need to configure the Proxy from the Bosch Private Cloud to connect to resources on the Internet (e.g. Docker Hub, …​)
+
+
+
+sudo systemctl edit docker.service
+This will open an editor where you can past in the content below:
+
+
+
+[Service]
+Environment=HTTP_PROXY=http://rb-proxy-emea.internal.bosch.cloud:8080
+Environment=HTTPS_PROXY=http://rb-proxy-emea.internal.bosch.cloud:8080
+Environment=NO_PROXY=.internal.bosch.cloud,.bosch.com,127.0.0.1
+NOTE
+
+Proxy for APAC region is rb-proxy-apac.internal.bosch.cloud. Replace it accordingly if you are outside EMEA region and save the configuration.
+
+The Proxy Server is dependent on the Foundation where your virtual machine is provisioned. Please refer to the Proxy configurations for the different environments.
+
+
+
+restart Docker Daemon to reload proxy settings
+
+
+sudo systemctl daemon-reload
+sudo systemctl restart docker.service
+Running container
+Running hello-world container will ensure that you had properly configured your environment to run containers and current configuration is working.
+
+
+
+$ sudo docker run hello-world
+
+Unable to find image 'hello-world:latest' locally
+latest: Pulling from library/hello-world
+e6590344b1a5: Pull complete
+Digest: sha256:940c619fbd418f9b2b1b63e25d8861f9cc1b46e3fc8b018ccfe8b78f19b8cc4f
+Status: Downloaded newer image for hello-world:latest
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+To generate this message, Docker took the following steps:
+ 1. The Docker client contacted the Docker daemon.
+ 2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
+    (amd64)
+ 3. The Docker daemon created a new container from that image which runs the
+    executable that produces the output you are currently reading.
+ 4. The Docker daemon streamed that output to the Docker client, which sent it
+    to your terminal.
+
+To try something more ambitious, you can run an Ubuntu container with:
+ $ docker run -it ubuntu bash
+
+Share images, automate workflows, and more with a free Docker ID: https://hub.docker.com/
+
+For more examples and ideas, visit: https://docs.docker.com/get-started/
+
+Proxy Whitelisting
+The Proxy Server in the Bosch Private Cloud comes with a list of predefined endpoints that are automatically enabled on the Internet, but it could be that when you consume specific resources that they are not yet enabled and need to be whitelisted. So, in case you encounter timeouts or get an error response from the proxy, this may be the reason for this.
+
+In such a case you can whitelist additional resources in the Internet in self-service via our Proxy Whitelisting REST API or Dashboard. For more details, please refer to Managing custom proxy destinations.
+
+
+
+
+
+Like
+Be the first to like this
+No labelsEdit Labels
+© Robert Bosch GmbH
+Docupedia 10.2.14.0 Powered by Atlassian Confluence and Scroll Viewport
+Node: doc-P2-SI0VM08475
+Docupedia Community
+Support
+Legal
+
+
+
