@@ -10,9 +10,13 @@ from langchain_huggingface.embeddings import HuggingFaceEmbeddings
 def _get_model(model_name: str, device: str) -> HuggingFaceEmbeddings:
     # Xet-backed downloads can fail with 403 in some enterprise/proxy setups.
     os.environ.setdefault("HF_HUB_DISABLE_XET", "1")
+    # Prevent HuggingFace from reaching out to the hub on every load.
+    # If the model is already cached locally this is safe; if not, the load
+    # will fail with a clear "not cached" message rather than a network error.
+    os.environ.setdefault("HF_HUB_OFFLINE", "1")
     return HuggingFaceEmbeddings(
         model_name=model_name,
-        model_kwargs={"device": device},
+        model_kwargs={"device": device, "local_files_only": True},
         encode_kwargs={"normalize_embeddings": True},
     )
 
