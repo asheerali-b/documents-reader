@@ -16,26 +16,52 @@ def render_documents_status_tab(knowledge_service: KnowledgeService) -> None:
 
     if not statuses:
         st.info("No .txt files found in documents folder.")
-        return
+    else:
+        rows = []
+        for item in statuses:
+            rows.append(
+                {
+                    "Document": item.source,
+                    "Embedded": "Yes" if item.embedded else "No",
+                    "Up To Date": "Yes" if item.up_to_date else "No",
+                    "Chunk Count": item.chunk_count,
+                }
+            )
 
-    rows = []
-    for item in statuses:
-        rows.append(
-            {
-                "Document": item.source,
-                "Embedded": "Yes" if item.embedded else "No",
-                "Up To Date": "Yes" if item.up_to_date else "No",
-                "Chunk Count": item.chunk_count,
-            }
-        )
+        st.dataframe(rows, use_container_width=True)
 
-    st.dataframe(rows, use_container_width=True)
+    # Upload Document
+    st.markdown("---")
+    st.markdown("### Upload Documents")
+    uploaded_files = st.file_uploader(
+        "Upload .txt files to add to your knowledge base",
+        type=["txt"],
+        accept_multiple_files=True,
+        key="upload_documents",
+    )
+
+    if uploaded_files:
+        if st.button("📤 Save Uploaded Files", key="save_uploaded_files"):
+            saved_count = 0
+            for uploaded_file in uploaded_files:
+                saved = knowledge_service.save_document_file(
+                    filename=uploaded_file.name,
+                    content=uploaded_file.read().decode("utf-8"),
+                )
+                if saved:
+                    saved_count += 1
+
+            if saved_count > 0:
+                st.success(f"Saved {saved_count} file(s). Click Refresh to update the status.")
+            else:
+                st.error("Failed to save files.")
+            st.rerun()
 
     # Download Document
     st.markdown("---")
     st.markdown("### Download Document")
-    all_sources = [item.source for item in statuses]
-    
+    all_sources = [item.source for item in statuses] if statuses else []
+
     if all_sources:
         download_col1, download_col2 = st.columns([3, 1])
         with download_col1:
@@ -64,7 +90,7 @@ def render_documents_status_tab(knowledge_service: KnowledgeService) -> None:
     # Delete Embedded Document
     st.markdown("---")
     st.markdown("### Delete Document Embeddings")
-    embedded_sources = [item.source for item in statuses if item.embedded]
+    embedded_sources = [item.source for item in statuses if item.embedded] if statuses else []
     if not embedded_sources:
         st.info("No embedded documents available to delete.")
     else:

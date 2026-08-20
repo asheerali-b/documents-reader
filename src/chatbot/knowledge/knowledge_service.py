@@ -141,6 +141,27 @@ class KnowledgeService:
         )
         return deleted
 
+    def save_document_file(self, filename: str, content: str) -> bool:
+        """Save an uploaded document file to the documents directory."""
+        filename = filename.strip()
+        if not filename:
+            return False
+
+        # Ensure .txt extension
+        if not filename.lower().endswith(".txt"):
+            filename += ".txt"
+
+        file_path = self._documents_dir / filename
+        self._documents_dir.mkdir(parents=True, exist_ok=True)
+
+        try:
+            file_path.write_text(content, encoding="utf-8")
+            self._logger.info("Saved document file | filename=%s | path=%s | size=%s bytes", filename, file_path, len(content))
+            return True
+        except Exception as ex:
+            self._logger.error("Failed to save document file | filename=%s | error=%s", filename, ex)
+            return False
+
     def delete_document_file(self, source: str) -> bool:
         """Delete a document file from the documents directory."""
         source_name = source.strip()
