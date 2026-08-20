@@ -141,6 +141,40 @@ class KnowledgeService:
         )
         return deleted
 
+    def delete_document_file(self, source: str) -> bool:
+        """Delete a document file from the documents directory."""
+        source_name = source.strip()
+        if not source_name:
+            return False
+
+        file_path = self._documents_dir / source_name
+        if not file_path.exists():
+            return False
+
+        try:
+            file_path.unlink()
+            self._logger.info("Deleted document file | source=%s | path=%s", source_name, file_path)
+            return True
+        except Exception as ex:
+            self._logger.error("Failed to delete document file | source=%s | error=%s", source_name, ex)
+            return False
+
+    def get_document_file_content(self, source: str) -> str | None:
+        """Read document file content for download."""
+        source_name = source.strip()
+        if not source_name:
+            return None
+
+        file_path = self._documents_dir / source_name
+        if not file_path.exists():
+            return None
+
+        try:
+            return file_path.read_text(encoding="utf-8")
+        except Exception as ex:
+            self._logger.error("Failed to read document file | source=%s | error=%s", source_name, ex)
+            return None
+
     def search(self, query: str) -> list[RetrievedChunk]:
         hits = self._retriever.search(query)
         for idx, hit in enumerate(hits, start=1):
