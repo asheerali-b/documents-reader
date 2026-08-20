@@ -111,6 +111,26 @@ def render_documents_status_tab(knowledge_service: KnowledgeService) -> None:
                     st.warning(f"No embeddings found for: {selected_source}")
                 st.rerun()
 
+    # Delete All Embeddings
+    st.markdown("---")
+    st.markdown("### Delete All Embeddings")
+    if statuses and any(item.embedded for item in statuses):
+        col1, col2, col3 = st.columns([2, 1, 1])
+        with col1:
+            st.warning("⚠️ This will delete ALL embeddings from the knowledge base")
+        with col3:
+            if st.button("🗑️ Delete All", type="primary", key="delete_all_embeddings"):
+                if st.session_state.get("confirm_delete_all"):
+                    deleted_count = knowledge_service.delete_all_embeddings()
+                    st.success(f"Deleted {deleted_count} embeddings. Knowledge base is now empty.")
+                    st.session_state.confirm_delete_all = False
+                    st.rerun()
+                else:
+                    st.session_state.confirm_delete_all = True
+                    st.warning("Click 'Delete All' again to confirm deletion of all embeddings")
+    else:
+        st.info("No embeddings to delete.")
+
     # Delete Document File
     st.markdown("---")
     st.markdown("### Delete Document File")

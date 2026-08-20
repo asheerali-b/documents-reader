@@ -141,6 +141,22 @@ class KnowledgeService:
         )
         return deleted
 
+    def delete_all_embeddings(self) -> int:
+        """Delete all embeddings from the knowledge store."""
+        before_count = self._store.count()
+        self._store.reset_collection()
+        after_count = self._store.count()
+        
+        self._retriever.refresh()
+        
+        self._logger.info(
+            "Delete all embeddings | chunks_before=%s | chunks_after=%s | deleted=%s",
+            before_count,
+            after_count,
+            before_count - after_count,
+        )
+        return before_count - after_count
+
     def save_document_file(self, filename: str, content: str) -> bool:
         """Save an uploaded document file to the documents directory."""
         filename = filename.strip()
