@@ -52,7 +52,15 @@ def render_documents_status_tab(knowledge_service: KnowledgeService) -> None:
                     saved_count += 1
 
             if saved_count > 0:
-                st.success(f"Saved {saved_count} file(s). Click Refresh to update the status.")
+                with st.spinner("Creating embeddings for uploaded documents..."):
+                    try:
+                        stats = knowledge_service.build_index()
+                        st.success(
+                            f"Saved and indexed {saved_count} file(s). "
+                            f"New documents embedded: {stats['documents_ingested_now']}."
+                        )
+                    except Exception as ex:
+                        st.error(f"Files were saved, but embedding failed: {ex}")
             else:
                 st.error("Failed to save files.")
             st.rerun()

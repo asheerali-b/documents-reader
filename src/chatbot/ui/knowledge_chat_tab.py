@@ -1,8 +1,17 @@
 import streamlit as st
 
-from src.chatbot.constant import DOCUMENTS_DIR
+from src.chatbot.constant import DOCUMENTS_DIR, MIN_DENSE_RELEVANCE_SCORE
 from src.chatbot.knowledge.knowledge_service import KnowledgeService
 from src.chatbot.services.chat_service import ChatService
+
+NO_ANSWER_MESSAGE = (
+    "Currently I donot have any answer. I’m continuously learning and improving, "
+    "and I may be able to provide a comprehensive answer in the near future."
+)
+ANSWER_NOTE = (
+    "I hope this answer was helpful. I’m continuously learning and improving, "
+    "and I may be able to provide a more accurate and comprehensive answer in the near future."
+)
 
 
 def render_knowledge_chat_tab(
@@ -76,18 +85,39 @@ def render_knowledge_chat_tab(
         with st.spinner("Searching and generating answer..."):
             try:
                 hits = knowledge_service.search(question)
-                if not hits:
-                    answer = "I could not find relevant information in the ingested documents."
+                relevant_hits = [
+                    hit for hit in hits if hit.dense_score >= MIN_DENSE_RELEVANCE_SCORE
+                ]
+                sparse_scores_by_source: dict[str, float] = {}
+                for hit in relevant_hits:
+                    sparse_scores_by_source[hit.chunk.source] = max(
+                        sparse_scores_by_source.get(hit.chunk.source, 0.0),
+                        hit.sparse_score,
+                    )
+
+                max_sparse_score = max(sparse_scores_by_source.values(), default=0.0)
+                if max_sparse_score > 0:
+                    relevant_sources = {
+                        source
+                        for source, score in sparse_scores_by_source.items()
+                        if score >= max_sparse_score * 0.7
+                    }
+                    relevant_hits = [
+                        hit for hit in relevant_hits if hit.chunk.source in relevant_sources
+                    ]
+                if not relevant_hits:
+                    answer = NO_ANSWER_MESSAGE
                     sources = []
                 else:
-                    context = knowledge_service.context_from_hits(hits)
+                    context = knowledge_service.context_from_hits(relevant_hits)
                     answer = chat_service.chat_with_knowledge(
                         question,
                         context,
                         provider=provider,
                         model=model,
                     )
-                    sources = hits
+                    answer = f"{answer}\n\n{ANSWER_NOTE}"
+                    sources = relevant_hits
                 knowledge_service.log_query(question=question, hits=hits, answer=answer)
             except Exception as ex:
                 answer = f"Error: {ex}"
@@ -96,12 +126,9 @@ def render_knowledge_chat_tab(
         st.markdown(answer)
 
         if sources:
-            with st.expander("Retrieved Context"):
-                for hit in sources:
-                    st.markdown(
-                        f"Source: {hit.chunk.source} | Lines: {hit.chunk.start_line}-{hit.chunk.end_line} | "
-                        f"Dense: {hit.dense_score:.3f} | Sparse: {hit.sparse_score:.3f} | Hybrid: {hit.score:.3f}"
-                    )
-                    st.write(hit.chunk.text)
+            source_names = list(dict.fromkeys(hit.chunk.source for hit in sources))
+            with st.expander("Documents used"):
+                for source_name in source_names:
+                    st.markdown(f"- {source_name}")
 
     st.session_state.knowledge_chat_history.append({"role": "assistant", "content": answer})

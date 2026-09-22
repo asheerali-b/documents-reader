@@ -51,6 +51,7 @@ class HybridRetriever:
 
         dense_map = {chunk.chunk_id: (chunk, score) for chunk, score in dense_hits}
         sparse_map = {chunk_id: score for chunk_id, score in sparse_hits}
+        chunks_by_id = {chunk.chunk_id: chunk for chunk in self._all_chunks}
 
         dense_max = max((score for _, score in dense_hits), default=1.0)
         sparse_max = max((score for _, score in sparse_hits), default=1.0)
@@ -59,8 +60,15 @@ class HybridRetriever:
         merged: list[RetrievedChunk] = []
 
         for chunk_id in combined_ids:
-            chunk = dense_map.get(chunk_id, (self._chunk_by_id(chunk_id), 0.0))[0]
-            dense_score = dense_map.get(chunk_id, (chunk, 0.0))[1]
+            dense_result = dense_map.get(chunk_id)
+            if dense_result is not None:
+                chunk, dense_score = dense_result
+            else:
+                chunk = chunks_by_id.get(chunk_id)
+                if chunk is None:
+                    # The index changed while searching; ignore this stale sparse hit.
+                    continue
+                dense_score = 0.0
             sparse_score = sparse_map.get(chunk_id, 0.0)
 
             dense_norm = dense_score / dense_max if dense_max > 0 else 0.0

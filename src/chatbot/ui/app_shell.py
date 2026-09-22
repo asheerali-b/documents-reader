@@ -11,7 +11,6 @@ from src.chatbot.constant import (
 )
 from src.chatbot.knowledge.knowledge_service import KnowledgeService
 from src.chatbot.services.chat_service import ChatService
-from src.chatbot.ui.documents_status_tab import render_documents_status_tab
 from src.chatbot.ui.knowledge_chat_tab import render_knowledge_chat_tab
 
 
@@ -58,15 +57,9 @@ def run_app() -> None:
 
         st.caption(f"Using: {provider} / {model}")
 
-    tab_knowledge, tab_documents = st.tabs(["OTTO AI Assistant", "Documents Status"])
-
-    with tab_knowledge:
-        render_knowledge_chat_tab(
-            chat_service,
-            knowledge_service,
-            provider=provider,
-            model=model,
-        )
-
-    with tab_documents:
-        render_documents_status_tab(knowledge_service)
+    render_knowledge_chat_tab(
+        chat_service,
+        knowledge_service,
+        provider=provider,
+        model=model,
+    )

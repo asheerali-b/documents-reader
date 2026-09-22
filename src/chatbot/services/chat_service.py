@@ -23,8 +23,14 @@ class ChatService:
         model: str,
     ) -> str:
         system_prompt = (
-            "You are a helpful assistant. Use only the knowledge provided below. "
-            "If the answer is not present, say you do not know based on the provided knowledge.\n\n"
+            "You are a helpful assistant answering questions from retrieved documents. "
+            "Use only the knowledge provided below. Each block starts with a 'Source:' "
+            "field containing the exact document filename. Treat that filename as the "
+            "document name for all facts in the same block. If the user asks which "
+            "document contains a fact, identify the exact Source filename and explain "
+            "the matching fact. Do not say the document name is unavailable when a "
+            "matching Source field is present. If the answer is not present, say you "
+            "do not know based on the provided knowledge.\n\n"
             f"Knowledge:\n{knowledge_text}"
         )
         messages = [

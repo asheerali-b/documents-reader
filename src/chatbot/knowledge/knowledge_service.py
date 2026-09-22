@@ -60,6 +60,12 @@ class KnowledgeService:
         documents = load_txt_documents(self._documents_dir)
         existing_chunks = self._store.get_all_chunks()
         indexed_hashes_by_source = self._group_hashes(existing_chunks)
+        current_sources = {document.source for document in documents}
+
+        # Remove embeddings for files that no longer exist in the documents folder.
+        for source in set(indexed_hashes_by_source) - current_sources:
+            self._store.delete_source(source)
+            indexed_hashes_by_source.pop(source, None)
 
         chunks_to_upsert: list[ChunkRecord] = []
         ingested_documents = 0

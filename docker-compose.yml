@@ -13,8 +13,11 @@ services:
       OLLAMA_ENDPOINT: "${OLLAMA_ENDPOINT:-http://host.docker.internal:11434/api/chat}"
       OLLAMA_KEEP_ALIVE: "${OLLAMA_KEEP_ALIVE:-30m}"
       OLLAMA_TIMEOUT_SECONDS: "${OLLAMA_TIMEOUT_SECONDS:-120}"
+      HF_HOME: /root/.cache/huggingface
+      HF_HUB_OFFLINE: "${HF_HUB_OFFLINE:-1}"
     volumes:
       - ./documents:/app/documents
       - ./chroma_db:/app/chroma_db
       - ./logs:/app/logs
+      - "${USERPROFILE}/.cache/huggingface:/root/.cache/huggingface"
     restart: unless-stopped
