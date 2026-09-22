@@ -11,7 +11,7 @@ def render_knowledge_chat_tab(
     provider: str,
     model: str,
 ) -> None:
-    st.subheader("Chat With Knowledge")
+    st.subheader("OTTO AI Assistant")
     st.caption("Ingest .txt files from the documents folder, then ask grounded questions.")
 
     st.info(f"Put your .txt files inside the '{DOCUMENTS_DIR}' folder and click Ingest Data.")
@@ -57,7 +57,10 @@ def render_knowledge_chat_tab(
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
-    question = st.chat_input("Ask using ingested knowledge", key="knowledge_chat_input")
+    question = st.chat_input(
+        "Message OTTO AI Assistant...",
+        key="knowledge_chat_input",
+    )
     if not question:
         return
 

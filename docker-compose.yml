@@ -1,0 +1,20 @@
+services:
+  document-reader:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8501:8501"
+    environment:
+      MODEL_FARM_API_KEY: "${MODEL_FARM_API_KEY:-}"
+      MODEL_FARM_ENDPOINT: "${MODEL_FARM_ENDPOINT:-https://aoai-farm.bosch-temp.com/api/openai/deployments/gpt-5-nano-2025-08-07/chat/completions}"
+      MODEL_FARM_API_VERSION: "${MODEL_FARM_API_VERSION:-2024-05-01-preview}"
+      MODEL_FARM_MODEL: "${MODEL_FARM_MODEL:-gemini-2.5-flash}"
+      OLLAMA_ENDPOINT: "${OLLAMA_ENDPOINT:-http://host.docker.internal:11434/api/chat}"
+      OLLAMA_KEEP_ALIVE: "${OLLAMA_KEEP_ALIVE:-30m}"
+      OLLAMA_TIMEOUT_SECONDS: "${OLLAMA_TIMEOUT_SECONDS:-120}"
+    volumes:
+      - ./documents:/app/documents
+      - ./chroma_db:/app/chroma_db
+      - ./logs:/app/logs
+    restart: unless-stopped

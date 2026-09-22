@@ -1,0 +1,13 @@
+.dr
+.git
+.gitignore
+__pycache__
+*.py[cod]
+*.ipynb
+.env
+test
+other docs
+scrapper
+scripts
+logs
+chroma_db
